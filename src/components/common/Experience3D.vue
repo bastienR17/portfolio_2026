@@ -1,43 +1,56 @@
 <script setup>
-import { onMounted, onBeforeUnmount, ref } from 'vue'
+import { onMounted, onBeforeUnmount, ref, nextTick } from 'vue'
 import * as THREE from 'three'
 
 const container = ref(null)
 let scene, camera, renderer, animationId
 let rainSystem, cloudGroup
-let sun, moon // Moon devient un Groupe maintenant
+let sun, moon 
 let isDark = ref(false)
 
-// --- Configuration ---
-const rainCount = 1500 
-const cloudCount = 5 
+let screenBounds = { w: 0, h: 0 }
 
-// --- Couleurs du thème ---
+const updateScreenBounds = () => {
+  if (!camera) return
+  const vFOV = (camera.fov * Math.PI) / 180
+  const height = 2 * Math.tan(vFOV / 2) * 100 
+  const width = height * camera.aspect
+  screenBounds.w = width
+  screenBounds.h = height
+}
+
+const rainCount = 400
+const cloudCount = 6 
+
 const colors = {
-  light: {
-    bg: '#E0F2FE',
-    rain: '#3B82F6',
-    cloud: '#FFFFFF',
-    sun: '#FDE047'
+  light: { 
+    bg: '#E0F2FE', 
+    rain: '#1E3A8A', // Bleu marine profond
+    cloud: '#FFFFFF', 
+    sun: '#FDE047' 
   },
-  dark: {
-    bg: '#111827', // Cette couleur est cruciale pour le masque de la lune
-    rain: '#E2725B',
-    moon: '#F3F4F6'
+  dark: { 
+    bg: '#111827', 
+    rain: '#E2725B', 
+    moon: '#F3F4F6' 
   }
 }
 
-// --- Initialisation de la scène ---
 const init = () => {
+  if (!container.value) return 
+
   scene = new THREE.Scene()
   scene.background = new THREE.Color(colors.dark.bg)
 
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
   camera.position.z = 100
+  
+  updateScreenBounds()
 
   renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
   renderer.setSize(window.innerWidth, window.innerHeight)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+  
   container.value.appendChild(renderer.domElement)
 
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.8)
@@ -49,175 +62,154 @@ const init = () => {
   createRain()
   createClouds()
   createCelestialBodies()
+  
   checkTheme() 
   animate()
 }
 
-// --- Création du Soleil et de la Lune (Modifié) ---
 const createCelestialBodies = () => {
-  // SOLEIL (Mode clair) - Inchangé
-  const sunGeo = new THREE.IcosahedronGeometry(12, 1)
-  const sunMat = new THREE.MeshBasicMaterial({ color: colors.light.sun })
-  sun = new THREE.Mesh(sunGeo, sunMat)
-  sun.position.set(60, 45, -50)
-  scene.add(sun)
-
-  // LUNE (Mode sombre) - C'est ici que ça change !
-  // On crée un groupe pour contenir la lune et son masque
+  const sunGeo = new THREE.IcosahedronGeometry(screenBounds.h * 0.08, 1)
+  sun = new THREE.Mesh(sunGeo, new THREE.MeshBasicMaterial({ color: colors.light.sun }))
+  
   moon = new THREE.Group()
+  const moonSize = screenBounds.h * 0.07
+  const moonVisible = new THREE.Mesh(
+    new THREE.IcosahedronGeometry(moonSize, 1),
+    new THREE.MeshStandardMaterial({ color: colors.dark.moon, flatShading: true, emissive: colors.dark.moon, emissiveIntensity: 0.2 })
+  )
+  const mask = new THREE.Mesh(
+    new THREE.IcosahedronGeometry(moonSize * 1.1, 1),
+    new THREE.MeshBasicMaterial({ color: colors.dark.bg })
+  )
+  mask.position.set(moonSize * 0.4, 0, 2)
+  moon.add(moonVisible, mask)
 
-  // 1. La partie visible de la lune (sphère argentée)
-  const moonVisibleGeo = new THREE.IcosahedronGeometry(10, 1) // Low-poly
-  const moonVisibleMat = new THREE.MeshStandardMaterial({ 
-    color: colors.dark.moon,
-    flatShading: true,
-    emissive: colors.dark.moon,
-    emissiveIntensity: 0.2
-  })
-  const moonVisible = new THREE.Mesh(moonVisibleGeo, moonVisibleMat)
-  moon.add(moonVisible)
-
-  // 2. Le masque (sphère couleur du fond qui cache une partie)
-  // Légèrement plus grande (taille 11 vs 10) pour bien couvrir
-  const maskGeo = new THREE.IcosahedronGeometry(11, 1) 
-  const maskMat = new THREE.MeshBasicMaterial({
-      color: colors.dark.bg // IMPORTANT : Exactement la couleur du fond sombre
-  })
-  const mask = new THREE.Mesh(maskGeo, maskMat)
-  // On décale le masque vers la droite et un peu en avant pour créer le croissant
-  mask.position.set(4, 0, 2)
-  moon.add(mask)
-
-  // Position globale du groupe Lune en haut à gauche
-  moon.position.set(-60, 45, -50)
-  // On incline un peu le groupe pour un joli angle de croissant
-  moon.rotation.z = Math.PI / 6 
-  moon.rotation.y = -Math.PI / 8
-
-  scene.add(moon)
+  sun.position.set(screenBounds.w * 0.35, screenBounds.h * 0.3, -50)
+  moon.position.set(-screenBounds.w * 0.35, screenBounds.h * 0.3, -50)
+  moon.rotation.z = Math.PI / 6
+  scene.add(sun, moon)
 }
 
-// --- Création de la pluie (Inchangé) ---
 const createRain = () => {
   const rainGeo = new THREE.BufferGeometry()
   const positions = new Float32Array(rainCount * 3)
   const velocities = new Float32Array(rainCount)
 
   for (let i = 0; i < rainCount; i++) {
-    positions[i * 3] = (Math.random() - 0.5) * 200
-    positions[i * 3 + 1] = Math.random() * 200 - 100
+    positions[i * 3] = (Math.random() - 0.5) * screenBounds.w * 1.5
+    positions[i * 3 + 1] = (Math.random() - 0.5) * screenBounds.h * 2
     positions[i * 3 + 2] = (Math.random() - 0.5) * 100
     velocities[i] = 0.5 + Math.random() * 1.5
   }
 
   rainGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3))
   rainGeo.setAttribute('velocity', new THREE.BufferAttribute(velocities, 1))
-
-  const rainMat = new THREE.PointsMaterial({
-    color: colors.dark.rain,
-    size: 0.8,
-    transparent: true,
-    opacity: 0.8,
-    blending: THREE.AdditiveBlending
-  })
-
-  rainSystem = new THREE.Points(rainGeo, rainMat)
+  
+  rainSystem = new THREE.Points(rainGeo, new THREE.PointsMaterial({ 
+    color: colors.dark.rain, 
+    size: 0.7, 
+    transparent: true, 
+    opacity: 0.8, 
+    blending: THREE.AdditiveBlending 
+  }))
   scene.add(rainSystem)
 }
 
-// --- Création des nuages (Inchangé) ---
 const createClouds = () => {
   cloudGroup = new THREE.Group()
-  const cloudMat = new THREE.MeshLambertMaterial({ 
-    color: colors.light.cloud, 
-    transparent: true, 
-    opacity: 0.9,
-    flatShading: true 
-  })
-
-  const buildOneCloud = (x, y, z, scale) => {
-    const meshGroup = new THREE.Group();
-    const geo = new THREE.IcosahedronGeometry(5, 1);
-    
-    const sphere1 = new THREE.Mesh(geo, cloudMat)
-    sphere1.position.set(0, 0, 0)
-    
-    const sphere2 = new THREE.Mesh(geo, cloudMat)
-    sphere2.position.set(6, -2, 0)
-    sphere2.scale.set(0.8, 0.8, 0.8)
-
-    const sphere3 = new THREE.Mesh(geo, cloudMat)
-    sphere3.position.set(-5, -1, 2)
-    sphere3.scale.set(0.9, 0.9, 0.9)
-
-    meshGroup.add(sphere1, sphere2, sphere3)
-    meshGroup.position.set(x, y, z)
-    meshGroup.scale.set(scale, scale, scale)
-    meshGroup.userData = { speed: 0.02 + Math.random() * 0.03 }
-    return meshGroup
-  }
+  const cloudMat = new THREE.MeshLambertMaterial({ color: colors.light.cloud, transparent: true, opacity: 0.9, flatShading: true })
 
   for(let i = 0; i < cloudCount; i++) {
-    const x = (Math.random() - 0.5) * 150
-    const y = 40 + Math.random() * 30
-    const z = (Math.random() - 0.5) * 80 - 20
-    const scale = 0.8 + Math.random() * 1.2
-    cloudGroup.add(buildOneCloud(x, y, z, scale))
+    const meshGroup = new THREE.Group()
+    const geo = new THREE.IcosahedronGeometry(5, 1)
+    for(let j=0; j<3; j++) {
+      const part = new THREE.Mesh(geo, cloudMat)
+      part.position.set(j*6, Math.random()*2, 0)
+      meshGroup.add(part)
+    }
+    meshGroup.position.set((Math.random() - 0.5) * screenBounds.w, (0.2 + Math.random() * 0.15) * screenBounds.h, -20)
+    meshGroup.userData = { speed: 0.02 + Math.random() * 0.05 }
+    cloudGroup.add(meshGroup)
   }
   scene.add(cloudGroup)
 }
 
-// --- Boucle d'animation ---
 const animate = () => {
   animationId = requestAnimationFrame(animate)
 
-  // Animation Pluie
-  const positions = rainSystem.geometry.attributes.position.array
-  const velocities = rainSystem.geometry.attributes.velocity.array
-  for (let i = 0; i < rainCount; i++) {
-    positions[i * 3 + 1] -= velocities[i]
-    if (positions[i * 3 + 1] < -80) {
-      positions[i * 3 + 1] = 80 
-      positions[i * 3] = (Math.random() - 0.5) * 200
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 100
-    }
-  }
-  rainSystem.geometry.attributes.position.needsUpdate = true
-  rainSystem.rotation.y += 0.0005
+  if (rainSystem) {
+    const positions = rainSystem.geometry.attributes.position.array
+    const velocities = rainSystem.geometry.attributes.velocity.array
+    const limitY = screenBounds.h * 0.6
+    
+    // --- VITESSE CALIBRÉE ---
+    // Dark: 0.3 (zen) | Light: 0.7 (plus naturel)
+    const speedFactor = isDark.value ? 0.3 : 0.5 
 
-  // Animation Nuages
-  if (!isDark.value && cloudGroup.visible) {
+    for (let i = 0; i < rainCount; i++) {
+      positions[i * 3 + 1] -= velocities[i] * speedFactor
+
+      if (positions[i * 3 + 1] < -limitY) {
+        if (!isDark.value && cloudGroup && cloudGroup.children.length > 0) {
+          // --- MODE CLAIR : Renaissance précise sous les nuages ---
+          const randomCloud = cloudGroup.children[Math.floor(Math.random() * cloudGroup.children.length)]
+          // Zone resserrée (* 8) et légèrement sous le nuage (-2)
+          positions[i * 3] = randomCloud.position.x + (Math.random() - 0.5) * 8
+          positions[i * 3 + 1] = randomCloud.position.y - 2
+          positions[i * 3 + 2] = randomCloud.position.z
+        } else {
+          // --- MODE SOMBRE : Renaissance globale ---
+          positions[i * 3 + 1] = limitY
+          positions[i * 3] = (Math.random() - 0.5) * screenBounds.w * 1.5
+        }
+      }
+    }
+    rainSystem.geometry.attributes.position.needsUpdate = true
+  }
+
+  // Animation Nuages (Légèrement ralentis pour la cohérence)
+  if (!isDark.value && cloudGroup?.visible) {
     cloudGroup.children.forEach(cloud => {
-      cloud.position.x -= cloud.userData.speed
-      if(cloud.position.x < -120) cloud.position.x = 120
+      cloud.position.x -= cloud.userData.speed * 0.8
+      if(cloud.position.x < -screenBounds.w * 0.6) cloud.position.x = screenBounds.w * 0.6
     })
   }
 
-  // Rotation douce des astres (le groupe entier tourne)
-  if (sun && sun.visible) sun.rotation.y += 0.005
-  if (moon && moon.visible) moon.rotation.y += 0.002 // Plus lent pour la lune
-
+  if (sun?.visible) sun.rotation.y += 0.005
+  if (moon?.visible) moon.rotation.y += 0.002
   renderer.render(scene, camera)
 }
 
-// --- Thème ---
 const checkTheme = () => {
   isDark.value = document.documentElement.classList.contains('dark')
+  
+  if (scene?.background) {
+    scene.background.set(isDark.value ? colors.dark.bg : colors.light.bg)
+  }
 
-  if (isDark.value) {
-    scene.background.set(colors.dark.bg)
-    rainSystem.material.color.set(colors.dark.rain)
-    rainSystem.material.size = 0.8
-    cloudGroup.visible = false
-    sun.visible = false
-    moon.visible = true
-  } else {
-    scene.background.set(colors.light.bg)
-    rainSystem.material.color.set(colors.light.rain)
-    rainSystem.material.size = 0.6
-    cloudGroup.visible = true
-    sun.visible = true
-    moon.visible = false
+  if (rainSystem) {
+    const mat = rainSystem.material
+    mat.color.set(isDark.value ? colors.dark.rain : colors.light.rain)
+
+    if (isDark.value) {
+      mat.blending = THREE.AdditiveBlending 
+      mat.size = 0.8
+      mat.opacity = 0.8
+    } else {
+      mat.blending = THREE.NormalBlending 
+      mat.size = 0.6 
+      mat.opacity = 1.0 
+    }
+    mat.needsUpdate = true 
+  }
+
+  if (cloudGroup) cloudGroup.visible = !isDark.value
+  if (sun) sun.visible = !isDark.value
+  if (moon) {
+    moon.visible = isDark.value
+    if (moon.children[1]) {
+      moon.children[1].material.color.set(isDark.value ? colors.dark.bg : colors.light.bg)
+    }
   }
 }
 
@@ -225,11 +217,15 @@ const onWindowResize = () => {
   camera.aspect = window.innerWidth / window.innerHeight
   camera.updateProjectionMatrix()
   renderer.setSize(window.innerWidth, window.innerHeight)
+  updateScreenBounds()
+  if (sun) sun.position.set(screenBounds.w * 0.35, screenBounds.h * 0.3, -50)
+  if (moon) moon.position.set(-screenBounds.w * 0.35, screenBounds.h * 0.3, -50)
 }
 
 const themeObserver = new MutationObserver(() => checkTheme())
 
-onMounted(() => {
+onMounted(async () => {
+  await nextTick() 
   init()
   window.addEventListener('resize', onWindowResize)
   themeObserver.observe(document.documentElement, { attributes: true })
@@ -239,24 +235,6 @@ onBeforeUnmount(() => {
   cancelAnimationFrame(animationId)
   window.removeEventListener('resize', onWindowResize)
   themeObserver.disconnect()
-  // Nettoyage mémoire
-  rainSystem.geometry.dispose()
-  rainSystem.material.dispose()
-  sun.geometry.dispose()
-  sun.material.dispose()
-  // On doit maintenant parcourir le groupe de la lune pour tout nettoyer
-  moon.traverse(child => {
-      if(child.isMesh) {
-          child.geometry.dispose()
-          child.material.dispose()
-      }
-  })
-  cloudGroup.traverse(child => {
-      if(child.isMesh) {
-          child.geometry.dispose()
-          child.material.dispose()
-      }
-  })
 })
 </script>
 
