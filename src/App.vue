@@ -6,11 +6,13 @@ import FontSwitcher from './components/common/FontSwitcher.vue'
 </script>
 
 <template>
-  <div class="min-h-screen bg-cream dark:bg-gray-900 text-dark-soft dark:text-cream transition-colors duration-500">
+  <div class="min-h-screen text-dark-soft dark:text-cream transition-colors duration-500">
+    
     <Experience3D />
-    <Navbar class="relative z-50" />
 
-        <FontSwitcher />
+    <Navbar class="relative z-50" />
+    <FontSwitcher />
+
     <main class="relative z-10">
       <router-view />
     </main>

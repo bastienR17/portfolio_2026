@@ -6,7 +6,7 @@ const projects = ref([])
 const loading = ref(true)
 const limit = ref(6)
 const sortBy = ref('updated')
-const selectedStack = ref('All') // Stack sélectionnée
+const selectedStack = ref('All')
 
 onMounted(async () => {
   try {
@@ -20,90 +20,94 @@ onMounted(async () => {
   }
 })
 
-// 1. Extraire dynamiquement la liste des langages (Stacks) uniques
 const availableStacks = computed(() => {
   const stacks = projects.value
     .map(p => p.language)
-    .filter(lang => lang !== null) // On enlève les projets sans langage défini
-  
-  return ['All', ...new Set(stacks)] // On garde uniquement les valeurs uniques
+    .filter(lang => lang !== null) 
+  return ['All', ...new Set(stacks)]
 })
 
-// 2. Filtrer ET Trier les projets
 const filteredAndSortedProjects = computed(() => {
   let result = projects.value
-
-  // Filtre par Stack
   if (selectedStack.value !== 'All') {
     result = result.filter(p => p.language === selectedStack.value)
   }
-
-  // Tri
   result = [...result].sort((a, b) => {
     if (sortBy.value === 'stars') return b.stargazers_count - a.stargazers_count
     if (sortBy.value === 'name') return a.name.localeCompare(b.name)
     return new Date(b.updated_at) - new Date(a.updated_at)
   })
-
   return result.slice(0, limit.value)
 })
 </script>
 
 <template>
-  <section class="max-w-6xl mx-auto py-16 px-4">
-    <div class="mb-12">
-      <h2 class="text-4xl font-bold text-dark-soft mb-6 text-left">Mes Réalisations</h2>
+  <section class="max-w-6xl mx-auto py-24 px-4 relative z-10">
+    
+    <div class="mb-16">
+      <h2 class="text-5xl font-extrabold text-dark-soft dark:text-white mb-8 text-left tracking-tight">
+        Mes Réalisations
+      </h2>
       
-      <div class="flex flex-col gap-6">
-        <div class="flex flex-wrap gap-2">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-8">
+        <div class="flex flex-wrap gap-3">
           <button 
             v-for="stack in availableStacks" 
             :key="stack"
             @click="selectedStack = stack; limit = 6"
             :class="[
               selectedStack === stack 
-                ? 'bg-terracotta text-white border-terracotta shadow-md' 
-                : 'bg-cream text-dark-soft border-ochre/30 hover:border-terracotta'
+                ? 'bg-terracotta text-white border-gray-900 shadow-lg scale-105' 
+                : 'bg-white/20 dark:bg-white/5 text-dark-soft dark:text-white border-gray-900/30 hover:border-gray-900 backdrop-blur-md'
             ]"
-            class="px-4 py-1.5 rounded-full border-2 text-sm font-medium transition-all"
+            class="px-5 py-2 rounded-full border-2 text-sm font-bold transition-all duration-300 active:scale-95"
           >
             {{ stack }}
           </button>
         </div>
 
-        <div class="flex justify-end items-center gap-3">
-          <span class="text-xs font-bold text-gray-400 uppercase">Ordre :</span>
-          <select v-model="sortBy" class="bg-transparent border-b-2 border-ochre text-sm py-1 focus:outline-none focus:border-terracotta cursor-pointer">
-            <option value="updated">Récents</option>
-            <option value="stars">Stars</option>
-            <option value="name">Nom</option>
+        <div class="flex items-center gap-3 self-end">
+          <span class="text-[10px] font-black text-gray-500 dark:text-gray-400 uppercase tracking-widest">Trier par</span>
+          <select 
+            v-model="sortBy" 
+            class="bg-white/10 dark:bg-gray-900/40 backdrop-blur-md border-b-2 border-gray-900 dark:border-white/20 text-dark-soft dark:text-white text-sm py-2 px-4 focus:outline-none focus:border-terracotta cursor-pointer rounded-t-lg transition-colors"
+          >
+            <option value="updated" class="bg-gray-100 dark:bg-gray-800">Récents</option>
+            <option value="stars" class="bg-gray-100 dark:bg-gray-800">Stars</option>
+            <option value="name" class="bg-gray-100 dark:bg-gray-800">Nom</option>
           </select>
         </div>
       </div>
     </div>
 
-    <div v-if="loading" class="flex justify-center py-20">
-      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-terracotta"></div>
+    <div v-if="loading" class="flex flex-col items-center justify-center py-32">
+      <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-terracotta mb-4"></div>
+      <p class="text-sm font-mono animate-pulse">Syncing GitHub...</p>
     </div>
 
     <div v-else-if="filteredAndSortedProjects.length > 0">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         <ProjectCard 
           v-for="repo in filteredAndSortedProjects" 
           :key="repo.id" 
           :project="repo" 
+          class="transition-all duration-500"
         />
       </div>
 
-      <div v-if="limit < projects.filter(p => selectedStack === 'All' || p.language === selectedStack).length" class="mt-16 text-center">
-        <button @click="limit += 6" class="border-2 border-terracotta text-terracotta px-10 py-3 rounded-full font-bold hover:bg-terracotta hover:text-white transition-all">
-          En voir plus
+      <div v-if="limit < projects.filter(p => selectedStack === 'All' || p.language === selectedStack).length" class="mt-20 text-center">
+        <button 
+          @click="limit += 6" 
+          class="group relative px-12 py-4 rounded-full font-black text-dark-soft dark:text-white border-2 border-gray-900 dark:border-white/20 backdrop-blur-xl bg-white/10 hover:bg-terracotta hover:text-white hover:border-terracotta transition-all duration-300 shadow-xl"
+        >
+          EXPLORER DAVANTAGE
+          <span class="inline-block ml-2 group-hover:translate-y-1 transition-transform">↓</span>
         </button>
       </div>
     </div>
 
-    <div v-else class="py-20 text-center text-gray-500">
-      Aucun projet trouvé pour cette catégorie.
+    <div v-else class="py-32 text-center backdrop-blur-sm bg-white/5 rounded-3xl border-2 border-dashed border-gray-900/20">
+      <p class="text-gray-500 dark:text-gray-400 font-medium">Aucun projet trouvé dans cette stack.</p>
     </div>
   </section>
 </template>

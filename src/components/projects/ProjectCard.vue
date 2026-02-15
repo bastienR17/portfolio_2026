@@ -3,35 +3,39 @@ const props = defineProps(['project'])
 </script>
 
 <template>
-  <div class="group bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-cream dark:border-gray-700 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full">
+  <div class="group relative flex flex-col h-full overflow-hidden transition-all duration-500 border rounded-2xl backdrop-blur-md bg-white/30 dark:bg-gray-900/40 border-gray-900 dark:border-gray-800 hover:bg-white/50 dark:hover:bg-gray-800/60 hover:shadow-2xl hover:shadow-terracotta/10">
     
-    <div class="relative h-48 overflow-hidden bg-gray-100 dark:bg-gray-700">
+    <div class="relative h-48 overflow-hidden bg-white/10 dark:bg-gray-950/20">
       <img 
         :src="`https://opengraph.githubassets.com/1/${project.owner.login}/${project.name}`" 
         :alt="project.name"
-        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
       />
-      <span v-if="project.language" class="absolute top-3 right-3 bg-white/90 dark:bg-gray-900 text-dark-soft dark:text-cream text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+      <span v-if="project.language" class="absolute px-3 py-1 text-xs font-bold shadow-lg top-3 right-3 rounded-full backdrop-blur-md bg-white/90 dark:bg-gray-900/90 text-dark-soft dark:text-cream border border-gray-900 dark:border-gray-800">
         {{ project.language }}
       </span>
     </div>
 
-    <div class="p-6 flex flex-col flex-grow text-left">
-      <h3 class="text-xl font-bold text-dark-soft dark:text-white group-hover:text-terracotta transition-colors capitalize">
+    <div class="flex flex-col flex-grow p-6 text-left">
+      <h3 class="mb-3 text-xl font-bold capitalize transition-colors text-dark-soft dark:text-white group-hover:text-terracotta">
         {{ project.name.replace(/-/g, ' ') }}
       </h3>
       
-      <div class="flex items-center justify-between pt-6 border-t border-cream dark:border-gray-700 mt-auto">
-        <span class="text-xs text-gray-500 dark:text-gray-400 font-mono">
+      <p v-if="project.description" class="mb-4 text-sm line-clamp-2 text-dark-soft/70 dark:text-cream/70">
+        {{ project.description }}
+      </p>
+
+      <div class="flex items-center justify-between pt-6 mt-auto border-t border-gray-900/20 dark:border-gray-800/50">
+        <span class="font-mono text-xs text-gray-500 dark:text-gray-400">
           {{ new Date(project.updated_at).toLocaleDateString() }}
         </span>
         
         <a 
           :href="project.html_url" 
           target="_blank" 
-          class="inline-flex items-center font-bold text-terracotta hover:gap-2 transition-all"
+          class="inline-flex items-center font-bold transition-all text-terracotta hover:gap-3"
         >
-          Voir le projet <span class="ml-1">→</span>
+          Détails <span class="ml-1">→</span>
         </a>
       </div>
     </div>
