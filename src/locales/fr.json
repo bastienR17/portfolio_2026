@@ -1,0 +1,17 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "projects": "Projets",
+    "contact": "Contact",
+    "downloadCV": "Télécharger CV"
+  },
+  "home": {
+    "title": "Manager de la Transformation Digitale",
+    "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Créatif et axé sur l'humain.",
+    "cta": "Voir mes projets"
+  },
+  "accessibility": {
+    "dysMode": "Mode Lecture (Dyslexie)"
+  }
+}

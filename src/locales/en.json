@@ -1,0 +1,17 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "contact": "Contact",
+    "downloadCV": "Download CV"
+  },
+  "home": {
+    "title": "Digital Transformation Manager",
+    "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Creative and human-centric.",
+    "cta": "View my work"
+  },
+  "accessibility": {
+    "dysMode": "Reading Mode (Dyslexia)"
+  }
+}

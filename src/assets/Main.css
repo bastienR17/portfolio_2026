@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+/* 1. Configuration du Thème v4 */
+@theme {
+  --color-cream: #FFF9F5;
+  --color-terracotta: #E2725B;
+  --color-dark-soft: #2D2926;
+  --color-ochre: #F4D06F;
+
+  --font-sans: "Lexend", ui-sans-serif, system-ui;
+  --font-dys: "OpenDyslexic", sans-serif;
+}
+
+/* 2. Activation du Dark Mode Manuel */
+/* En v4, on définit explicitement que la variante 'dark' 
+   doit regarder la classe sur l'élément racine */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* 3. Styles de base */
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  body {
+    @apply bg-cream text-dark-soft transition-colors duration-300;
+  }
+
+  /* Force le changement de fond global quand .dark est présent */
+.dark body {
+  background-color: #111827; 
+  color: #FFF9F5;
+}
+
+/* Ajoute ceci pour attraper tous les titres d'un coup */
+.dark h1, .dark h2, .dark h3 {
+  color: #ffffff !important;
+}
+}
+
+/* Tes polices @font-face restent ici en bas */
+@font-face {
+  font-family: 'Lexend';
+  src: url('/fonts/lexend-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
