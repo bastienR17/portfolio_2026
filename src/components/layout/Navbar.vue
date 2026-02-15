@@ -14,7 +14,7 @@
         <div class="flex items-center gap-4">
             <LanguageSwitcher />
             <ThemeSwitcher />
-            <FontSwitcher />
+            
         </div>
         
         <a href="/docs/cv.pdf" download class="bg-dark-soft dark:bg-terracotta text-white px-5 py-2 rounded-full text-sm hover:opacity-80 transition">
