@@ -1,5 +1,5 @@
 <template>
-  <nav class="bg-white/60 dark:bg-gray-900/60 backdrop-blur-xl sticky top-0 z-[100] border-b border-cream/50 dark:border-gray-800 transition-colors duration-300">
+  <nav class="bg-white/20 dark:bg-gray-900/20 backdrop-blur-md sticky top-0 z-[100] border-b border-white/10 dark:border-white/5 transition-colors duration-300">
     <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
       <router-link to="/" class="text-2xl font-black text-dark-soft dark:text-cream">
         MTD<span class="text-terracotta">.</span>
@@ -14,8 +14,8 @@
         <div class="flex items-center gap-4">
             <LanguageSwitcher />
             <ThemeSwitcher />
+            <FontSwitcher />
         </div>
-        
         
         <a href="/docs/cv.pdf" download class="bg-dark-soft dark:bg-terracotta text-white px-5 py-2 rounded-full text-sm hover:opacity-80 transition">
           {{ $t('nav.downloadCV') }}
