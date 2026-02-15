@@ -19,7 +19,8 @@ const updateScreenBounds = () => {
   screenBounds.h = height
 }
 
-const rainCount = 400
+// Augmentation à 800 pour ne pas que la pluie paraisse trop éparpillée sur la zone élargie
+const rainCount = 800 
 const cloudCount = 6 
 
 const colors = {
@@ -142,23 +143,32 @@ const animate = () => {
     const velocities = rainSystem.geometry.attributes.velocity.array
     const limitY = screenBounds.h * 0.6
     
-    // --- VITESSE CALIBRÉE ---
-    // Dark: 0.3 (zen) | Light: 0.7 (plus naturel)
-    const speedFactor = isDark.value ? 0.3 : 0.5 
+    const speedFactor = isDark.value ? 0.15 : 0.35 
 
     for (let i = 0; i < rainCount; i++) {
+      // 1. CHUTE VERTICALE
       positions[i * 3 + 1] -= velocities[i] * speedFactor
+
+      // 2. EFFET DE VENT (Optionnel)
+      // Si tu trouves qu'elle part trop à gauche, vérifie si cette ligne existe.
+      // Pour qu'elle tombe bien droite, on ne touche pas à positions[i * 3] ici.
+      // Si tu veux qu'elle suive les nuages vers la gauche, mets : positions[i * 3] -= 0.02
 
       if (positions[i * 3 + 1] < -limitY) {
         if (!isDark.value && cloudGroup && cloudGroup.children.length > 0) {
-          // --- MODE CLAIR : Renaissance précise sous les nuages ---
+          // --- MODE CLAIR : RECALIBRAGE FINAL ---
           const randomCloud = cloudGroup.children[Math.floor(Math.random() * cloudGroup.children.length)]
-          // Zone resserrée (* 8) et légèrement sous le nuage (-2)
-          positions[i * 3] = randomCloud.position.x + (Math.random() - 0.5) * 8
-          positions[i * 3 + 1] = randomCloud.position.y - 2
-          positions[i * 3 + 2] = randomCloud.position.z
+          
+          // 1. Centrage X : +6 pour être bien au milieu du groupe de sphères
+          positions[i * 3]     = randomCloud.position.x + 6 + (Math.random() - 0.5) * 25 
+          
+          // 2. Hauteur Y : -2 pour coller au bas du nuage (au lieu de -5)
+          positions[i * 3 + 1] = randomCloud.position.y - 2 
+          
+          // 3. Profondeur Z : On garde un peu de volume
+          positions[i * 3 + 2] = randomCloud.position.z + (Math.random() - 0.5) * 10
         } else {
-          // --- MODE SOMBRE : Renaissance globale ---
+          // Mode sombre : spawn global en haut de l'écran
           positions[i * 3 + 1] = limitY
           positions[i * 3] = (Math.random() - 0.5) * screenBounds.w * 1.5
         }
@@ -166,11 +176,12 @@ const animate = () => {
     }
     rainSystem.geometry.attributes.position.needsUpdate = true
   }
+  // ... reste du code
 
-  // Animation Nuages (Légèrement ralentis pour la cohérence)
+  // Animation Nuages
   if (!isDark.value && cloudGroup?.visible) {
     cloudGroup.children.forEach(cloud => {
-      cloud.position.x -= cloud.userData.speed * 0.8
+      cloud.position.x -= cloud.userData.speed * 0.5
       if(cloud.position.x < -screenBounds.w * 0.6) cloud.position.x = screenBounds.w * 0.6
     })
   }
@@ -196,8 +207,9 @@ const checkTheme = () => {
       mat.size = 0.8
       mat.opacity = 0.8
     } else {
+      // NormalBlending pour que le bleu marine soit bien opaque et visible
       mat.blending = THREE.NormalBlending 
-      mat.size = 0.6 
+      mat.size = 0.7 
       mat.opacity = 1.0 
     }
     mat.needsUpdate = true 
@@ -239,5 +251,5 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div ref="container" class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none" />
+  <div ref="container" class="fixed top-0 left-0 w-full h-full  pointer-events-none" />
 </template>
