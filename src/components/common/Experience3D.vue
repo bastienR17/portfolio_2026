@@ -11,7 +11,6 @@ let groundLevelY = ref(0)
 
 let screenBounds = { w: 0, h: 0 }
 
-// --- Paramètres de météo réactifs ---
 const rainCount = ref(0)
 const cloudCount = ref(3)
 const city = ref('')
@@ -35,11 +34,13 @@ const updateScreenBounds = () => {
 const colors = {
   light: { 
     bg: '#E0F2FE', rain: '#1E3A8A', cloud: '#FFFFFF', sun: '#FDE047',
-    ground: '#4ADE80', treeTrunk: '#78350F', treeLeaves: '#22C55E', houseWall: '#F3F4F6', houseRoof: '#EF4444'
+    ground: '#4ADE80', treeTrunk: '#78350F', treeLeaves: '#22C55E', houseWall: '#F3F4F6', houseRoof: '#EF4444',
+    window: '#334155' // Fenêtre éteinte
   },
   dark: { 
     bg: '#111827', rain: '#E2725B', moon: '#F3F4F6',
-    ground: '#064E3B', treeTrunk: '#451a03', treeLeaves: '#065F46', houseWall: '#374151', houseRoof: '#991B1B'
+    ground: '#064E3B', treeTrunk: '#451a03', treeLeaves: '#065F46', houseWall: '#374151', houseRoof: '#991B1B',
+    window: '#FDE047' // Fenêtre allumée (jaune)
   }
 }
 
@@ -74,7 +75,7 @@ const fetchWeatherData = async () => {
     const code = weatherData.current_weather.weathercode;
     
     if ([51, 53, 55, 61, 63, 65, 80, 81, 82].includes(code)) { 
-      rainCount.value = 800; cloudCount.value = 8; // On augmente un peu le nombre de nuages s'il pleut
+      rainCount.value = 800; cloudCount.value = 8;
     } else if ([1, 2, 3].includes(code)) { 
       rainCount.value = 0; cloudCount.value = 12; 
     } else if ([45, 48].includes(code)) { 
@@ -101,11 +102,27 @@ const createLowPolyTree = () => {
 
 const createLowPolyHouse = () => {
   const house = new THREE.Group();
+  
+  // Murs
   const walls = new THREE.Mesh(new THREE.BoxGeometry(4, 3, 4), new THREE.MeshStandardMaterial({ color: colors.light.houseWall, flatShading: true }));
   walls.position.y = 1.5; walls.name = "wallMesh";
+  
+  // Toit
   const roof = new THREE.Mesh(new THREE.ConeGeometry(3.5, 2.5, 4), new THREE.MeshStandardMaterial({ color: colors.light.houseRoof, flatShading: true }));
   roof.position.y = 4.25; roof.rotation.y = Math.PI / 4; roof.name = "roofMesh";
-  house.add(walls, roof);
+  
+  // Fenêtre
+  const windowGeo = new THREE.PlaneGeometry(0.8, 1);
+  const windowMat = new THREE.MeshStandardMaterial({ 
+    color: colors.light.window,
+    emissive: new THREE.Color(0x000000), // Éteint par défaut
+    emissiveIntensity: 0
+  });
+  const windowMesh = new THREE.Mesh(windowGeo, windowMat);
+  windowMesh.position.set(0, 1.5, 2.01); // Juste devant le mur
+  windowMesh.name = "windowMesh";
+
+  house.add(walls, roof, windowMesh);
   return house;
 }
 
@@ -128,6 +145,7 @@ const createWorld = () => {
   for (let i = 0; i < 4; i++) {
     const house = createLowPolyHouse();
     house.position.set((Math.random() - 0.5) * screenBounds.w * 0.9, groundLevelY.value, (Math.random() * -40) - 5);
+    house.rotation.y = (Math.random() - 0.5) * 0.8;
     earthGroup.add(house);
   }
   earthGroup.position.z = -5;
@@ -156,7 +174,6 @@ const createRain = () => {
   scene.add(rainSystem)
 }
 
-// --- MISE À JOUR : NUAGES AVEC PROFONDEUR ---
 const createClouds = () => {
   if (cloudCount.value <= 0) return;
   cloudGroup = new THREE.Group()
@@ -172,23 +189,19 @@ const createClouds = () => {
       meshGroup.add(part)
     }
 
-    // Répartition en profondeur (Z) : entre -20 (proche) et -120 (loin)
     const zPos = -20 - Math.random() * 100;
-    const depthFactor = Math.abs(zPos) / 20; // Plus c'est haut, plus c'est loin
+    const depthFactor = Math.abs(zPos) / 20;
 
     meshGroup.position.set(
-      (Math.random() - 0.5) * screenBounds.w * 3, // On élargit car on a de la profondeur
+      (Math.random() - 0.5) * screenBounds.w * 3,
       (0.25 + Math.random() * 0.35) * screenBounds.h,
       zPos
     )
 
-    // Parallaxe : Vitesse divisée par la profondeur
-    // On stocke la vitesse dans userData pour l'animate
     meshGroup.userData = { 
       speed: (0.02 + Math.random() * 0.04) / (depthFactor * 0.5) 
     };
 
-    // Taille : On réduit un peu ceux qui sont très loin pour la perspective
     const scale = 1.3 / (depthFactor * 0.6);
     meshGroup.scale.setScalar(Math.max(scale, 0.4));
 
@@ -199,7 +212,7 @@ const createClouds = () => {
 
 const createCelestialBodies = () => {
   sun = new THREE.Mesh(new THREE.IcosahedronGeometry(screenBounds.h * 0.08, 1), new THREE.MeshBasicMaterial({ color: colors.light.sun }))
-  sun.position.set(screenBounds.w * 0.35, screenBounds.h * 0.3, -80); // Placé derrière les nuages
+  sun.position.set(screenBounds.w * 0.35, screenBounds.h * 0.3, -80);
   
   moon = new THREE.Group()
   const moonSize = screenBounds.h * 0.07
@@ -242,14 +255,9 @@ const animate = () => {
     rainSystem.geometry.attributes.position.needsUpdate = true
   }
 
-  // Animation des nuages avec gestion de la parallaxe
   if (cloudGroup && cloudGroup.visible) {
     cloudGroup.children.forEach(c => {
-      // Utilisation de la vitesse unique calculée selon la profondeur Z
       c.position.x -= c.userData.speed * 0.5
-      
-      // Reset position à droite quand le nuage sort à gauche
-      // On utilise une marge plus large (1.5) car ils sont répartis sur Z
       if(c.position.x < -screenBounds.w * 1.5) {
           c.position.x = screenBounds.w * 1.5
       }
@@ -276,6 +284,18 @@ const checkTheme = () => {
       if (m.name === "leavesMesh") m.material.color.set(theme.treeLeaves)
       if (m.name === "wallMesh") m.material.color.set(theme.houseWall)
       if (m.name === "roofMesh") m.material.color.set(theme.houseRoof)
+      
+      // Mise à jour de la fenêtre (Lumière ON/OFF)
+      if (m.name === "windowMesh") {
+        m.material.color.set(theme.window)
+        if (isDark.value) {
+          m.material.emissive.set(theme.window)
+          m.material.emissiveIntensity = 1.5 // Brillance
+        } else {
+          m.material.emissive.set(0x000000)
+          m.material.emissiveIntensity = 0 // Éteint
+        }
+      }
     })
   }
 
