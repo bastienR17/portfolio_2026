@@ -11,10 +11,11 @@
         <router-link to="/projects" class="hover:text-terracotta transition">{{ $t('nav.projects') }}</router-link>
         <router-link to="/contact" class="hover:text-terracotta transition">{{ $t('nav.contact') }}</router-link>
         
-        <div class="h-6 w-[1px] bg-gray-200 dark:bg-gray-700"></div>
+        <div class="flex items-center gap-4">
+            <LanguageSwitcher />
+            <ThemeSwitcher />
+        </div>
         
-        <LanguageSwitcher />
-        <ThemeSwitcher />
         
         <a href="/docs/cv.pdf" download class="bg-dark-soft dark:bg-terracotta text-white px-5 py-2 rounded-full text-sm hover:opacity-80 transition">
           {{ $t('nav.downloadCV') }}
@@ -25,6 +26,7 @@
 </template>
 
 <script setup>
+import ThemeSwitcher from '../common/ThemeSwitcher.vue'
+import FontSwitcher from '../common/FontSwitcher.vue'
 import LanguageSwitcher from '../common/LanguageSwitcher.vue'
-import ThemeSwitcher from '../common/ThemeSwitcher.vue' 
 </script>

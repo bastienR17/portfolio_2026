@@ -1,6 +1,9 @@
+/* 1. Imports */
+@import url('https://cdn.jsdelivr.net/npm/@fontsource/opendyslexic@5.0.1/index.css');
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap');
 @import "tailwindcss";
 
-/* 1. Configuration du Thème v4 */
+/* 2. Configuration du Thème v4 */
 @theme {
   --color-cream: #FFF9F5;
   --color-terracotta: #E2725B;
@@ -11,12 +14,10 @@
   --font-dys: "OpenDyslexic", sans-serif;
 }
 
-/* 2. Activation du Dark Mode Manuel */
-/* En v4, on définit explicitement que la variante 'dark' 
-   doit regarder la classe sur l'élément racine */
+/* 3. Activation du Dark Mode Manuel */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* 3. Styles de base */
+/* 4. Styles de base */
 @layer base {
   html, body {
     margin: 0;
@@ -26,24 +27,51 @@
 
   body {
     @apply bg-cream text-dark-soft transition-colors duration-300;
+    font-family: var(--font-sans);
   }
 
-  /* Force le changement de fond global quand .dark est présent */
-.dark body {
-  background-color: #111827; 
-  color: #FFF9F5;
-}
+  .dark body {
+    background-color: #111827; 
+    color: #FFF9F5;
+  }
 
-/* Ajoute ceci pour attraper tous les titres d'un coup */
-.dark h1, .dark h2, .dark h3 {
-  color: #ffffff !important;
-}
-}
+  .dark h1, .dark h2, .dark h3 {
+    color: #ffffff !important;
+  }
 
-/* Tes polices @font-face restent ici en bas */
-@font-face {
-  font-family: 'Lexend';
-  src: url('/fonts/lexend-regular.woff2') format('woff2');
-  font-weight: 400;
-  font-display: swap;
+  /* --- MODE DYSLEXIQUE --- */
+  .font-dys, .font-dys * {
+    font-family: var(--font-dys) !important;
+    font-size: 1.1rem; 
+    line-height: 1.6 !important; 
+    letter-spacing: 0.03em;
+  }
+
+  /* Boost du H1 Accueil (PC) */
+  .font-dys h1 { 
+    font-size: 3.5rem !important; 
+    line-height: 1.1 !important;
+    margin-bottom: 2rem;
+  }
+
+  .font-dys h2 { 
+    font-size: 2.5rem !important; 
+  }
+
+  /* --- AJUSTEMENTS RESPONSIVE --- */
+  @media (max-width: 768px) {
+    .font-dys, .font-dys * {
+      font-size: 0.95rem; 
+      line-height: 1.5 !important;
+    }
+
+    .font-dys h1 { 
+      font-size: 2.2rem !important; /* H1 puissant sur Mobile */
+      line-height: 1.1 !important;
+    }
+
+    .font-dys h2 { 
+      font-size: 1.8rem !important; 
+    }
+  }
 }
