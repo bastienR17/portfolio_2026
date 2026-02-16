@@ -13,5 +13,38 @@
   },
   "accessibility": {
     "dysMode": "Mode Lecture (Dyslexie)"
-  }
+  },
+  
+  "about": {
+    "title": "À Propos",
+    "path_title": "Mon Parcours",
+    "path_description": "Ici, vous pouvez décrire votre vision de Manager Digital...",
+    "exp1": {
+      "role": "Alternance : Manager de Projet",
+      "company": "Entreprise A",
+      "date": "2023 - 2024",
+      "desc": "Description de vos missions en français..."
+    },
+    "exp2": {
+      "role": "Alternance : Assistant Digital",
+      "company": "Entreprise B",
+      "date": "2022 - 2023",
+      "desc": "Description de vos réalisations passées..."
+    }
+ },
+  "projects": {
+  "title": "Mes Réalisations",
+  "all": "Tous",
+  "sortBy": "Trier par",
+  "sortOptions": {
+    "recent": "Récents",
+    "stars": "Stars",
+    "name": "Nom"
+  },
+  "loading": "Synchronisation GitHub...",
+  "loadMore": "EXPLORER DAVANTAGE",
+  "noProject": "Aucun projet trouvé dans cette stack."
+}
+ 
+
 }

@@ -13,5 +13,36 @@
   },
   "accessibility": {
     "dysMode": "Reading Mode (Dyslexia)"
-  }
+  },
+
+  "about": {
+    "title": "About Me",
+    "path_title": "My Journey",
+    "path_description": "Here, you can describe your vision as a Digital Manager...",
+    "exp1": {
+      "role": "Apprenticeship: Project Manager",
+      "company": "Company A",
+      "date": "2023 - 2024",
+      "desc": "Description of your missions in English..."
+    },
+    "exp2": {
+      "role": "Apprenticeship: Digital Assistant",
+      "company": "Company B",
+      "date": "2022 - 2023",
+      "desc": "Description of your past achievements..."
+    }
+  },
+  "projects": {
+  "title": "My Projects",
+  "all": "All",
+  "sortBy": "Sort by",
+  "sortOptions": {
+    "recent": "Recent",
+    "stars": "Stars",
+    "name": "Name"
+  },
+  "loading": "Syncing GitHub...",
+  "loadMore": "EXPLORE MORE",
+  "noProject": "No projects found in this stack."
+}
 }
