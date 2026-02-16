@@ -1,10 +1,11 @@
 <template>
   <button 
     @click="toggleFont" 
-    class="fixed bottom-8 right-8 flex items-center justify-center min-w-[70px] h-12 px-4 rounded-full border-2 border-terracotta bg-white dark:bg-gray-800 text-terracotta dark:text-cream shadow-2xl hover:scale-110 active:scale-95 transition-all z-[999]"
+    class="fixed bottom-8 right-8 flex items-center justify-center min-w-[60px] h-12 px-4 rounded-full border-2 border-terracotta bg-white dark:bg-gray-800 shadow-2xl hover:scale-110 active:scale-95 transition-all z-[999]"
+    :title="isDyslexic ? 'Désactiver la police Dys' : 'Activer la police Dys'"
   >
-    <span class="text-xs font-black tracking-widest">
-      {{ isDyslexic ? 'LEX' : 'DYS' }}
+    <span class="text-xl">
+      {{ isDyslexic ? '📕' : '📖' }}
     </span>
   </button>
 </template>
