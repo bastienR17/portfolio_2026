@@ -1,17 +1,30 @@
 <template>
-  <section class="max-w-2xl mx-auto px-4 py-16 text-center">
-    <h2 class="text-4xl font-bold text-dark-soft mb-4">Travaillons ensemble</h2>
-    <p class="text-gray-600 mb-10 text-lg">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Je suis actuellement à l'écoute de nouvelles opportunités.</p>
+  <section class="max-w-2xl mx-auto px-4 py-16 text-center transition-colors duration-300">
     
-    <div class="bg-cream p-10 rounded-3xl border-2 border-dashed border-ochre">
-      <p class="text-sm uppercase tracking-widest text-gray-500 mb-2">Email</p>
-      <a href="mailto:ton.email@exemple.com" class="text-2xl md:text-3xl font-bold text-terracotta hover:underline decoration-ochre underline-offset-8">
+    <h2 class="text-4xl font-bold text-dark-soft dark:text-white mb-4">
+      {{ $t('contact.title') }}
+    </h2>
+    
+    <p class="text-gray-600 dark:text-gray-400 mb-10 text-lg">
+      {{ $t('contact.subtitle') }}
+    </p>
+    
+    <div class="bg-white/40 dark:bg-gray-800/40 backdrop-blur-md p-10 rounded-3xl border-2 border-dashed border-ochre transition-all shadow-xl">
+      <p class="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2 font-black">
+        {{ $t('contact.email_label') }}
+      </p>
+      
+      <a href="mailto:ton.email@exemple.com" class="text-2xl md:text-3xl font-bold text-terracotta hover:text-ochre transition-colors hover:underline decoration-ochre underline-offset-8">
         ton.email@exemple.com
       </a>
       
       <div class="flex justify-center gap-6 mt-10">
-        <a href="#" class="hover:text-terracotta transition">LinkedIn</a>
-        <a href="#" class="hover:text-terracotta transition">GitHub</a>
+        <a href="#" class="text-dark-soft dark:text-gray-300 hover:text-terracotta transition font-black tracking-widest text-sm uppercase"> 
+          LinkedIn 
+        </a>
+        <a href="#" class="text-dark-soft dark:text-gray-300 hover:text-terracotta transition font-black tracking-widest text-sm uppercase"> 
+          GitHub
+        </a>
       </div>
     </div>
   </section>

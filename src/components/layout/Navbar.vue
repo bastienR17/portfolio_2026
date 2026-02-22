@@ -2,7 +2,7 @@
   <nav class="bg-white/20 dark:bg-gray-900/20 backdrop-blur-md sticky top-0 z-[100] border-b border-white/10 dark:border-white/5 transition-colors duration-300">
     <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
       <router-link to="/" class="text-2xl font-black text-dark-soft dark:text-cream">
-        MTD<span class="text-terracotta">.</span>
+        B<span class="text-terracotta">.</span>R
       </router-link>
       
       <div class="hidden md:flex items-center gap-8 font-medium dark:text-gray-300">

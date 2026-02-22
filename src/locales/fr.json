@@ -8,13 +8,13 @@
   },
   "home": {
     "title": "Manager de la Transformation Digitale",
-    "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Créatif et axé sur l'humain.",
+    "subtitle": "Accompagner le changement, optimiser les processus et piloter l'innovation pour transformer les défis technologiques en opportunités de croissance.",
+    "sub_subtitle": "Transformation & Innovation.",
     "cta": "Voir mes projets"
   },
   "accessibility": {
     "dysMode": "Mode Lecture (Dyslexie)"
   },
-  
   "about": {
     "title": "À Propos",
     "path_title": "Mon Parcours",
@@ -31,20 +31,23 @@
       "date": "2022 - 2023",
       "desc": "Description de vos réalisations passées..."
     }
- },
-  "projects": {
-  "title": "Mes Réalisations",
-  "all": "Tous",
-  "sortBy": "Trier par",
-  "sortOptions": {
-    "recent": "Récents",
-    "stars": "Stars",
-    "name": "Nom"
   },
-  "loading": "Synchronisation GitHub...",
-  "loadMore": "EXPLORER DAVANTAGE",
-  "noProject": "Aucun projet trouvé dans cette stack."
-}
- 
-
+  "projects": {
+    "title": "Mes Réalisations",
+    "all": "Tous",
+    "sortBy": "Trier par",
+    "sortOptions": {
+      "recent": "Récents",
+      "stars": "Stars",
+      "name": "Nom"
+    },
+    "loading": "Synchronisation GitHub...",
+    "loadMore": "EXPLORER DAVANTAGE",
+    "noProject": "Aucun projet trouvé dans cette stack."
+  },
+  "contact": {
+    "title": "Travaillons ensemble",
+    "subtitle": "Je suis actuellement à l'écoute de nouvelles opportunités.",
+    "email_label": "Email"
+  }
 }

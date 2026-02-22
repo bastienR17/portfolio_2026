@@ -19,7 +19,7 @@ import FontSwitcher from './components/common/FontSwitcher.vue'
   </div>
 </template>
 <style>
-/* On retire TOUTE mention de color ou background-color ici */
+
 body {
   margin: 0;
   padding: 0;

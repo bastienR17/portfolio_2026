@@ -23,7 +23,8 @@ onUnmounted(() => {
       
       <p class="text-xl text-gray-600 dark:text-gray-300 leading-relaxed transition-colors">
         {{ $t('home.subtitle') }} 
-        <span class="text-terracotta font-semibold italic">Transformation & Innovation.</span>
+        <span class="text-terracotta font-semibold italic">{{ $t('home.sub_subtitle') }}</span>
+        
       </p>
 
       <div class="flex gap-4 pt-4">
