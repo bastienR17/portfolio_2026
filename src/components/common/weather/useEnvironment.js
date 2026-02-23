@@ -3,7 +3,7 @@ import * as THREE from 'three'
 export function useEnvironment(scene, colors) {
   let earthGroup, sun, moon
 
-  // --- Helpers de création ---
+ 
 
   const createLowPolyTree = () => {
     const tree = new THREE.Group()
@@ -138,7 +138,7 @@ export function useEnvironment(scene, colors) {
     // 2. Mise à jour de la LUNE
     if (moon) {
       moon.visible = isDark
-      moon.position.set(-screenBounds.w * 0.35, screenBounds.h * 0.3, -80)
+      moon.position.set(-screenBounds.w * 0.40, screenBounds.h * 0.5, -150)
       moon.rotation.y += 0.002
       // Mise à jour de la couleur du masque pour qu'il se fonde dans le ciel
       if (moon.children[1]) moon.children[1].material.color.set(theme.bg)

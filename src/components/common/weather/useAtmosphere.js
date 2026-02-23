@@ -41,7 +41,7 @@ export function useAtmosphere(scene, colors) {
 
   // --- 2. GÉNÉRATION DE LA PLUIE (MODIFIÉE) ---
   const createRain = (count, screenBounds) => {
-    // RÉDUCTION DU NOMBRE : On divise par 2 pour ne pas surcharger le visuel
+
     const adjustedCount = Math.floor(count / 2)
     const geo = new THREE.BufferGeometry()
     const pos = new Float32Array(adjustedCount * 3)
@@ -51,14 +51,13 @@ export function useAtmosphere(scene, colors) {
       pos[i*3+1] = Math.random() * screenBounds.h
       pos[i*3+2] = (Math.random() - 0.5) * 100
       
-      // VITESSE RÉDUITE : chute beaucoup plus lente et élégante
       rainVelocities.push(0.25 + Math.random() * 0.5) 
     }
     geo.setAttribute('position', new THREE.BufferAttribute(pos, 3))
     
     rainSystem = new THREE.Points(geo, new THREE.PointsMaterial({ 
       color: colors.light.rain, 
-      size: 0.8, // TAILLE RÉDUITE : Gouttes plus fines
+      size: 0.8, 
       transparent: true, 
       opacity: 0.5 
     }))
@@ -73,7 +72,7 @@ export function useAtmosphere(scene, colors) {
       pos[i*3] = (Math.random() - 0.5) * screenBounds.w
       pos[i*3+1] = Math.random() * screenBounds.h
       pos[i*3+2] = (Math.random() - 0.5) * 100
-      snowVelocities.push(0.1 + Math.random() * 0.2) // Neige ralentie également
+      snowVelocities.push(0.1 + Math.random() * 0.2) 
     }
     geo.setAttribute('position', new THREE.BufferAttribute(pos, 3))
     snowSystem = new THREE.Points(geo, new THREE.PointsMaterial({ 
@@ -96,7 +95,7 @@ export function useAtmosphere(scene, colors) {
       if (c.position.x < -screenBounds.w * 1.5) c.position.x = screenBounds.w * 1.5
     })
 
-    // Update Pluie
+
     if (rainSystem) {
       rainSystem.visible = (weatherState === 'rain' || weatherState === 'storm')
       
@@ -107,7 +106,6 @@ export function useAtmosphere(scene, colors) {
 
         const pos = rainSystem.geometry.attributes.position.array
         for (let i = 0; i < pos.length / 3; i++) {
-          // MULTIPLICATEUR D'ORAGE ADOUCI : x1.2 au lieu de x2
           const multiplier = (weatherState === 'storm' ? 1.2 : 1.0)
           pos[i*3+1] -= rainVelocities[i] * multiplier
 

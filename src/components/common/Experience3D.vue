@@ -20,12 +20,27 @@ const colors = {
 
 let env, atmosphere, stormController
 
-// Fonction de test météo via la console
+// --- MODE DEBUG MÉTÉO AMÉLIORÉ ---
 window.setWeather = (state) => {
   const validStates = ['clear', 'clouds', 'rain', 'storm', 'snow']
   if (validStates.includes(state)) {
     weatherState.value = state
-    console.log(`%c ☁️ Météo forcée : ${state.toUpperCase()}`, 'color: #fb923c; font-weight: bold;')
+    
+    const debugColors = {
+      clear: '#fde047',
+      clouds: '#94a3b8',
+      rain: '#60a5fa',
+      storm: '#a855f7',
+      snow: '#ffffff'
+    }
+
+    console.log(
+      `%c 🛠 DEBUG %c Météo forcée : ${state.toUpperCase()} `,
+      'background: #333; color: #fff; padding: 2px 5px; border-radius: 3px 0 0 3px;',
+      `background: ${debugColors[state]}; color: #000; padding: 2px 5px; border-radius: 0 3px 3px 0; font-weight: bold;`
+    )
+  } else {
+    console.error(`❌ État invalide. Essaye : ${validStates.join(', ')}`)
   }
 }
 
@@ -47,9 +62,6 @@ const onWindowResize = () => {
 
 const init = () => {
   if (!container.value) return
-  
-  // LE LOG DE TEST ICI
-  console.log("🚀 L'expérience 3D s'initialise ! (Si ce message apparaît en naviguant, il y a un bug)");
 
   scene = new THREE.Scene()
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -62,7 +74,8 @@ const init = () => {
   container.value.appendChild(renderer.domElement)
 
   updateScreenBounds()
-  const groundY = -screenBounds.h * 0.45
+  // LIGNE D'HORIZON : 0.70 pour descendre le village
+  const groundY = -screenBounds.h * 0.70
 
   scene.add(new THREE.AmbientLight(0xffffff, 0.7))
   dirLight = new THREE.DirectionalLight(0xffffff, 0.6)
@@ -86,9 +99,8 @@ const animate = () => {
   if (!renderer || !scene) return
 
   const isDark = document.documentElement.classList.contains('dark')
-  const groundY = -screenBounds.h * 0.45
+  const groundY = -screenBounds.h * 0.70
 
-  // Mise à jour de la couleur de fond
   scene.background = new THREE.Color(isDark ? colors.dark.bg : colors.light.bg)
 
   atmosphere.update(weatherState.value, screenBounds, groundY, isDark)
@@ -108,6 +120,7 @@ onMounted(async () => {
   await nextTick()
   init()
   window.addEventListener('resize', onWindowResize)
+  console.log("%c 💡 Tip: Utilise setWeather('storm') pour tester ! ", "color: #888; font-style: italic;");
 })
 
 onBeforeUnmount(() => {
