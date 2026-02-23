@@ -1,6 +1,4 @@
-
 <script setup>
-
 import { onMounted, onBeforeUnmount, ref, nextTick } from 'vue'
 import * as THREE from 'three'
 
@@ -12,20 +10,17 @@ import { useStorm } from './weather/useStorm'
 const container = ref(null)
 let scene, camera, renderer, animationId, dirLight
 let screenBounds = { w: 0, h: 0 }
-const init = () => {
-  console.log("🚀 Initialisation du village Three.js !");
-  // ... reste du code
 
 const { weatherState, city, fetchWeatherData } = useWeatherLogic()
 
 const colors = {
-  // Couleur BG Clair modifiée pour le contraste
   light: { bg: '#87CEEB', rain: '#1E3A8A', ground: '#4ADE80', sun: '#FDE047', treeTrunk: '#78350F', treeLeaves: '#22C55E', houseWall: '#F3F4F6', houseRoof: '#EF4444', window: '#334155' },
   dark: { bg: '#111827', rain: '#E2725B', moon: '#F3F4F6', ground: '#064E3B', treeTrunk: '#451a03', treeLeaves: '#065F46', houseWall: '#374151', houseRoof: '#991B1B', window: '#FDE047', stormBg: '#0f172a' }
 }
 
 let env, atmosphere, stormController
 
+// Fonction de test météo via la console
 window.setWeather = (state) => {
   const validStates = ['clear', 'clouds', 'rain', 'storm', 'snow']
   if (validStates.includes(state)) {
@@ -52,6 +47,9 @@ const onWindowResize = () => {
 
 const init = () => {
   if (!container.value) return
+  
+  // LE LOG DE TEST ICI
+  console.log("🚀 L'expérience 3D s'initialise ! (Si ce message apparaît en naviguant, il y a un bug)");
 
   scene = new THREE.Scene()
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -80,7 +78,6 @@ const init = () => {
   atmosphere.createRain(1000, screenBounds)
   atmosphere.createSnow(600, screenBounds)
   
-
   animate()
 }
 
@@ -91,7 +88,7 @@ const animate = () => {
   const isDark = document.documentElement.classList.contains('dark')
   const groundY = -screenBounds.h * 0.45
 
-  // Couleur de fond dynamique
+  // Mise à jour de la couleur de fond
   scene.background = new THREE.Color(isDark ? colors.dark.bg : colors.light.bg)
 
   atmosphere.update(weatherState.value, screenBounds, groundY, isDark)
@@ -118,11 +115,7 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', onWindowResize)
   if (renderer) renderer.dispose()
 })
-
-}
-
 </script>
-
 
 <template>
   <div v-if="city" class="fixed bottom-4 right-4 text-[10px] font-mono opacity-40 z-50 mix-blend-difference pointer-events-none text-black dark:text-white uppercase italic">
