@@ -1,4 +1,6 @@
+
 <script setup>
+
 import { onMounted, onBeforeUnmount, ref, nextTick } from 'vue'
 import * as THREE from 'three'
 
@@ -10,6 +12,9 @@ import { useStorm } from './weather/useStorm'
 const container = ref(null)
 let scene, camera, renderer, animationId, dirLight
 let screenBounds = { w: 0, h: 0 }
+const init = () => {
+  console.log("🚀 Initialisation du village Three.js !");
+  // ... reste du code
 
 const { weatherState, city, fetchWeatherData } = useWeatherLogic()
 
@@ -113,7 +118,11 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', onWindowResize)
   if (renderer) renderer.dispose()
 })
+
+}
+
 </script>
+
 
 <template>
   <div v-if="city" class="fixed bottom-4 right-4 text-[10px] font-mono opacity-40 z-50 mix-blend-difference pointer-events-none text-black dark:text-white uppercase italic">
