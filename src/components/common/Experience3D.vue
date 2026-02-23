@@ -99,7 +99,7 @@ const animate = () => {
   if (!renderer || !scene) return
 
   const isDark = document.documentElement.classList.contains('dark')
-  const groundY = -screenBounds.h * 0.55
+  const groundY = -screenBounds.h * 0.40
 
   scene.background = new THREE.Color(isDark ? colors.dark.bg : colors.light.bg)
 
