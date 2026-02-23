@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, onUnmounted } from 'vue'
-import Experience3D from '../components/common/Experience3D.vue'
+
 
 onMounted(() => {
   document.body.style.overflow = 'hidden'
@@ -12,8 +12,6 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <Experience3D />
-
   <div class="relative z-10 max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12 h-screen overflow-hidden transition-colors duration-500">
     
     <div class="flex-1 space-y-6 text-left">
@@ -24,7 +22,6 @@ onUnmounted(() => {
       <p class="text-xl text-gray-600 dark:text-gray-300 leading-relaxed transition-colors">
         {{ $t('home.subtitle') }} 
         <span class="text-terracotta font-semibold italic">{{ $t('home.sub_subtitle') }}</span>
-        
       </p>
 
       <div class="flex gap-4 pt-4">
@@ -39,7 +36,7 @@ onUnmounted(() => {
     </div>
 
     <div class="flex-1 relative flex items-center justify-center">
-      <div class="relative bg-white dark:bg-gray-800 p-4 rounded-2xl shadow-2xl border border-cream dark:border-gray-700 transition-colors">
+      <div class="relative bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm p-4 rounded-2xl shadow-2xl border border-white/20 dark:border-gray-700 transition-colors">
         <img 
           src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=500" 
           alt="Transformation Digitale" 
