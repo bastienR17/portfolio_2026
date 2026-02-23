@@ -74,8 +74,8 @@ const init = () => {
   container.value.appendChild(renderer.domElement)
 
   updateScreenBounds()
-  // LIGNE D'HORIZON : 0.70 pour descendre le village
-  const groundY = -screenBounds.h * 0.70
+  // LIGNE D'HORIZON : 0.55 pour descendre le village
+  const groundY = -screenBounds.h * 0.55
 
   scene.add(new THREE.AmbientLight(0xffffff, 0.7))
   dirLight = new THREE.DirectionalLight(0xffffff, 0.6)
@@ -99,7 +99,7 @@ const animate = () => {
   if (!renderer || !scene) return
 
   const isDark = document.documentElement.classList.contains('dark')
-  const groundY = -screenBounds.h * 0.40
+  const groundY = -screenBounds.h * 0.55
 
   scene.background = new THREE.Color(isDark ? colors.dark.bg : colors.light.bg)
 
