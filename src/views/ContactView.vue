@@ -14,15 +14,15 @@
         {{ $t('contact.email_label') }}
       </p>
       
-      <a href="mailto:ton.email@exemple.com" class="text-2xl md:text-3xl font-bold text-terracotta hover:text-ochre transition-colors hover:underline decoration-ochre underline-offset-8">
-        ton.email@exemple.com
+      <a href="mailto:Bastienroc@free.fr" class="text-2xl md:text-3xl font-bold text-terracotta hover:text-ochre transition-colors hover:underline decoration-ochre underline-offset-8">
+        Bastienroc@free.fr
       </a>
       
       <div class="flex justify-center gap-6 mt-10">
-        <a href="#" class="text-dark-soft dark:text-gray-300 hover:text-terracotta transition font-black tracking-widest text-sm uppercase"> 
+        <a href="https://www.linkedin.com/in/bastien-roc/" class="text-dark-soft dark:text-gray-300 hover:text-terracotta transition font-black tracking-widest text-sm uppercase"> 
           LinkedIn 
         </a>
-        <a href="#" class="text-dark-soft dark:text-gray-300 hover:text-terracotta transition font-black tracking-widest text-sm uppercase"> 
+        <a href="https://github.com/bastienR17" class="text-dark-soft dark:text-gray-300 hover:text-terracotta transition font-black tracking-widest text-sm uppercase"> 
           GitHub
         </a>
       </div>

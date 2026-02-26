@@ -60,6 +60,25 @@
             </div>
           </div>
 
+          <div class="relative group">
+            <span class="absolute -left-[51px] top-1/2 -translate-y-1/2 w-5 h-5 bg-white dark:bg-gray-900 border-4 border-ochre rounded-full group-hover:scale-125 transition-all duration-300 shadow-lg z-10"></span>
+            
+            <div class="bg-white/20 dark:bg-gray-800/30 hover:bg-white/40 dark:hover:bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border border-white/10 dark:border-white/5 transition-all duration-300 shadow-sm">
+              <span class="text-xs font-black text-terracotta dark:text-ochre uppercase tracking-widest font-mono">
+                 {{ $t('about.exp3.date') }}
+              </span>
+              <h3 class="font-bold text-xl text-dark-soft dark:text-white mt-1">
+                {{ $t('about.exp3.role') }}
+              </h3>
+              <p class="text-sm font-bold text-ochre/80 dark:text-ochre mb-4 uppercase">
+                @ {{ $t('about.exp3.company') }}
+              </p>
+              <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                {{ $t('about.exp3.desc') }}
+              </p>
+            </div>
+          </div>
+        
         </div>
       </div>
     </div>

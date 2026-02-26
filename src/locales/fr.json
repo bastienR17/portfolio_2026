@@ -20,16 +20,22 @@
     "path_title": "Mon Parcours",
     "path_description": "Ici, vous pouvez décrire votre vision de Manager Digital...",
     "exp1": {
-      "role": "Alternance : Manager de Projet",
-      "company": "Entreprise A",
-      "date": "2023 - 2024",
-      "desc": "Description de vos missions en français..."
+      "role": "Alternance : *Chef de projet ",
+      "company": "MINISTÈRES TRANSITION ÉCOLOGIQUE AMÉNAGEMENT DU TERRITOIRE TRANSPORTS VILLE ET LOGEMENT",
+      "date": "2024 - 2026",
+      "desc": "Accompagner le changement en restant à l'écoute des besoins utilisateurs pour concevoir des solutions de recherche interne optimisées et des supports pédagogiques adaptés."
     },
     "exp2": {
-      "role": "Alternance : Assistant Digital",
-      "company": "Entreprise B",
-      "date": "2022 - 2023",
-      "desc": "Description de vos réalisations passées..."
+      "role": "Alternance : Assistant Chef de Projet Digital Front End",
+      "company": "Sephora",
+      "date": "2023 - 2024",
+      "desc": "Orchestrer l'intégration Front-end en planifiant les missions des équipes et en pilotant l'évolution constante des outils IT."
+    },
+    "exp3": {
+      "role": "STAGIAIRE Chefferie de projet et développement web",
+      "company": "SNCF D2D ",
+      "date": "02 mai au 30 juin 2023",
+      "desc": "Piloter des projets en méthodologie Agile en encadrant des équipes techniques autour du développement et de la programmation orientée objet."
     }
   },
   "projects": {
