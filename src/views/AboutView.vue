@@ -18,7 +18,10 @@
       </div>
 
       <div class="relative ml-6">
-        <div class="absolute left-0 top-0 bottom-0 w-0.5 bg-ochre/30 dark:bg-ochre/20"></div>
+        <div class="absolute left-0 top-[85px] bottom-[85px] w-0.5 bg-ochre/20 dark:bg-ochre/30">
+          <div class="absolute -top-1 -left-[3px] w-2 h-2 bg-ochre rounded-full shadow-sm"></div>
+          <div class="absolute -bottom-1 -left-[3px] w-2 h-2 bg-ochre rounded-full shadow-sm"></div>
+        </div>
 
         <div class="space-y-12 pl-10">
           
@@ -32,8 +35,8 @@
               <h3 class="font-bold text-xl text-dark-soft dark:text-white mt-1">
                 {{ $t('about.exp1.role') }}
               </h3>
-              <p class="text-sm font-bold text-ochre/80 dark:text-ochre mb-4 uppercase">
-                {{ $t('about.exp1.company') }}
+              <p class="text-sm font-bold text-ochre mb-4 uppercase tracking-wide">
+                @ {{ $t('about.exp1.company') }}
               </p>
               <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
                 {{ $t('about.exp1.desc') }}
@@ -51,8 +54,8 @@
               <h3 class="font-bold text-xl text-dark-soft dark:text-white mt-1">
                 {{ $t('about.exp2.role') }}
               </h3>
-              <p class="text-sm font-bold text-ochre/80 dark:text-ochre mb-4 uppercase">
-                {{ $t('about.exp2.company') }}
+              <p class="text-sm font-bold text-ochre mb-4 uppercase tracking-wide">
+                @ {{ $t('about.exp2.company') }}
               </p>
               <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
                 {{ $t('about.exp2.desc') }}
@@ -70,15 +73,15 @@
               <h3 class="font-bold text-xl text-dark-soft dark:text-white mt-1">
                 {{ $t('about.exp3.role') }}
               </h3>
-              <p class="text-sm font-bold text-ochre/80 dark:text-ochre mb-4 uppercase">
-                {{ $t('about.exp3.company') }}
+              <p class="text-sm font-bold text-ochre mb-4 uppercase tracking-wide">
+                @ {{ $t('about.exp3.company') }}
               </p>
               <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
                 {{ $t('about.exp3.desc') }}
               </p>
             </div>
           </div>
-        
+
         </div>
       </div>
     </div>
