@@ -11,7 +11,6 @@ export default {
         terracotta: '#E2725B',
         'dark-soft': '#2D2D2D',
         cream: '#FDFBF7',
-
         ochre: '#B45309', 
       },
     },
