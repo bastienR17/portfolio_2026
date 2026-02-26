@@ -17,8 +17,8 @@
             
         </div>
         
-        <a href="/docs/cv.pdf" download class="bg-dark-soft dark:bg-terracotta text-white px-5 py-2 rounded-full text-sm hover:opacity-80 transition">
-          {{ $t('nav.downloadCV') }}
+        <a  href="/RB_CV_2026.pdf" download="CV_Bastien_Manager_Digital.pdf" class="px-6 py-2 bg-terracotta text-white rounded-full font-bold hover:bg-ochre transition-all shadow-md hover:shadow-xl active:scale-95">
+            {{ $t('nav.downloadCV') }}
         </a>
       </div>
     </div>

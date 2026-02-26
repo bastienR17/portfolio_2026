@@ -6,12 +6,12 @@ export default {
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {
+    extend: { 
       colors: {
         terracotta: '#E2725B',
         'dark-soft': '#2D2D2D',
         cream: '#FDFBF7',
-        ochre: '#B45309', 
+        ochre: '#B45309',
       },
     },
   },
