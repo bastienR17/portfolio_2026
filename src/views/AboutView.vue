@@ -36,7 +36,7 @@
                 {{ $t('about.exp1.role') }}
               </h3>
               <p class="text-sm font-bold text-ochre mb-4 uppercase tracking-wide">
-                @ {{ $t('about.exp1.company') }}
+                {{ $t('about.exp1.company') }}
               </p>
               <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
                 {{ $t('about.exp1.desc') }}
@@ -55,7 +55,7 @@
                 {{ $t('about.exp2.role') }}
               </h3>
               <p class="text-sm font-bold text-ochre mb-4 uppercase tracking-wide">
-                @ {{ $t('about.exp2.company') }}
+                {{ $t('about.exp2.company') }}
               </p>
               <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
                 {{ $t('about.exp2.desc') }}
@@ -74,7 +74,7 @@
                 {{ $t('about.exp3.role') }}
               </h3>
               <p class="text-sm font-bold text-ochre mb-4 uppercase tracking-wide">
-                @ {{ $t('about.exp3.company') }}
+                {{ $t('about.exp3.company') }}
               </p>
               <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
                 {{ $t('about.exp3.desc') }}
