@@ -35,7 +35,7 @@
               <h3 class="font-bold text-xl text-dark-soft dark:text-white mt-1">
                 {{ $t('about.exp1.role') }}
               </h3>
-              <p class="text-sm font-bold text-ochre mb-4 uppercase tracking-wide">
+              <p class="text-sm font-bold text-[#B45309] mb-4 uppercase tracking-wide">
                 {{ $t('about.exp1.company') }}
               </p>
               <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
