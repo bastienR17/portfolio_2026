@@ -17,12 +17,6 @@
         </p>
       </div>
 
-      <div class="relative ml-6">
-        <div class="absolute left-0 top-[85px] bottom-[85px] w-0.5 bg-ochre/20 dark:bg-ochre/30">
-          <div class="absolute -top-1 -left-[3px] w-2 h-2 bg-ochre rounded-full shadow-sm"></div>
-          <div class="absolute -bottom-1 -left-[3px] w-2 h-2 bg-ochre rounded-full shadow-sm"></div>
-        </div>
-
         <div class="space-y-12 pl-10">
           
           <div class="relative group">
