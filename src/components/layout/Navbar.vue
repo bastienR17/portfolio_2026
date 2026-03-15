@@ -71,18 +71,12 @@ const isMenuOpen = ref(false)
 </script>
 
 <style scoped>
-/* IMPORTANT : On utilise @reference pour que Tailwind v4 reconnaisse 'terracotta'.
-  Vérifie bien que le chemin vers ton fichier CSS principal est correct.
-*/
-@reference "../../assets/main.css"; 
+/* Si ton fichier est dans src/assets/main.css */
+@reference "../../assets/main.css";
 
-.router-link-active:not(.text-2xl) {
-  @apply text-terracotta font-black;
-}
+/* OU si ton fichier est dans src/styles/main.css */
+@reference "../../styles/main.css";
 
-/* Petit effet supplémentaire pour le logo au survol */
-a:first-child:hover .text-terracotta {
-  @apply text-ochre;
-  transition: color 0.3s ease;
-}
+/* OU s'il est à la racine de src */
+@reference "../../main.css";
 </style>
