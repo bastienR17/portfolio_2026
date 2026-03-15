@@ -78,5 +78,19 @@
       font-size: 1.8rem !important; 
     }
   }
+/* --- Styles globaux de la Navigation --- */
+
+/* Style pour le lien actif (page courante) */
+.router-link-active:not(.text-2xl) {
+  @apply text-terracotta font-black;
+}
+
+/* Effet au survol du logo (B.R) */
+a:first-child:hover .text-terracotta {
+  @apply text-ochre;
+  transition: color 0.3s ease;
+}
   
 }
+
+

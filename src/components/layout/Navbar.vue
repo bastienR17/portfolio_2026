@@ -69,14 +69,3 @@ import LanguageSwitcher from '../common/LanguageSwitcher.vue'
 
 const isMenuOpen = ref(false)
 </script>
-
-<style scoped>
-/* Si ton fichier est dans src/assets/main.css */
-@reference "../../assets/main.css";
-
-/* OU si ton fichier est dans src/styles/main.css */
-@reference "../../styles/main.css";
-
-/* OU s'il est à la racine de src */
-@reference "../../main.css";
-</style>
