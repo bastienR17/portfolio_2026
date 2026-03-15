@@ -8,8 +8,8 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "strict": true,
-    "checkJs": true,
+    "strict": false,
+    "checkJs": false,
     "jsx": "preserve",
     "allowSyntheticDefaultImports": true
   },

@@ -6,10 +6,17 @@ import { useWeatherLogic } from './weather/useWeatherLogic'
 import { useEnvironment } from './weather/useEnvironment'
 import { useAtmosphere } from './weather/useAtmosphere'
 import { useStorm } from './weather/useStorm'
+import { useWindTurbines } from './weather/useWindTurbines'
 
+// Initialisation propre pour éviter les erreurs "any"
 const container = ref(null)
-let scene, camera, renderer, animationId, dirLight
+let scene = null
+let camera = null
+let renderer = null
+let animationId = null
+let dirLight = null
 let screenBounds = { w: 0, h: 0 }
+const clock = new THREE.Clock() 
 
 const { weatherState, city, fetchWeatherData } = useWeatherLogic()
 
@@ -18,29 +25,23 @@ const colors = {
   dark: { bg: '#111827', rain: '#E2725B', moon: '#F3F4F6', ground: '#064E3B', treeTrunk: '#451a03', treeLeaves: '#065F46', houseWall: '#374151', houseRoof: '#991B1B', window: '#FDE047', stormBg: '#0f172a' }
 }
 
-let env, atmosphere, stormController
+// Initialisation des controllers à null
+let env = null
+let atmosphere = null
+let stormController = null
+let windTurbines = null
 
-// --- MODE DEBUG MÉTÉO AMÉLIORÉ ---
+// --- UTILITAIRE DE PERSPECTIVE ---
+const mapLinear = (x, a, b, c, d) => {
+  return c + (d - c) * ((x - a) / (b - a))
+}
+
+// --- MODE DEBUG MÉTÉO ---
 window.setWeather = (state) => {
   const validStates = ['clear', 'clouds', 'rain', 'storm', 'snow']
-  if (validStates.includes(state)) {
+  if (validStates.includes(state) && weatherState) {
     weatherState.value = state
-    
-    const debugColors = {
-      clear: '#fde047',
-      clouds: '#94a3b8',
-      rain: '#60a5fa',
-      storm: '#a855f7',
-      snow: '#ffffff'
-    }
-
-    console.log(
-      `%c 🛠 DEBUG %c Météo forcée : ${state.toUpperCase()} `,
-      'background: #333; color: #fff; padding: 2px 5px; border-radius: 3px 0 0 3px;',
-      `background: ${debugColors[state]}; color: #000; padding: 2px 5px; border-radius: 0 3px 3px 0; font-weight: bold;`
-    )
-  } else {
-    console.error(`❌ État invalide. Essaye : ${validStates.join(', ')}`)
+    console.log(`%c 🛠 Météo forcée : ${state.toUpperCase()} `, 'background: #333; color: #fff; padding: 2px 5px;')
   }
 }
 
@@ -74,7 +75,6 @@ const init = () => {
   container.value.appendChild(renderer.domElement)
 
   updateScreenBounds()
-  // LIGNE D'HORIZON : 0.55 pour descendre le village
   const groundY = -screenBounds.h * 0.55
 
   scene.add(new THREE.AmbientLight(0xffffff, 0.7))
@@ -82,24 +82,41 @@ const init = () => {
   dirLight.position.set(50, 50, 20)
   scene.add(dirLight)
 
+  // On assigne nos controllers
   env = useEnvironment(scene, colors)
   atmosphere = useAtmosphere(scene, colors)
   stormController = useStorm(scene, dirLight, colors)
+  windTurbines = useWindTurbines(scene)
 
   env.createWorld(screenBounds, groundY)
   atmosphere.createClouds(15, screenBounds)
   atmosphere.createRain(1000, screenBounds)
   atmosphere.createSnow(600, screenBounds)
+
+  // --- GÉNÉRATION ÉOLIENNES (Réduites à 4 pour un look épuré) ---
+  const turbineCount = 3
+  const zProche = -40
+  const zLoin = -120
+
+  for (let i = 0; i < turbineCount; i++) {
+    const z = zProche - Math.random() * (Math.abs(zLoin) - Math.abs(zProche))
+    const scale = mapLinear(z, zProche, zLoin, 1.3, 0.5)
+    let x = (Math.random() - 0.5) * 250 
+    if (x > -30 && x < 30) x += x > 0 ? 40 : -40 
+
+    if (windTurbines) windTurbines.createTurbine(x, z, groundY, scale)
+  }
   
   animate()
 }
 
 const animate = () => {
   animationId = requestAnimationFrame(animate)
-  if (!renderer || !scene) return
+  if (!renderer || !scene || !atmosphere || !env) return
 
   const isDark = document.documentElement.classList.contains('dark')
   const groundY = -screenBounds.h * 0.55
+  const elapsed = clock.getElapsedTime() 
 
   scene.background = new THREE.Color(isDark ? colors.dark.bg : colors.light.bg)
 
@@ -107,6 +124,10 @@ const animate = () => {
   
   if (stormController) {
     stormController.updateStorm(weatherState.value, isDark)
+  }
+
+  if (windTurbines) {
+    windTurbines.update(weatherState.value, isDark, elapsed)
   }
 
   env.updateEnvironment(isDark, isDark ? colors.dark : colors.light, weatherState.value, screenBounds)
@@ -120,11 +141,10 @@ onMounted(async () => {
   await nextTick()
   init()
   window.addEventListener('resize', onWindowResize)
-  console.log("%c 💡 Tip: Utilise setWeather('storm') pour tester ! ", "color: #888; font-style: italic;");
 })
 
 onBeforeUnmount(() => {
-  cancelAnimationFrame(animationId)
+  if (animationId) cancelAnimationFrame(animationId)
   window.removeEventListener('resize', onWindowResize)
   if (renderer) renderer.dispose()
 })

@@ -12,9 +12,6 @@
         <p class="font-black text-2xl text-dark-soft dark:text-white mb-4 flex items-center gap-3">
           <span class="text-[#B45309]">/</span> {{ $t('about.path_title') }}
         </p>
-        <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
-          {{ $t('about.path_description') }}
-        </p>
       </div>
 
       <div class="relative ml-6">
