@@ -18,7 +18,15 @@
   "about": {
     "title": "About Me",
     "path_title": "My Journey",
-    "path_description": "A hybrid profile at the crossroads of strategy and technology, I support organizations in their digital transformation by combining user-centric vision, project management, and technical expertise.",
+    "path_description": "A hybrid profile at the crossroads of strategy and technology, I support organizations in their digital transformation by combining user-centric vision, project management, and technical expertise. With experience in government, retail, and transport sectors, I drive innovation with method and agility.",
+    "skills_title": "Skills",
+    "skills_filterAll": "All",
+    "skills_hard_label": "Hard Skills",
+    "skills_soft_label": "Soft Skills",
+    "skills_certifications_label": "Certifications",
+    "skills_hard": ["HTML / CSS", "WordPress", "PHP / MySQL", "Symfony", "JavaScript", "Canva", "AI Prompting", "Google Analytics", "GitHub", "Adobe Suite", "UX/UI", "Excel", "Jira"],
+    "skills_soft": ["Teamwork", "Agile Methodology", "Communication", "Curiosity", "Continuous Learning"],
+    "skills_certifications": ["Opquast", "Scrum"],
     "exp1": {
       "role": "Apprenticeship: Project Manager",
       "company": "Ministry of Ecological Transition, Territorial Planning, Transport, Housing",

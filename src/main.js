@@ -4,7 +4,6 @@ import router from './router'
 import i18n from './i18n'
 import './assets/Main.css'
 
-
 const app = createApp(App)
 app.use(router)
 app.use(i18n)
