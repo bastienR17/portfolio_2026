@@ -1,13 +1,35 @@
 <script setup>
-import { onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+const stats = [
+  { count: ref(0), target: 3,  suffix: '',  key: 'home.stat_sectors' },
+  { count: ref(0), target: 5,  suffix: '+', key: 'home.stat_training' },
+  { count: ref(0), target: 2,  suffix: '',  key: 'home.stat_certs' },
+  { count: ref(0), target: 13, suffix: '+', key: 'home.stat_skills' },
+]
+
+function animateCounters() {
+  stats.forEach(stat => {
+    const steps = 30
+    const delay = 800 / steps
+    let step = 0
+    const interval = setInterval(() => {
+      step++
+      stat.count.value = Math.min(Math.round((stat.target / steps) * step), stat.target)
+      if (step >= steps) clearInterval(interval)
+    }, delay)
+  })
+}
 
 onMounted(() => {
-  // Empêche le scroll sur la home pour garder l'effet immersif du village 3D
   document.body.style.overflow = 'hidden'
+  setTimeout(animateCounters, 400)
 })
 
 onUnmounted(() => {
-  // Réactive le scroll quand on quitte la home
   document.body.style.overflow = 'auto'
 })
 </script>
@@ -34,6 +56,18 @@ onUnmounted(() => {
           <router-link to="/about" class="border-2 border-dark-soft text-dark-soft dark:border-white dark:text-white px-8 py-3 rounded-full font-bold hover:bg-dark-soft hover:text-white dark:hover:bg-white dark:hover:text-dark-soft transition-all active:scale-95">
             {{ $t('nav.about') }}
           </router-link>
+        </div>
+
+        <!-- Stats animées -->
+        <div class="grid grid-cols-4 gap-3 pt-2 border-t border-white/30 dark:border-white/10">
+          <div v-for="stat in stats" :key="stat.key" class="text-center">
+            <div class="text-2xl md:text-3xl font-black text-terracotta tabular-nums">
+              {{ stat.count }}{{ stat.suffix }}
+            </div>
+            <div class="text-xs text-gray-500 dark:text-gray-400 font-semibold mt-0.5 leading-tight">
+              {{ t(stat.key) }}
+            </div>
+          </div>
         </div>
       </div>
     </div>

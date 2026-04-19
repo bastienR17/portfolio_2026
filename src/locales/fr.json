@@ -10,7 +10,11 @@
     "title": "Manager de la Transformation Digitale",
     "subtitle": "Accompagner le changement, optimiser les processus et piloter l'innovation pour transformer les défis technologiques en opportunités de croissance.",
     "sub_subtitle": "Transformation & Innovation.",
-    "cta": "Voir mes projets"
+    "cta": "Voir mes projets",
+    "stat_sectors": "Secteurs",
+    "stat_training": "Ans de formation",
+    "stat_certs": "Certifications",
+    "stat_skills": "Compétences tech."
   },
   "accessibility": {
     "dysMode": "Mode Lecture (Dyslexie)"
@@ -18,32 +22,67 @@
   "about": {
     "title": "À Propos",
     "path_title": "Mon Parcours",
-    "path_description": "Profil hybride à la croisée de la stratégie et de la technologie, j'accompagne les organisations dans leur transformation digitale en combinant vision utilisateur, gestion de projet et expertise technique. Fort d'expériences en milieu gouvernemental, retail et transport, je pilote l'innovation avec méthode et agilité.",
+    "path_description": "Je fais le pont entre l'expertise technique et les enjeux business de demain. Passionné par l'innovation, je me dédie à l'optimisation des méthodes de travail à travers le conseil et le management. Mon ambition ? Allier agilité et technologie pour construire des organisations plus performantes et connectées, pleinement prêtes à relever les défis de ce nouveau monde.",
     "skills_title": "Compétences",
     "skills_filterAll": "Toutes",
     "skills_hard_label": "Hard Skills",
     "skills_soft_label": "Soft Skills",
     "skills_certifications_label": "Certifications",
-    "skills_hard": ["HTML / CSS", "WordPress", "PHP / MySQL", "Symfony", "JavaScript", "Canva", "AI Prompting", "Google Analytics", "GitHub", "Suite Adobe", "UX/UI", "Excel", "Jira"],
+    "skills_hard_dev_label": "Dév. Web",
+    "skills_hard_design_label": "Design & UX/UI",
+    "skills_hard_data_label": "Analytics & Outils",
+    "skills_hard_dev": ["HTML / CSS", "JavaScript", "PHP / MySQL", "Symfony", "WordPress", "GitHub"],
+    "skills_hard_design": ["UX/UI", "Canva", "Suite Adobe"],
+    "skills_hard_data": ["Google Analytics", "Excel", "Jira", "AI Prompting"],
     "skills_soft": ["Travail en équipe", "Méthode Agile", "Communication", "Curiosité", "Apprentissage continu"],
     "skills_certifications": ["Opquast", "Scrum"],
+    "edu1": {
+      "role": "Bachelor — Chef de Projet Digital",
+      "org": "IIM Digital School Paris — Nanterre (92)",
+      "date": "2020 – 2026"
+    },
+    "edu2": {
+      "role": "Ingénieur — Management de la Transformation Digitale",
+      "org": "IIM / ESILV Digital School Paris — Nanterre (92)",
+      "date": "2024 – 2026"
+    },
     "exp1": {
-      "role": "Alternance : *Chef de projet ",
-      "company": "MINISTÈRES TRANSITION ÉCOLOGIQUE AMÉNAGEMENT DU TERRITOIRE TRANSPORTS VILLE ET LOGEMENT",
-      "date": "2024 - 2026",
-      "desc": "Accompagner le changement en restant à l'écoute des besoins utilisateurs pour concevoir des solutions de recherche interne optimisées et des supports pédagogiques adaptés."
+      "role": "Alternance — Chef de projet digital",
+      "company": "Ministères Transition Écologique, Transports & Logement — La Défense",
+      "date": "Oct. 2024 – Août 2026",
+      "desc": "Accompagnement du changement au sein d'une organisation de 2500 personnes, avec mise en place de solutions de recherche interne, automatisation des processus et création de supports pédagogiques.",
+      "tasks": ["Suivi et écoute des besoins utilisateurs", "Solution de recherche interne pour 2 500 personnes", "Accompagnement du changement", "Création de supports pédagogiques", "Ajout d'indicateurs de performance", "Automatisation des processus internes"]
     },
     "exp2": {
-      "role": "Alternance : Assistant Chef de Projet Digital Front End",
-      "company": "Sephora",
-      "date": "2023 - 2024",
-      "desc": "Orchestrer l'intégration Front-end en planifiant les missions des équipes et en pilotant l'évolution constante des outils IT."
+      "role": "Alternance — Assistant Chef de Projet Digital Front End",
+      "company": "Sephora — Neuilly-sur-Seine",
+      "date": "Sept. 2023 – Fév. 2024",
+      "desc": "Gestion des demandes d'intégration Front-end, planification des missions aux intégrateurs et pilotage de l'évolution des outils IT.",
+      "tasks": ["Gestion des demandes d'intégration Front-end", "Planification des missions aux intégrateurs", "Évolution des outils IT"]
     },
     "exp3": {
-      "role": "STAGIAIRE Chefferie de projet et développement web",
-      "company": "SNCF D2D ",
-      "date": "02 mai au 30 juin 2023",
-      "desc": "Piloter des projets en méthodologie Agile en encadrant des équipes techniques autour du développement et de la programmation orientée objet."
+      "role": "Stage — Chefferie de projet & Développement web",
+      "company": "SNCF D2D",
+      "date": "Mai – Juin 2023",
+      "desc": "Pilotage de projets en méthodologie Agile, gestion d'équipe et développement orienté objet.",
+      "tasks": ["Gestion de projet Agile", "Gestion d'équipe", "Programmation orientée objet"]
+    },
+    "engagements_title": "Bénévolat",
+    "timeline_filterAll": "Toutes",
+    "timeline_pro": "Expériences",
+    "timeline_engagement": "Bénévolat",
+    "timeline_scolaire": "Formation",
+    "eng1": {
+      "role": "Trésorier",
+      "org": "Leon'Art",
+      "date": "Juil. 2023 – Juil. 2024",
+      "tasks": ["Suivi financier et reporting", "Garant de la transparence financière"]
+    },
+    "eng2": {
+      "role": "Consultant",
+      "org": "Leon'Art",
+      "date": "Juil. 2025 – Juil. 2026",
+      "tasks": ["Gestion du budget annuel", "Conseil stratégique en organisation", "Optimisation des opérations internes", "Support opérationnel"]
     }
   },
   "projects": {

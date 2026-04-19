@@ -10,7 +10,11 @@
     "title": "Digital Transformation Manager",
     "subtitle": "Supporting change, optimizing processes and driving innovation to transform technological challenges into growth opportunities.",
     "sub_subtitle": "Transformation & Innovation.",
-    "cta": "View my projects"
+    "cta": "View my projects",
+    "stat_sectors": "Sectors",
+    "stat_training": "Yrs training",
+    "stat_certs": "Certifications",
+    "stat_skills": "Tech skills"
   },
   "accessibility": {
     "dysMode": "Reading Mode (Dyslexia)"
@@ -18,32 +22,67 @@
   "about": {
     "title": "About Me",
     "path_title": "My Journey",
-    "path_description": "A hybrid profile at the crossroads of strategy and technology, I support organizations in their digital transformation by combining user-centric vision, project management, and technical expertise. With experience in government, retail, and transport sectors, I drive innovation with method and agility.",
+    "path_description": "I bridge the gap between technical expertise and tomorrow's business challenges. Passionate about innovation, I dedicate myself to optimizing working methods through consulting and management. My ambition? Combining agility and technology to build more efficient and connected organizations, fully ready to take on the challenges of this new world.",
     "skills_title": "Skills",
     "skills_filterAll": "All",
     "skills_hard_label": "Hard Skills",
     "skills_soft_label": "Soft Skills",
     "skills_certifications_label": "Certifications",
-    "skills_hard": ["HTML / CSS", "WordPress", "PHP / MySQL", "Symfony", "JavaScript", "Canva", "AI Prompting", "Google Analytics", "GitHub", "Adobe Suite", "UX/UI", "Excel", "Jira"],
+    "skills_hard_dev_label": "Web Dev",
+    "skills_hard_design_label": "Design & UX/UI",
+    "skills_hard_data_label": "Analytics & Tools",
+    "skills_hard_dev": ["HTML / CSS", "JavaScript", "PHP / MySQL", "Symfony", "WordPress", "GitHub"],
+    "skills_hard_design": ["UX/UI", "Canva", "Adobe Suite"],
+    "skills_hard_data": ["Google Analytics", "Excel", "Jira", "AI Prompting"],
     "skills_soft": ["Teamwork", "Agile Methodology", "Communication", "Curiosity", "Continuous Learning"],
     "skills_certifications": ["Opquast", "Scrum"],
+    "edu1": {
+      "role": "Bachelor — Digital Project Manager",
+      "org": "IIM Digital School Paris — Nanterre (92)",
+      "date": "2020 – 2026"
+    },
+    "edu2": {
+      "role": "Engineer — Digital Transformation Management",
+      "org": "IIM / ESILV Digital School Paris — Nanterre (92)",
+      "date": "2024 – 2026"
+    },
     "exp1": {
-      "role": "Apprenticeship: Project Manager",
-      "company": "Ministry of Ecological Transition, Territorial Planning, Transport, Housing",
-      "date": "2024 - 2026",
-      "desc": "Supporting change by listening to user needs to design optimized internal search solutions and tailored educational materials."
+      "role": "Apprenticeship — Digital Project Manager",
+      "company": "Ministries of Ecological Transition, Transport & Housing — La Défense",
+      "date": "Oct. 2024 – Aug. 2026",
+      "desc": "Change management within a 2,500-person organization, implementing internal search solutions, process automation, and educational content creation.",
+      "tasks": ["User needs listening & follow-up", "Internal search solution for 2,500 users", "Change management", "Educational materials creation", "Performance indicators setup", "Internal process automation"]
     },
     "exp2": {
-      "role": "Apprenticeship: Digital Front-End Project Assistant",
-      "company": "Sephora",
-      "date": "2023 - 2024",
-      "desc": "Orchestrating front-end integration by planning team assignments and steering the continuous evolution of IT tools."
+      "role": "Apprenticeship — Digital Front-End Project Assistant",
+      "company": "Sephora — Neuilly-sur-Seine",
+      "date": "Sept. 2023 – Feb. 2024",
+      "desc": "Managing front-end integration requests, planning team assignments, and steering IT tools evolution.",
+      "tasks": ["Front-end integration request management", "Mission planning for integrators", "IT tools evolution"]
     },
     "exp3": {
-      "role": "Intern: Project Management & Web Development",
+      "role": "Intern — Project Management & Web Development",
       "company": "SNCF D2D",
-      "date": "May 2 – June 30, 2023",
-      "desc": "Leading projects using Agile methodology while managing technical teams around development and object-oriented programming."
+      "date": "May – June 2023",
+      "desc": "Leading projects using Agile methodology, team management, and object-oriented development.",
+      "tasks": ["Agile project management", "Team management", "Object-oriented programming"]
+    },
+    "engagements_title": "Volunteering",
+    "timeline_filterAll": "All",
+    "timeline_pro": "Experience",
+    "timeline_engagement": "Volunteering",
+    "timeline_scolaire": "Education",
+    "eng1": {
+      "role": "Treasurer",
+      "org": "Leon'Art",
+      "date": "Jul. 2023 – Jul. 2024",
+      "tasks": ["Financial tracking & reporting", "Financial transparency oversight"]
+    },
+    "eng2": {
+      "role": "Consultant",
+      "org": "Leon'Art",
+      "date": "Jul. 2025 – Jul. 2026",
+      "tasks": ["Annual budget management", "Strategic organizational consulting", "Internal operations optimization", "Operational support"]
     }
   },
   "projects": {

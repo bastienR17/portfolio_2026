@@ -51,16 +51,18 @@ const copyEmail = async () => {
         </Transition>
       </button>
 
-      <div class="flex justify-center gap-8 mt-12 border-t border-gray-200 dark:border-white/10 pt-8">
-        <a href="https://www.linkedin.com/in/bastien-roc/" target="_blank" 
-           class="flex items-center gap-2 text-dark-soft dark:text-gray-400 hover:text-terracotta dark:hover:text-ochre transition-all font-black tracking-widest text-sm uppercase group/link"> 
-          <Linkedin class="w-5 h-5 transition-transform group-hover/link:-translate-y-1" />
-          LinkedIn 
+      <div class="grid grid-cols-2 gap-4 mt-8 border-t border-gray-200 dark:border-white/10 pt-8">
+        <a href="https://www.linkedin.com/in/bastien-roc/" target="_blank"
+           class="group/card flex flex-col items-center gap-2 p-4 rounded-2xl bg-white/40 dark:bg-gray-700/30 border border-white/30 dark:border-white/10 hover:bg-[#0A66C2]/10 hover:border-[#0A66C2]/30 transition-all duration-200 hover:-translate-y-0.5">
+          <Linkedin class="w-6 h-6 text-[#0A66C2] transition-transform group-hover/card:scale-110" />
+          <span class="font-black text-sm text-dark-soft dark:text-white">LinkedIn</span>
+          <span class="text-xs text-gray-400 font-medium">Bastien Roc</span>
         </a>
-        <a href="https://github.com/bastienR17" target="_blank" 
-           class="flex items-center gap-2 text-dark-soft dark:text-gray-400 hover:text-terracotta dark:hover:text-ochre transition-all font-black tracking-widest text-sm uppercase group/link"> 
-          <Github class="w-5 h-5 transition-transform group-hover/link:-translate-y-1" />
-          GitHub
+        <a href="https://github.com/bastienR17" target="_blank"
+           class="group/card flex flex-col items-center gap-2 p-4 rounded-2xl bg-white/40 dark:bg-gray-700/30 border border-white/30 dark:border-white/10 hover:bg-gray-800/10 dark:hover:bg-white/10 hover:border-gray-400/30 transition-all duration-200 hover:-translate-y-0.5">
+          <Github class="w-6 h-6 text-dark-soft dark:text-white transition-transform group-hover/card:scale-110" />
+          <span class="font-black text-sm text-dark-soft dark:text-white">GitHub</span>
+          <span class="text-xs text-gray-400 font-medium">bastienR17</span>
         </a>
       </div>
     </div>
