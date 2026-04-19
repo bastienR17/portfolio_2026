@@ -35,7 +35,7 @@ const props = defineProps(['project'])
           target="_blank" 
           class="inline-flex items-center font-bold transition-all text-terracotta hover:gap-3"
         >
-          Détails <span class="ml-1">→</span>
+          {{ $t('projects.detail') }} <span class="ml-1">→</span>
         </a>
       </div>
     </div>

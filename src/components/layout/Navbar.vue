@@ -17,7 +17,7 @@
           <ThemeSwitcher />
         </div>
         
-        <a href="/RB_CV_2026.pdf" download="CV_Bastien_Manager_Digital.pdf" 
+        <a href="/docs/RB_CV_2026.pdf" download="CV_Bastien_Manager_Digital.pdf"
            class="px-6 py-2 bg-terracotta text-white rounded-full font-bold hover:bg-ochre transition-all shadow-md hover:shadow-xl active:scale-95">
             {{ $t('nav.downloadCV') }}
         </a>
@@ -51,7 +51,7 @@
             <ThemeSwitcher />
           </div>
 
-          <a href="/RB_CV_2026.pdf" @click="isMenuOpen = false" download="CV_Bastien_Manager_Digital.pdf" 
+          <a href="/docs/RB_CV_2026.pdf" @click="isMenuOpen = false" download="CV_Bastien_Manager_Digital.pdf"
              class="w-full py-4 bg-terracotta text-white rounded-2xl font-black uppercase tracking-widest shadow-lg active:scale-95 transition-transform">
             {{ $t('nav.downloadCV') }}
           </a>

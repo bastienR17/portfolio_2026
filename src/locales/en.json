@@ -8,7 +8,8 @@
   },
   "home": {
     "title": "Digital Transformation Manager",
-    "subtitle": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Creative and human-centric.",
+    "subtitle": "Supporting change, optimizing processes and driving innovation to transform technological challenges into growth opportunities.",
+    "sub_subtitle": "Transformation & Innovation.",
     "cta": "View my projects"
   },
   "accessibility": {
@@ -17,18 +18,24 @@
   "about": {
     "title": "About Me",
     "path_title": "My Journey",
-    "path_description": "Here you can describe your vision as a Digital Manager...",
+    "path_description": "A hybrid profile at the crossroads of strategy and technology, I support organizations in their digital transformation by combining user-centric vision, project management, and technical expertise.",
     "exp1": {
       "role": "Apprenticeship: Project Manager",
-      "company": "Company A",
-      "date": "2023 - 2024",
-      "desc": "Description of your missions in English..."
+      "company": "Ministry of Ecological Transition, Territorial Planning, Transport, Housing",
+      "date": "2024 - 2026",
+      "desc": "Supporting change by listening to user needs to design optimized internal search solutions and tailored educational materials."
     },
     "exp2": {
-      "role": "Apprenticeship: Digital Assistant",
-      "company": "Company B",
-      "date": "2022 - 2023",
-      "desc": "Description of your past achievements in English..."
+      "role": "Apprenticeship: Digital Front-End Project Assistant",
+      "company": "Sephora",
+      "date": "2023 - 2024",
+      "desc": "Orchestrating front-end integration by planning team assignments and steering the continuous evolution of IT tools."
+    },
+    "exp3": {
+      "role": "Intern: Project Management & Web Development",
+      "company": "SNCF D2D",
+      "date": "May 2 – June 30, 2023",
+      "desc": "Leading projects using Agile methodology while managing technical teams around development and object-oriented programming."
     }
   },
   "projects": {
@@ -42,11 +49,13 @@
     },
     "loading": "Syncing GitHub...",
     "loadMore": "EXPLORE MORE",
-    "noProject": "No project found in this stack."
+    "noProject": "No project found in this stack.",
+    "detail": "Details"
   },
   "contact": {
     "title": "Let's work together",
     "subtitle": "I am currently open to new opportunities.",
-    "email_label": "Email"
+    "email_label": "Email",
+    "copied": "Copied!"
   }
 }

@@ -49,11 +49,13 @@
     },
     "loading": "Synchronisation GitHub...",
     "loadMore": "EXPLORER DAVANTAGE",
-    "noProject": "Aucun projet trouvé dans cette stack."
+    "noProject": "Aucun projet trouvé dans cette stack.",
+    "detail": "Détails"
   },
   "contact": {
     "title": "Travaillons ensemble",
     "subtitle": "Je suis actuellement à l'écoute de nouvelles opportunités.",
-    "email_label": "Email"
+    "email_label": "Email",
+    "copied": "Copié !"
   }
 }
