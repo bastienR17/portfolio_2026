@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t, tm } = useI18n()
@@ -37,6 +37,14 @@ const getSkills = (cat) => {
 const scrollToSkills = () => {
   document.getElementById('skills')?.scrollIntoView({ behavior: 'smooth' })
 }
+
+onMounted(() => {
+  const observer = new IntersectionObserver(
+    (entries) => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target) } }),
+    { threshold: 0.1 }
+  )
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
+})
 </script>
 
 <template>
@@ -59,7 +67,7 @@ const scrollToSkills = () => {
     <div class="grid gap-16">
 
       <!-- Carte parcours + description -->
-      <div class="bg-white/30 dark:bg-gray-800/40 backdrop-blur-md p-8 rounded-3xl border border-white/20 dark:border-white/5 shadow-xl">
+      <div class="reveal bg-white/30 dark:bg-gray-800/40 backdrop-blur-md p-8 rounded-3xl border border-white/20 dark:border-white/5 shadow-xl">
         <p class="font-black text-2xl text-dark-soft dark:text-white mb-4 flex items-center gap-3">
           <span class="text-[#B45309]">/</span> {{ $t('about.path_title') }}
         </p>
@@ -77,7 +85,7 @@ const scrollToSkills = () => {
 
         <div class="space-y-12 pl-10">
 
-          <div class="relative group">
+          <div class="reveal relative group">
             <span class="absolute -left-[51px] top-1/2 -translate-y-1/2 w-5 h-5 bg-white dark:bg-gray-900 border-4 border-ochre rounded-full group-hover:scale-125 transition-all duration-300 shadow-lg z-10"></span>
             <div class="bg-white/20 dark:bg-gray-800/30 hover:bg-white/40 dark:hover:bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border border-white/10 dark:border-white/5 transition-all duration-300 shadow-sm">
               <span class="text-xs font-black text-terracotta dark:text-[#B45309] uppercase tracking-widest font-mono">{{ $t('about.exp1.date') }}</span>
@@ -87,7 +95,7 @@ const scrollToSkills = () => {
             </div>
           </div>
 
-          <div class="relative group">
+          <div class="reveal relative group">
             <span class="absolute -left-[51px] top-1/2 -translate-y-1/2 w-5 h-5 bg-white dark:bg-gray-900 border-4 border-ochre rounded-full group-hover:scale-125 transition-all duration-300 shadow-lg z-10"></span>
             <div class="bg-white/20 dark:bg-gray-800/30 hover:bg-white/40 dark:hover:bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border border-white/10 dark:border-white/5 transition-all duration-300 shadow-sm">
               <span class="text-xs font-black text-terracotta dark:text-[#B45309] uppercase tracking-widest font-mono">{{ $t('about.exp2.date') }}</span>
@@ -97,7 +105,7 @@ const scrollToSkills = () => {
             </div>
           </div>
 
-          <div class="relative group">
+          <div class="reveal relative group">
             <span class="absolute -left-[51px] top-1/2 -translate-y-1/2 w-5 h-5 bg-white dark:bg-gray-900 border-4 border-ochre rounded-full group-hover:scale-125 transition-all duration-300 shadow-lg z-10"></span>
             <div class="bg-white/20 dark:bg-gray-800/30 hover:bg-white/40 dark:hover:bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border border-white/10 dark:border-white/5 transition-all duration-300 shadow-sm">
               <span class="text-xs font-black text-terracotta dark:text-[#B45309] uppercase tracking-widest font-mono">{{ $t('about.exp3.date') }}</span>
@@ -111,7 +119,7 @@ const scrollToSkills = () => {
       </div>
 
       <!-- Section compétences -->
-      <div id="skills" class="bg-white/30 dark:bg-gray-800/40 backdrop-blur-md p-8 rounded-3xl border border-white/20 dark:border-white/5 shadow-xl">
+      <div id="skills" class="reveal bg-white/30 dark:bg-gray-800/40 backdrop-blur-md p-8 rounded-3xl border border-white/20 dark:border-white/5 shadow-xl">
         <p class="font-black text-2xl text-dark-soft dark:text-white mb-6 flex items-center gap-3">
           <span class="text-[#B45309]">/</span> {{ $t('about.skills_title') }}
         </p>
@@ -155,3 +163,15 @@ const scrollToSkills = () => {
     </div>
   </section>
 </template>
+
+<style scoped>
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>

@@ -48,5 +48,14 @@ onUnmounted(() => {
       </div>
     </div>
 
+    <!-- Scroll indicator -->
+    <router-link
+      to="/about"
+      class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-dark-soft/40 dark:text-white/30 hover:text-terracotta dark:hover:text-terracotta transition-colors duration-300"
+    >
+      <span class="text-xs font-bold uppercase tracking-widest">Explorer</span>
+      <span class="animate-bounce text-xl">↓</span>
+    </router-link>
+
   </div>
 </template>
