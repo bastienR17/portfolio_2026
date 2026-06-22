@@ -3,6 +3,7 @@
     "home": "Home",
     "about": "About",
     "projects": "Projects",
+    "prestations": "Services",
     "contact": "Contact",
     "downloadCV": "Download CV"
   },
@@ -99,10 +100,74 @@
     "noProject": "No project found in this stack.",
     "detail": "Details"
   },
+  "prestations": {
+    "title": "Services",
+    "status_badge": "Self-employed",
+    "intro": "Alongside my main role, I work as an independent contractor for organizations looking to drive digital transformation, support change, or integrate AI into their workflows.",
+    "services": {
+      "amoa": {
+        "title": "Business Analysis & Scoping",
+        "desc": "I turn a business need into a manageable project and coordinate between business and technical teams.",
+        "items": ["Needs gathering and formalization", "Functional specifications writing", "Business / IT relationship steering", "Acceptance testing and rollout"]
+      },
+      "change": {
+        "title": "Change Management",
+        "desc": "I support the adoption of a new tool or organization, from communication planning to adoption measurement.",
+        "items": ["Support and communication plan", "Educational materials creation", "Team training and AI literacy", "Adoption measurement indicators"]
+      },
+      "agile": {
+        "title": "Agile Project Management",
+        "desc": "I structure and facilitate your projects using agile methods, keeping the team aligned and the backlog prioritized (PSM I certified).",
+        "items": ["Scrum ceremonies facilitation", "Backlog management and prioritization", "Stakeholder coordination", "Reporting and progress tracking"]
+      },
+      "ai": {
+        "title": "AI & Automation",
+        "desc": "I deploy documentary AI assistants and automate processes to save teams time, with a pragmatic approach.",
+        "items": ["Documentary AI assistants (RAG)", "Workflow automation (n8n)", "AI literacy and best practices", "Use case scoping"]
+      }
+    },
+    "how_title": "How we work together",
+    "step1_label": "1 · Discussion",
+    "step1_desc": "We clarify your need and context in a first, no-commitment conversation.",
+    "step2_label": "2 · Proposal",
+    "step2_desc": "I send you a scope, a quote and a schedule tailored to the mission.",
+    "step3_label": "3 · Delivery",
+    "step3_desc": "I carry out the mission with clear deliverables and regular follow-up.",
+    "status_title": "Engagement framework",
+    "status_desc": "I work as a registered self-employed professional, fully autonomous, for one or several organizations. Each mission is covered by a quote and a defined scope.",
+    "status_label": "Status",
+    "status_value": "Self-employed (micro-entrepreneur)",
+    "siret_label": "SIRET",
+    "siret_value": "Registration in progress",
+    "cta": "Discuss a mission"
+  },
   "contact": {
     "title": "Let's work together",
-    "subtitle": "I am currently open to new opportunities.",
+    "subtitle": "A mission, a transformation project or a question about a service? Let's get in touch.",
     "email_label": "Email",
     "copied": "Copied!"
+  },
+  "legal": {
+    "title": "Legal notice",
+    "editor_title": "Site publisher",
+    "editor_desc": "This site is published, in a personal and professional capacity, by Bastien Roc, operating as a registered self-employed professional (micro-entrepreneur).",
+    "editor_name_label": "Publication manager",
+    "editor_name_value": "Bastien Roc",
+    "status_label": "Legal status",
+    "status_value": "Sole trader (micro-enterprise)",
+    "siret_label": "SIRET",
+    "siret_value": "Registration in progress",
+    "contact_label": "Contact",
+    "contact_value": "Bastienroc@free.fr",
+    "hosting_title": "Hosting",
+    "hosting_desc": "This site is hosted by a web hosting provider. The host's details are available upon request.",
+    "ip_title": "Intellectual property",
+    "ip_desc": "All content on this site (text, visuals, code) is, unless otherwise stated, the property of Bastien Roc. Any reproduction without authorization is prohibited.",
+    "data_title": "Personal data",
+    "data_desc": "No personal data is collected without your knowledge through this site. Exchanges happen solely by email, at your initiative. You have the right to access, rectify and delete your data by writing to the contact address."
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "legal": "Legal notice"
   }
 }

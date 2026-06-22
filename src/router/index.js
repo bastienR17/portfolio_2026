@@ -24,6 +24,16 @@ const router = createRouter({
       path: '/contact',
       name: 'contact',
       component: () => import('../views/ContactView.vue')
+    },
+    {
+      path: '/prestations',
+      name: 'prestations',
+      component: () => import('../views/PrestationsView.vue')
+    },
+    {
+      path: '/mentions-legales',
+      name: 'legal',
+      component: () => import('../views/LegalView.vue')
     }
   ],
   // Petit bonus : revient en haut de page automatiquement lors d'un changement de vue

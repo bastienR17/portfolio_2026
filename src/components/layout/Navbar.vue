@@ -10,6 +10,7 @@
         <router-link to="/" class="hover:text-terracotta transition">{{ $t('nav.home') }}</router-link>
         <router-link to="/about" class="hover:text-terracotta transition">{{ $t('nav.about') }}</router-link>
         <router-link to="/projects" class="hover:text-terracotta transition">{{ $t('nav.projects') }}</router-link>
+        <router-link to="/prestations" class="hover:text-terracotta transition">{{ $t('nav.prestations') }}</router-link>
         <router-link to="/contact" class="hover:text-terracotta transition">{{ $t('nav.contact') }}</router-link>
         
         <div class="flex items-center gap-4 border-l border-white/20 pl-4">
@@ -42,6 +43,7 @@
           <router-link @click="isMenuOpen = false" to="/" class="text-xl font-bold dark:text-white uppercase tracking-tight">{{ $t('nav.home') }}</router-link>
           <router-link @click="isMenuOpen = false" to="/about" class="text-xl font-bold dark:text-white uppercase tracking-tight">{{ $t('nav.about') }}</router-link>
           <router-link @click="isMenuOpen = false" to="/projects" class="text-xl font-bold dark:text-white uppercase tracking-tight">{{ $t('nav.projects') }}</router-link>
+          <router-link @click="isMenuOpen = false" to="/prestations" class="text-xl font-bold dark:text-white uppercase tracking-tight">{{ $t('nav.prestations') }}</router-link>
           <router-link @click="isMenuOpen = false" to="/contact" class="text-xl font-bold dark:text-white uppercase tracking-tight">{{ $t('nav.contact') }}</router-link>
           
           <div class="h-px w-12 bg-terracotta/30 mx-auto my-2"></div>

@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 import Navbar from './components/layout/Navbar.vue'
+import Footer from './components/layout/Footer.vue'
 import Experience3D from './components/common/Experience3D.vue'
 import FontSwitcher from './components/common/FontSwitcher.vue'
 
@@ -48,6 +49,8 @@ onMounted(() => {
         </Transition>
       </router-view>
     </main>
+
+    <Footer />
   </div>
 </template>
 
