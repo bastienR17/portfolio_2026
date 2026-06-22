@@ -53,6 +53,10 @@ onUnmounted(() => {
             {{ $t('home.cta') }}
           </router-link>
 
+          <router-link to="/prestations" class="border-2 border-terracotta text-terracotta px-8 py-3 rounded-full font-bold hover:bg-terracotta hover:text-white transition-all active:scale-95">
+            {{ $t('home.cta_prestations') }}
+          </router-link>
+
           <router-link to="/about" class="border-2 border-dark-soft text-dark-soft dark:border-white dark:text-white px-8 py-3 rounded-full font-bold hover:bg-dark-soft hover:text-white dark:hover:bg-white dark:hover:text-dark-soft transition-all active:scale-95">
             {{ $t('nav.about') }}
           </router-link>
