@@ -79,8 +79,10 @@ onUnmounted(() => {
     <div class="hidden md:flex flex-[2] relative items-center justify-center">
       <div class="relative bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm p-4 rounded-2xl shadow-2xl border border-white/20 dark:border-gray-700 transition-colors">
         <img
-          src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=500"
-          alt="Transformation Digitale"
+          src="/hero-transformation.jpg"
+          alt="Transformation digitale — Bastien Roc"
+          width="800"
+          height="533"
           class="rounded-xl w-full h-auto"
         >
       </div>
