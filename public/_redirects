@@ -1,4 +1,0 @@
-# Cloudflare Pages / Netlify — équivalent du "rewrites" de vercel.json.
-# Toute URL inconnue renvoie index.html avec un code 200 : c'est le routeur Vue
-# qui décide ensuite quoi afficher, y compris la page 404.
-/*    /index.html   200
