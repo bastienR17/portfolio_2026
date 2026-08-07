@@ -8,6 +8,7 @@
     "prebuild": "node scripts/generate-seo-files.js",
     "build": "vite build",
     "seo:files": "node scripts/generate-seo-files.js",
+    "fonts": "python scripts/subset-fonts.py",
     "preview": "vite preview",
     "lint": "run-s lint:*",
     "lint:oxlint": "oxlint . --fix",
@@ -18,7 +19,7 @@
     "lucide-vue-next": "^0.577.0",
     "three": "^0.182.0",
     "vue": "^3.5.27",
-    "vue-i18n": "^9.14.5",
+    "vue-i18n": "^11.4.8",
     "vue-router": "^5.0.1"
   },
   "devDependencies": {

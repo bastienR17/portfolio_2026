@@ -8,6 +8,10 @@ import fr from './locales/fr.json'
  */
 const i18n = createI18n({
   legacy: false, // On utilise la Composition API
+  // Explicite et non implicite : les templates appellent $t() une centaine de
+  // fois. En dépendre par défaut, c'est confier ces appels à une valeur qui
+  // peut changer d'une version majeure à l'autre.
+  globalInjection: true,
   locale: 'fr',
   fallbackLocale: 'fr',
   messages: { fr },

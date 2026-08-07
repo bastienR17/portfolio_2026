@@ -35,7 +35,8 @@ const activeFilter = ref('all')
 const filters = ['all', 'hard', 'soft', 'certifications']
 
 // « pm » en premier : c'est la famille sur laquelle repose l'offre freelance.
-const hardSubFilters = ['all', 'pm', 'dev', 'design', 'data']
+// « ai » en deuxième : RAG, MCP et CI/CD sont ce qui distingue le plus le profil.
+const hardSubFilters = ['all', 'pm', 'ai', 'dev', 'design', 'data']
 const activeHardSub = ref('all')
 
 watch(activeFilter, (val) => {
@@ -50,7 +51,7 @@ const visibleCategories = computed(() =>
 )
 
 const visibleHardSubs = computed(() =>
-  activeHardSub.value === 'all' ? ['pm', 'dev', 'design', 'data'] : [activeHardSub.value],
+  activeHardSub.value === 'all' ? ['pm', 'ai', 'dev', 'design', 'data'] : [activeHardSub.value],
 )
 
 // Chaque famille de compétences a sa couleur, toutes vérifiées >= 4.5:1.
@@ -71,7 +72,7 @@ const getHardSkills = (sub) => {
 }
 
 const getAllHardSkills = () =>
-  ['pm', 'dev', 'design', 'data'].flatMap((sub) => getHardSkills(sub))
+  ['pm', 'ai', 'dev', 'design', 'data'].flatMap((sub) => getHardSkills(sub))
 </script>
 
 <template>
@@ -82,9 +83,25 @@ const getAllHardSkills = () =>
         {{ $t('about.title') }}
       </h1>
 
-      <p class="max-w-2xl text-lg text-ink-muted leading-relaxed border-l-2 border-accent pl-6">
-        {{ $t('about.path_description') }}
-      </p>
+      <div class="flex flex-col sm:flex-row gap-8 sm:gap-10 sm:items-start">
+        <!-- Affiché à 160 px : la source fait 400 px, donc encore net sur
+             écran haute densité. Dimensions explicites pour éviter tout
+             décalage de mise en page au chargement. -->
+        <picture class="shrink-0">
+          <source srcset="/portrait.webp" type="image/webp">
+          <img
+            src="/portrait.jpg"
+            alt="Portrait de Bastien Roc"
+            width="160"
+            height="160"
+            class="w-40 h-40 object-cover border border-line-soft"
+          >
+        </picture>
+
+        <p class="max-w-2xl text-lg text-ink-muted leading-relaxed border-l-2 border-accent pl-6">
+          {{ $t('about.path_description') }}
+        </p>
+      </div>
 
       <dl class="flex flex-wrap gap-x-14 gap-y-6 mt-10 pt-8 border-t border-line-soft">
         <div>

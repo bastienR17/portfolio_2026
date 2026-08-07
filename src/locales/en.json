@@ -117,13 +117,13 @@
   "about": {
     "title": "About Me",
     "path_title": "My Journey",
-    "path_description": "Specialised in business analysis and change management, I am currently leading the rollout of an information-search solution at the French Ministries of Ecological Transition, adopted by 100% of the 2,500 staff concerned. Comfortable across the full project cycle - requirements gathering, functional specifications, Agile Scrum, KPI tracking - and grounded in the technical side (PHP/Symfony, JavaScript), I connect business teams with technical ones.",
+    "path_description": "Project manager at the French Ministry of Ecological Transition, I lead Aidy: a RAG-based AI assistant deployed to 2,500 staff for access to HR documentation. I work across the whole chain, from designing the CI/CD pipelines to semantic chunking of the corpora and the MCP architecture connecting APIs to the assistants. Specialised in business analysis and change management, I build the solution as much as I drive its adoption: that is where the difference lies between a tool delivered and a tool actually used.",
     "method_title": "How I work",
     "method_intro": "Four principles that come back on every mission, whatever the subject.",
     "method": {
       "listen": {
-        "title": "I start by listening, not by proposing",
-        "desc": "Before discussing tools or solutions, I spend time with the teams who will actually use them. That is where the real friction sits, rarely in the original specification."
+        "title": "I start by listening",
+        "desc": "I don't turn down a mission on principle, but I won't commit to anything before I understand the context: who will use the tool day to day, what has already been tried, where it actually breaks down. The real friction is rarely in the original specification."
       },
       "translate": {
         "title": "I translate in both directions",
@@ -148,13 +148,15 @@
     "skills_soft_label": "Soft Skills",
     "skills_certifications_label": "Certifications",
     "skills_hard_pm_label": "Project management & BA",
+    "skills_hard_ai_label": "AI & Automation",
     "skills_hard_dev_label": "Web Dev",
     "skills_hard_design_label": "Design & UX/UI",
     "skills_hard_data_label": "Analytics & Tools",
+    "skills_hard_ai": ["Generative AI", "RAG", "Semantic chunking", "MCP architecture", "CI/CD", "Workflow automation (n8n)", "AI prompting"],
     "skills_hard_pm": ["Business analysis", "Change management", "Agile Scrum", "Project steering", "Requirements gathering", "Functional specifications", "KPI tracking", "Team management"],
     "skills_hard_dev": ["HTML / CSS", "JavaScript", "PHP / MySQL", "Symfony", "WordPress", "GitHub"],
     "skills_hard_design": ["UX/UI", "Canva", "Adobe Suite"],
-    "skills_hard_data": ["Google Analytics", "Excel", "Jira", "AI Prompting"],
+    "skills_hard_data": ["Google Analytics", "Excel", "Jira"],
     "skills_soft": ["Teamwork", "Communication", "Curiosity", "Continuous Learning"],
     "skills_certifications": ["Opquast 800+/1000", "PSM I - Professional Scrum Master"],
     "edu1": {
@@ -221,9 +223,9 @@
         "org": "French Ministries of Ecological Transition, Transport & Housing",
         "role": "Apprenticeship - Digital Project Manager",
         "period": "Oct. 2024 – Aug. 2026",
-        "context": "A 2,500-person administration where finding the right internal information took considerable time, with deeply established working habits.",
-        "mission": "Lead the rollout of an information-search solution as business analyst, from requirements gathering through to real adoption on the ground. Ongoing.",
-        "actions": ["Gathered and formalised requirements with business teams", "Steered the relationship between business and technical teams", "Produced around 20 training and support materials", "Ran dedicated training sessions", "Defined and tracked adoption indicators"],
+        "context": "A 2,500-strong administration where finding the right HR information took considerable time, with deeply established working habits.",
+        "mission": "Lead Aidy, a RAG-based AI assistant giving access to HR documentation, from the technical design through to real adoption on the ground. Ongoing.",
+        "actions": ["Gathered and formalised requirements with business teams", "Designed the CI/CD pipelines and semantic chunking of the corpora", "MCP architecture connecting APIs to the AI assistants", "Produced around 20 training materials and ran the sessions", "Defined and tracked adoption indicators"],
         "results": ["Solution adopted by 100% of the 2,500 staff concerned", "100 people upskilled on the new tools and on AI", "Several internal processes automated", "Resistance to change reduced through structured support"]
       },
       "sephora": {
@@ -300,7 +302,7 @@
         "title": "AI & Automation",
         "desc": "I deploy documentary AI assistants and automate processes to save teams time, with a pragmatic approach.",
         "items": ["Documentary AI assistants (RAG)", "Workflow automation (n8n)", "AI literacy and best practices", "Use case scoping"],
-        "note": "\"Training teams on AI without scaring them\" is the title of my engineering thesis, on getting AI tools adopted by the most reluctant staff."
+        "note": "This is what I do today: I lead Aidy, a RAG-based AI assistant deployed to 2,500 staff, from chunking the corpora through to training the teams. My engineering thesis, \"Training teams on AI without scaring them\", covers the second half of that problem."
       }
     },
     "how_title": "How we work together",
@@ -341,7 +343,7 @@
     "ip_title": "Intellectual property",
     "ip_desc": "All content on this site (text, visuals, code) is, unless otherwise stated, the property of Bastien Roc. Any reproduction without authorization is prohibited.",
     "data_title": "Personal data",
-    "data_desc": "No personal data is collected without your knowledge through this site. Exchanges happen solely by email, at your initiative. You have the right to access, rectify and delete your data by writing to the contact address."
+    "data_desc": "This site sets no cookies and uses no advertising trackers. Audience measurement is handled by Cloudflare Web Analytics, without cookies or any identifier that would recognise you from one visit to the next. Exchanges happen by email, at your initiative. Under the GDPR, you have the right to access, rectify and delete your data by writing to the contact address."
   },
   "footer": {
     "rights": "All rights reserved.",
