@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://portfolio-2026-zmnk.vercel.app/sitemap.xml
+Sitemap: https://bastienroc.fr/sitemap.xml

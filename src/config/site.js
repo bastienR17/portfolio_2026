@@ -5,7 +5,7 @@
  * les Open Graph / Twitter Card, le sitemap et le JSON-LD.
  * Pas de domaine en dur ailleurs dans le projet.
  */
-export const SITE_URL = 'https://portfolio-2026-zmnk.vercel.app'
+export const SITE_URL = 'https://bastienroc.fr'
 
 export const SITE = {
   url: SITE_URL,
