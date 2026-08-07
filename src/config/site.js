@@ -10,7 +10,7 @@ export const SITE_URL = 'https://bastienroc.fr'
 export const SITE = {
   url: SITE_URL,
   name: 'Bastien Roc',
-  email: 'bastien.roc@icloud.com',
+  email: 'contact@bastienroc.fr',
   locale: 'fr_FR',
   ogImage: `${SITE_URL}/og-image.jpg`,
   social: {

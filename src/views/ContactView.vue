@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { Copy, Check, Linkedin, Github, Mail } from 'lucide-vue-next'
 
-const email = 'bastien.roc@icloud.com'
+const email = 'contact@bastienroc.fr'
 const isCopied = ref(false)
 const copyFailed = ref(false)
 
