@@ -83,25 +83,9 @@ const getAllHardSkills = () =>
         {{ $t('about.title') }}
       </h1>
 
-      <div class="flex flex-col sm:flex-row gap-8 sm:gap-10 sm:items-start">
-        <!-- Affiché à 160 px : la source fait 400 px, donc encore net sur
-             écran haute densité. Dimensions explicites pour éviter tout
-             décalage de mise en page au chargement. -->
-        <picture class="shrink-0">
-          <source srcset="/portrait.webp" type="image/webp">
-          <img
-            src="/portrait.jpg"
-            alt="Portrait de Bastien Roc"
-            width="160"
-            height="160"
-            class="w-40 h-40 object-cover border border-line-soft"
-          >
-        </picture>
-
-        <p class="max-w-2xl text-lg text-ink-muted leading-relaxed border-l-2 border-accent pl-6">
-          {{ $t('about.path_description') }}
-        </p>
-      </div>
+      <p class="max-w-2xl text-lg text-ink-muted leading-relaxed border-l-2 border-accent pl-6">
+        {{ $t('about.path_description') }}
+      </p>
 
       <dl class="flex flex-wrap gap-x-14 gap-y-6 mt-10 pt-8 border-t border-line-soft">
         <div>

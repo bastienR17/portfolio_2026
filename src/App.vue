@@ -19,6 +19,13 @@ const Experience3D = defineAsyncComponent(
     }),
 )
 
+// Panneau de diagnostic. Le ternaire est résolu au build : `import.meta.env.DEV`
+// devient littéralement false, la branche d'import dynamique est éliminée et
+// DebugPanel.vue ne produit aucun chunk en production.
+const DebugPanel = import.meta.env.DEV
+  ? defineAsyncComponent(() => import('./components/common/DebugPanel.vue'))
+  : null
+
 // Synchronise <title>, description, canonical et Open Graph avec la route
 // et la langue courantes.
 useSeo()
@@ -70,6 +77,8 @@ onMounted(() => {
     </main>
 
     <SiteFooter />
+
+    <component :is="DebugPanel" v-if="DebugPanel" />
   </div>
 </template>
 

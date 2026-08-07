@@ -2,7 +2,7 @@
 import { onMounted, onBeforeUnmount, ref, nextTick } from 'vue'
 import { Clock, PerspectiveCamera, Scene, WebGLRenderer } from 'three'
 
-import { useWeatherLogic } from './weather/useWeatherLogic'
+import { useWeatherLogic, WEATHER_STATES } from './weather/useWeatherLogic'
 import { useEnvironment } from './weather/useEnvironment'
 import { useAtmosphere } from './weather/useAtmosphere'
 import { useStorm } from './weather/useStorm'
@@ -19,7 +19,7 @@ let groundY = 0
 let flash = 0
 
 const clock = new Clock()
-const { weatherState, fetchWeatherData } = useWeatherLogic()
+const { weatherState, weatherInfo, fetchWeatherData } = useWeatherLogic()
 
 let env = null
 let atmosphere = null
@@ -29,14 +29,37 @@ let turbines = null
 const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-// Outil de test des ambiances, réservé au développement : en production il n'y
-// a aucune variable globale ni aucun log laissé derrière.
+// Pont de développement : lu par DebugPanel.vue, et utilisable directement
+// depuis la console. `import.meta.env.DEV` vaut littéralement false au build,
+// donc tout ce bloc disparaît du bundle de production.
 if (import.meta.env.DEV) {
-  window.setWeather = (state) => {
-    if (['clear', 'clouds', 'rain', 'storm', 'snow'].includes(state)) {
-      weatherState.value = state
-    }
+  const setWeather = (state) => {
+    if (!WEATHER_STATES.includes(state)) return
+    weatherState.value = state
+    weatherInfo.value = { ...weatherInfo.value, source: 'manuel' }
   }
+
+  // Des accesseurs plutôt que les valeurs : scene et renderer n'existent
+  // qu'après init(), bien après l'exécution de ce bloc.
+  window.__scene3d = {
+    setWeather,
+    refetchWeather: fetchWeatherData,
+    weatherState,
+    weatherInfo,
+    get scene() {
+      return scene
+    },
+    get renderer() {
+      return renderer
+    },
+    get isAnimating() {
+      return animationId !== null
+    },
+    get reducedMotion() {
+      return prefersReducedMotion()
+    },
+  }
+  window.setWeather = setWeather
 }
 
 const mapLinear = (x, a, b, c, d) => c + (d - c) * ((x - a) / (b - a))
@@ -168,7 +191,10 @@ onBeforeUnmount(() => {
   animationId = null
   window.removeEventListener('resize', onWindowResize)
   document.removeEventListener('visibilitychange', onVisibilityChange)
-  if (import.meta.env.DEV) delete window.setWeather
+  if (import.meta.env.DEV) {
+    delete window.setWeather
+    delete window.__scene3d
+  }
   if (renderer) renderer.dispose()
 })
 </script>
