@@ -1,43 +1,53 @@
 <script setup>
-const props = defineProps(['project'])
+import { ArrowUpRight } from 'lucide-vue-next'
+
+defineProps({
+  project: { type: Object, required: true },
+})
 </script>
 
 <template>
-  <div class="group relative flex flex-col h-full overflow-hidden transition-all duration-500 border rounded-2xl backdrop-blur-md bg-white/30 dark:bg-gray-900/40 border-gray-900 dark:border-gray-800 hover:bg-white/50 dark:hover:bg-gray-800/60 hover:shadow-2xl hover:shadow-terracotta/10">
-    
-    <div class="relative h-48 overflow-hidden bg-white/10 dark:bg-gray-950/20">
-      <img 
-        :src="`https://opengraph.githubassets.com/1/${project.owner.login}/${project.name}`" 
-        :alt="project.name"
-        class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
-      />
-      <span v-if="project.language" class="absolute px-3 py-1 text-xs font-bold shadow-lg top-3 right-3 rounded-full backdrop-blur-md bg-white/90 dark:bg-gray-900/90 text-dark-soft dark:text-cream border border-gray-900 dark:border-gray-800">
+  <article class="group flex flex-col h-full overflow-hidden bg-surface border border-line-soft hover:border-line transition-colors">
+
+    <div class="relative h-44 overflow-hidden bg-surface-2 border-b border-line-soft">
+      <img
+        :src="`https://opengraph.githubassets.com/1/${project.owner.login}/${project.name}`"
+        :alt="`Aperçu du dépôt ${project.name}`"
+        loading="lazy"
+        class="object-cover w-full h-full"
+      >
+      <span
+        v-if="project.language"
+        class="absolute top-3 right-3 px-2 py-0.5 text-xs font-medium bg-surface border border-line text-ink"
+      >
         {{ project.language }}
       </span>
     </div>
 
-    <div class="flex flex-col flex-grow p-6 text-left">
-      <h3 class="mb-3 text-xl font-bold capitalize transition-colors text-dark-soft dark:text-white group-hover:text-terracotta">
+    <div class="flex flex-col flex-grow p-5 text-left">
+      <h3 class="mb-2 text-lg capitalize text-ink">
         {{ project.name.replace(/-/g, ' ') }}
       </h3>
-      
-      <p v-if="project.description" class="mb-4 text-sm line-clamp-2 text-dark-soft/70 dark:text-cream/70">
+
+      <p v-if="project.description" class="mb-4 text-sm line-clamp-2 text-ink-muted">
         {{ project.description }}
       </p>
 
-      <div class="flex items-center justify-between pt-6 mt-auto border-t border-gray-900/20 dark:border-gray-800/50">
-        <span class="font-mono text-xs text-gray-500 dark:text-gray-400">
+      <div class="flex items-center justify-between pt-4 mt-auto border-t border-line-soft">
+        <time :datetime="project.updated_at" class="text-xs text-ink-muted">
           {{ new Date(project.updated_at).toLocaleDateString() }}
-        </span>
-        
-        <a 
-          :href="project.html_url" 
-          target="_blank" 
-          class="inline-flex items-center font-bold transition-all text-terracotta hover:gap-3"
+        </time>
+
+        <a
+          :href="project.html_url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1 py-1 text-sm font-medium text-accent hover:underline underline-offset-4"
         >
-          {{ $t('projects.detail') }} <span class="ml-1">→</span>
+          {{ $t('projects.detail') }}
+          <ArrowUpRight class="w-4 h-4" />
         </a>
       </div>
     </div>
-  </div>
+  </article>
 </template>

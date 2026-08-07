@@ -7,63 +7,183 @@
     "contact": "Contact",
     "downloadCV": "Download CV"
   },
+  "seo": {
+    "home": {
+      "title": "Bastien Roc - Business analysis, change management & AI",
+      "description": "I support digital transformation projects from framing through to real adoption by the teams: business analysis, change management, agile delivery and AI."
+    },
+    "prestations": {
+      "title": "Freelance services - analysis, change, agile & AI",
+      "description": "Four service areas: business analysis and scoping, change management, agile project delivery, AI and automation. Every mission is covered by a quote."
+    },
+    "about": {
+      "title": "Background & skills - Bastien Roc",
+      "description": "Bastien Roc's background: apprenticeships at the French Ministries of Ecological Transition and Sephora, an SNCF internship, and an engineering degree in digital transformation."
+    },
+    "projects": {
+      "title": "Work & case studies - Bastien Roc",
+      "description": "Detailed case studies: a solution adopted by 2,500 staff, front-end integration delivery, an agile project at SNCF. Context, mission, results."
+    },
+    "contact": {
+      "title": "Contact - Bastien Roc, digital transformation",
+      "description": "A mission, a transformation project or a question about a service? Let's get in touch - the first conversation comes with no commitment."
+    },
+    "legal": {
+      "title": "Legal notice - Bastien Roc",
+      "description": "Legal notice for Bastien Roc's site: publisher, hosting, intellectual property and personal data."
+    },
+    "notfound": {
+      "title": "Page not found - Bastien Roc",
+      "description": "This page doesn't exist or has been moved."
+    }
+  },
+  "notfound": {
+    "title": "This page doesn't exist",
+    "desc": "The link may be wrong, or the page has moved since. Let's start again from the home page.",
+    "cta": "Back to home"
+  },
   "home": {
-    "title": "Digital Transformation Manager",
-    "subtitle": "Supporting change, optimizing processes and driving innovation to transform technological challenges into growth opportunities.",
-    "sub_subtitle": "Transformation & Innovation.",
-    "cta": "View my projects",
-    "cta_prestations": "My services",
-    "stat_sectors": "Sectors",
-    "stat_training": "Yrs training",
+    "availability": "Open to new assignments",
+    "title": "Your tools are changing. Your teams keep up.",
+    "subtitle": "Business analysis, change management and AI: I take transformation projects from framing through to real adoption on the ground.",
+    "cta": "Talk about your project",
+    "cta_secondary": "View my services",
+    "scroll": "Explore",
+    "stat_experience": "Years of experience",
+    "stat_experience_detail": "Since 2023",
+    "stat_domains": "Service areas",
+    "stat_domains_detail": "Analysis, change, agile, AI",
+    "stat_sectors": "Industries",
+    "stat_sectors_detail": "Public sector, retail, transport",
     "stat_certs": "Certifications",
-    "stat_skills": "Tech skills"
+    "stat_certs_detail": "Opquast 800+, PSM I",
+    "offer_title": "What I work on",
+    "offer_intro": "Four complementary areas, from initial framing through to team ownership.",
+    "offer_cta": "See the services in detail",
+    "contexts_title": "Where I built this",
+    "contexts_intro": "The organizations where I built this expertise - through apprenticeships, an internship and volunteering.",
+    "contexts": {
+      "state": {
+        "org": "Ministries of Ecological Transition & Transport",
+        "role": "Apprenticeship - Digital Project Manager",
+        "detail": "Solution adopted by 100% of 2,500 staff"
+      },
+      "retail": {
+        "org": "Sephora",
+        "role": "Apprenticeship - Assistant Digital Project Manager",
+        "detail": "Front-end integration and IT tools steering"
+      },
+      "transport": {
+        "org": "SNCF",
+        "role": "Internship - Project management & development",
+        "detail": "Leading projects using Agile methodology"
+      },
+      "assoc": {
+        "org": "Leon'Art",
+        "role": "Volunteering - Treasurer, then consultant",
+        "detail": "Budget management and organizational consulting"
+      }
+    },
+    "formats_title": "Engagement formats",
+    "formats_intro": "Three formats, depending on the scale and duration of your need.",
+    "formats": {
+      "daily": {
+        "title": "By the day",
+        "desc": "One-off work: framing, audit or a working session."
+      },
+      "fixed": {
+        "title": "Fixed scope",
+        "desc": "A defined mission, with deliverables and a schedule agreed upfront."
+      },
+      "recurring": {
+        "title": "Ongoing support",
+        "desc": "A regular presence throughout the life of a project."
+      }
+    },
+    "formats_note": "Every mission is covered by a quote and a scope agreed upfront.",
+    "final_title": "Got a transformation project in mind?",
+    "final_desc": "Let's talk it through - the first conversation comes with no commitment.",
+    "final_cta": "Get in touch"
   },
   "accessibility": {
-    "dysMode": "Reading Mode (Dyslexia)"
+    "skip": "Skip to main content",
+    "theme_toLight": "Switch to light mode",
+    "theme_toDark": "Switch to dark mode",
+    "dys_enable": "Enable dyslexia-friendly font",
+    "dys_disable": "Disable dyslexia-friendly font",
+    "menu_open": "Open menu",
+    "menu_close": "Close menu"
   },
   "about": {
     "title": "About Me",
     "path_title": "My Journey",
-    "path_description": "I bridge the gap between technical expertise and tomorrow's business challenges. Passionate about innovation, I dedicate myself to optimizing working methods through consulting and management. My ambition? Combining agility and technology to build more efficient and connected organizations, fully ready to take on the challenges of this new world.",
+    "path_description": "Specialised in business analysis and change management, I am currently leading the rollout of an information-search solution at the French Ministries of Ecological Transition, adopted by 100% of the 2,500 staff concerned. Comfortable across the full project cycle - requirements gathering, functional specifications, Agile Scrum, KPI tracking - and grounded in the technical side (PHP/Symfony, JavaScript), I connect business teams with technical ones.",
+    "method_title": "How I work",
+    "method_intro": "Four principles that come back on every mission, whatever the subject.",
+    "method": {
+      "listen": {
+        "title": "I start by listening, not by proposing",
+        "desc": "Before discussing tools or solutions, I spend time with the teams who will actually use them. That is where the real friction sits, rarely in the original specification."
+      },
+      "translate": {
+        "title": "I translate in both directions",
+        "desc": "Business teams and technical teams rarely describe the same problem in the same words. My job is to hold both in one shared document, and to keep it current as the project moves."
+      },
+      "reluctant": {
+        "title": "I design for the most reluctant",
+        "desc": "Training built for the people already comfortable with the tool only widens the gap. If the material works for the most resistant person on the team, it works for everyone. That is the subject of my thesis."
+      },
+      "adoption": {
+        "title": "A project isn't finished when it ships",
+        "desc": "It is finished when it is used. I put adoption indicators in place from the start, to know whether the tool has found its place or whether the support needs another pass."
+      }
+    },
+    "location_label": "Location",
+    "location_value": "Paris / Greater Paris area (92)",
+    "languages_label": "Languages",
+    "languages": ["French - native", "English - B2 (CEFR)"],
     "skills_title": "Skills",
     "skills_filterAll": "All",
     "skills_hard_label": "Hard Skills",
     "skills_soft_label": "Soft Skills",
     "skills_certifications_label": "Certifications",
+    "skills_hard_pm_label": "Project management & BA",
     "skills_hard_dev_label": "Web Dev",
     "skills_hard_design_label": "Design & UX/UI",
     "skills_hard_data_label": "Analytics & Tools",
+    "skills_hard_pm": ["Business analysis", "Change management", "Agile Scrum", "Project steering", "Requirements gathering", "Functional specifications", "KPI tracking", "Team management"],
     "skills_hard_dev": ["HTML / CSS", "JavaScript", "PHP / MySQL", "Symfony", "WordPress", "GitHub"],
     "skills_hard_design": ["UX/UI", "Canva", "Adobe Suite"],
     "skills_hard_data": ["Google Analytics", "Excel", "Jira", "AI Prompting"],
-    "skills_soft": ["Teamwork", "Agile Methodology", "Communication", "Curiosity", "Continuous Learning"],
-    "skills_certifications": ["Opquast", "Scrum"],
+    "skills_soft": ["Teamwork", "Communication", "Curiosity", "Continuous Learning"],
+    "skills_certifications": ["Opquast 800+/1000", "PSM I - Professional Scrum Master"],
     "edu1": {
-      "role": "Bachelor — Digital Project Manager",
-      "org": "IIM Digital School Paris — Nanterre (92)",
-      "date": "2020 – 2026"
+      "role": "Bachelor - Digital Project Manager",
+      "org": "IIM Digital School Paris - Nanterre (92)",
+      "date": "2020 – 2024"
     },
     "edu2": {
-      "role": "Engineer — Digital Transformation Management",
-      "org": "IIM / ESILV Digital School Paris — Nanterre (92)",
-      "date": "2024 – 2026"
+      "role": "Engineer - Digital Transformation Management",
+      "org": "IIM / ESILV Digital School Paris - Nanterre (92)",
+      "date": "2024 – 2026",
+      "desc": "Professional thesis - \"Training teams on AI without scaring them\": designing a teaching approach suited to staff who are wary of technology."
     },
     "exp1": {
-      "role": "Apprenticeship — Digital Project Manager",
-      "company": "Ministries of Ecological Transition, Transport & Housing — La Défense",
+      "role": "Apprenticeship - Digital Project Manager",
+      "company": "Ministries of Ecological Transition, Transport & Housing - La Défense",
       "date": "Oct. 2024 – Aug. 2026",
-      "desc": "Change management within a 2,500-person organization, implementing internal search solutions, process automation, and educational content creation.",
-      "tasks": ["User needs listening & follow-up", "Internal search solution for 2,500 users", "Change management", "Educational materials creation", "Performance indicators setup", "Internal process automation"]
+      "desc": "I lead the rollout of an information-search solution as business analyst, adopted by 100% of the 2,500 staff concerned, steering the relationship between business and technical teams.",
+      "tasks": ["Search solution adopted by 100% of 2,500 staff", "100 people upskilled on new software and AI tools", "Around 20 training and support materials produced", "Performance KPIs defined and tracked", "Several internal processes automated"]
     },
     "exp2": {
-      "role": "Apprenticeship — Digital Front-End Project Assistant",
-      "company": "Sephora — Neuilly-sur-Seine",
+      "role": "Apprenticeship - Digital Front-End Project Assistant",
+      "company": "Sephora - Neuilly-sur-Seine",
       "date": "Sept. 2023 – Feb. 2024",
-      "desc": "Managing front-end integration requests, planning team assignments, and steering IT tools evolution.",
-      "tasks": ["Front-end integration request management", "Mission planning for integrators", "IT tools evolution"]
+      "desc": "Handled around 50 front-end integration requests a month to tight deadlines, planning and coordinating the work assigned to integrators.",
+      "tasks": ["~50 front-end integration requests per month", "Planning and coordination of integrators", "Evolution and improvement of the team's IT tools"]
     },
     "exp3": {
-      "role": "Intern — Project Management & Web Development",
+      "role": "Intern - Project Management & Web Development",
       "company": "SNCF D2D",
       "date": "May – June 2023",
       "desc": "Leading projects using Agile methodology, team management, and object-oriented development.",
@@ -89,6 +209,60 @@
   },
   "projects": {
     "title": "My Achievements",
+    "intro": "The missions I've worked on, what I actually did on each, and what came out of them.",
+    "cases_title": "Case studies",
+    "cases_disclaimer": "Missions carried out during apprenticeships, an internship or as academic work, not as independent client engagements.",
+    "label_context": "Context",
+    "label_mission": "Mission",
+    "label_actions": "What I did",
+    "label_results": "Results",
+    "cases": {
+      "ministeres": {
+        "org": "French Ministries of Ecological Transition, Transport & Housing",
+        "role": "Apprenticeship - Digital Project Manager",
+        "period": "Oct. 2024 – Aug. 2026",
+        "context": "A 2,500-person administration where finding the right internal information took considerable time, with deeply established working habits.",
+        "mission": "Lead the rollout of an information-search solution as business analyst, from requirements gathering through to real adoption on the ground. Ongoing.",
+        "actions": ["Gathered and formalised requirements with business teams", "Steered the relationship between business and technical teams", "Produced around 20 training and support materials", "Ran dedicated training sessions", "Defined and tracked adoption indicators"],
+        "results": ["Solution adopted by 100% of the 2,500 staff concerned", "100 people upskilled on the new tools and on AI", "Several internal processes automated", "Resistance to change reduced through structured support"]
+      },
+      "sephora": {
+        "org": "Sephora",
+        "role": "Apprenticeship - Assistant Digital Front-End Project Manager",
+        "period": "Sept. 2023 – Feb. 2024",
+        "context": "A digital team receiving a constant flow of front-end integration requests, with tight deadlines and external integrators to coordinate.",
+        "mission": "Qualify, plan and track integration requests, and contribute to improving the team's tooling.",
+        "actions": ["Qualified and prioritised incoming requests", "Planned the work assigned to integrators", "Coordinated and tracked delivery deadlines", "Contributed to the evolution of the team's IT tools"],
+        "results": ["Around 50 requests handled per month", "Deadlines met despite a constant flow", "Team tooling improved"]
+      },
+      "sncf": {
+        "org": "SNCF D2D - Saint-Denis",
+        "role": "Internship - Project management & web development",
+        "period": "May – June 2023",
+        "context": "A web project to design and deliver as a team, on a short cycle, using Agile.",
+        "mission": "Contribute to both project steering and development, from design through to delivery.",
+        "actions": ["Steered the project using Agile", "Managed and coordinated the team", "Object-oriented development"],
+        "results": ["Web project delivered on time"]
+      }
+    },
+    "studies_title": "Projects",
+    "studies": {
+      "memoire": {
+        "title": "Training teams on AI without scaring them",
+        "org": "Professional thesis - Engineering degree, IIM / ESILV",
+        "period": "2025 – 2026",
+        "desc": "Designing a teaching approach suited to staff who are wary of technology.",
+        "question": "How can accessible training methods be designed and evaluated to familiarise teams - even the most resistant - with basic AI tools, so as to drive genuine adoption and ownership?"
+      },
+      "startup": {
+        "title": "Startup creation - connected gardening app",
+        "org": "Academic project - IIM Digital School",
+        "period": "Academic project",
+        "desc": "Co-led a team of 7 (2 project managers, 1 lead developer, 4 developers) to build a mobile app paired with a connected device (IoT): product framing, feature prioritisation, market research and business plan."
+      }
+    },
+    "repos_title": "Technical projects",
+    "repos_intro": "My public repositories, synced from GitHub.",
     "all": "All",
     "sortBy": "Sort by",
     "sortOptions": {
@@ -96,15 +270,16 @@
       "stars": "Stars",
       "name": "Name"
     },
-    "loading": "Syncing GitHub...",
-    "loadMore": "EXPLORE MORE",
+    "loading": "Syncing GitHub…",
+    "loadMore": "See more projects",
     "noProject": "No project found in this stack.",
+    "loadError": "Could not fetch projects from GitHub right now.",
     "detail": "Details"
   },
   "prestations": {
     "title": "Services",
-    "status_badge": "Self-employed",
-    "intro": "Alongside my main role, I work as an independent contractor for organizations looking to drive digital transformation, support change, or integrate AI into their workflows.",
+    "status_badge": "Open to assignments",
+    "intro": "Alongside my background, I offer independent services to organizations looking to drive digital transformation, support change, or integrate AI into their workflows.",
     "services": {
       "amoa": {
         "title": "Business Analysis & Scoping",
@@ -124,7 +299,8 @@
       "ai": {
         "title": "AI & Automation",
         "desc": "I deploy documentary AI assistants and automate processes to save teams time, with a pragmatic approach.",
-        "items": ["Documentary AI assistants (RAG)", "Workflow automation (n8n)", "AI literacy and best practices", "Use case scoping"]
+        "items": ["Documentary AI assistants (RAG)", "Workflow automation (n8n)", "AI literacy and best practices", "Use case scoping"],
+        "note": "\"Training teams on AI without scaring them\" is the title of my engineering thesis, on getting AI tools adopted by the most reluctant staff."
       }
     },
     "how_title": "How we work together",
@@ -135,33 +311,33 @@
     "step3_label": "3 · Delivery",
     "step3_desc": "I carry out the mission with clear deliverables and regular follow-up.",
     "status_title": "Engagement framework",
-    "status_desc": "I work as a registered self-employed professional, fully autonomous, for one or several organizations. Each mission is covered by a quote and a defined scope.",
+    "status_desc": "I work fully autonomously, for one or several organizations. Each mission is covered by a quote and a scope agreed beforehand.",
     "status_label": "Status",
-    "status_value": "Self-employed (micro-entrepreneur)",
-    "siret_label": "SIRET",
-    "siret_value": "Registration in progress",
+    "status_value": "Business registration in progress",
+    "availability_label": "Availability",
+    "availability_value": "Open to conversations right now",
     "cta": "Discuss a mission"
   },
   "contact": {
     "title": "Let's work together",
     "subtitle": "A mission, a transformation project or a question about a service? Let's get in touch.",
     "email_label": "Email",
-    "copied": "Copied!"
+    "copy": "Copy",
+    "copied": "Copied!",
+    "copy_failed": "Copy failed: please select the address manually."
   },
   "legal": {
     "title": "Legal notice",
     "editor_title": "Site publisher",
-    "editor_desc": "This site is published, in a personal and professional capacity, by Bastien Roc, operating as a registered self-employed professional (micro-entrepreneur).",
+    "editor_desc": "This site is published in a personal capacity by Bastien Roc. It presents a professional background as well as services offered on an independent basis.",
     "editor_name_label": "Publication manager",
     "editor_name_value": "Bastien Roc",
-    "status_label": "Legal status",
-    "status_value": "Sole trader (micro-enterprise)",
-    "siret_label": "SIRET",
-    "siret_value": "Registration in progress",
+    "status_label": "Status",
+    "status_value": "Private individual - independent activity being registered",
     "contact_label": "Contact",
-    "contact_value": "Bastienroc@free.fr",
+    "contact_value": "bastien.roc@icloud.com",
     "hosting_title": "Hosting",
-    "hosting_desc": "This site is hosted by Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, USA — vercel.com.",
+    "hosting_desc": "This site is hosted by Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, USA - vercel.com.",
     "ip_title": "Intellectual property",
     "ip_desc": "All content on this site (text, visuals, code) is, unless otherwise stated, the property of Bastien Roc. Any reproduction without authorization is prohibited.",
     "data_title": "Personal data",

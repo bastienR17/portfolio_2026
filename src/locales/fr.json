@@ -7,63 +7,183 @@
     "contact": "Contact",
     "downloadCV": "Télécharger CV"
   },
+  "seo": {
+    "home": {
+      "title": "Bastien Roc - Freelance AMOA, conduite du changement & IA",
+      "description": "J'accompagne vos projets de transformation digitale du cadrage jusqu'à l'adoption réelle par les équipes : AMOA, conduite du changement, pilotage agile et IA."
+    },
+    "prestations": {
+      "title": "Prestations freelance - AMOA, changement, agile & IA",
+      "description": "Quatre domaines d'intervention : AMOA et cadrage, conduite du changement, pilotage de projet agile, IA et automatisation. Chaque mission fait l'objet d'un devis."
+    },
+    "about": {
+      "title": "Parcours & compétences - Bastien Roc",
+      "description": "Le parcours de Bastien Roc : alternance aux Ministères de la Transition Écologique, Sephora, stage SNCF, et formation d'ingénieur en transformation digitale."
+    },
+    "projects": {
+      "title": "Réalisations & études de cas - Bastien Roc",
+      "description": "Études de cas détaillées : déploiement d'une solution adoptée par 2 500 collaborateurs, pilotage d'intégrations front-end, projet agile à la SNCF. Contexte, mission, résultats."
+    },
+    "contact": {
+      "title": "Contact - Bastien Roc, transformation digitale",
+      "description": "Une mission, un projet de transformation ou une question sur une prestation ? Écrivons-nous, le premier échange est sans engagement."
+    },
+    "legal": {
+      "title": "Mentions légales - Bastien Roc",
+      "description": "Mentions légales du site de Bastien Roc : éditeur, hébergement, propriété intellectuelle et données personnelles."
+    },
+    "notfound": {
+      "title": "Page introuvable - Bastien Roc",
+      "description": "Cette page n'existe pas ou a été déplacée."
+    }
+  },
+  "notfound": {
+    "title": "Cette page n'existe pas",
+    "desc": "Le lien est peut-être erroné, ou la page a été déplacée depuis. Reprenons depuis l'accueil.",
+    "cta": "Retour à l'accueil"
+  },
   "home": {
-    "title": "Manager de la Transformation Digitale",
-    "subtitle": "Accompagner le changement, optimiser les processus et piloter l'innovation pour transformer les défis technologiques en opportunités de croissance.",
-    "sub_subtitle": "Transformation & Innovation.",
-    "cta": "Voir mes projets",
-    "cta_prestations": "Mes prestations",
-    "stat_sectors": "Secteurs",
-    "stat_training": "Ans de formation",
+    "availability": "Ouvert à de nouvelles missions",
+    "title": "Vos outils changent. Vos équipes suivent.",
+    "subtitle": "AMOA, conduite du changement et IA : j'accompagne vos projets de transformation du cadrage jusqu'à l'adoption réelle sur le terrain.",
+    "cta": "Parler de votre projet",
+    "cta_secondary": "Voir mes prestations",
+    "scroll": "Explorer",
+    "stat_experience": "Ans d'expérience",
+    "stat_experience_detail": "Depuis 2023",
+    "stat_domains": "Domaines d'intervention",
+    "stat_domains_detail": "AMOA, changement, agile, IA",
+    "stat_sectors": "Secteurs d'activité",
+    "stat_sectors_detail": "Public, retail, transport",
     "stat_certs": "Certifications",
-    "stat_skills": "Compétences tech."
+    "stat_certs_detail": "Opquast 800+, PSM I",
+    "offer_title": "Ce sur quoi j'interviens",
+    "offer_intro": "Quatre domaines complémentaires, du cadrage initial jusqu'à l'appropriation par les équipes.",
+    "offer_cta": "Voir le détail des prestations",
+    "contexts_title": "Contextes d'intervention",
+    "contexts_intro": "Les organisations au sein desquelles j'ai construit cette expertise, en alternance, en stage et en bénévolat.",
+    "contexts": {
+      "state": {
+        "org": "Ministères Transition Écologique & Transports",
+        "role": "Alternance - Chef de projet digital",
+        "detail": "Solution adoptée par 100 % de 2 500 collaborateurs"
+      },
+      "retail": {
+        "org": "Sephora",
+        "role": "Alternance - Assistant chef de projet digital",
+        "detail": "Pilotage des intégrations front-end et des outils IT"
+      },
+      "transport": {
+        "org": "SNCF",
+        "role": "Stage - Chefferie de projet & développement",
+        "detail": "Pilotage de projets en méthode agile"
+      },
+      "assoc": {
+        "org": "Leon'Art",
+        "role": "Bénévolat - Trésorier puis consultant",
+        "detail": "Gestion budgétaire et conseil en organisation"
+      }
+    },
+    "formats_title": "Modalités d'intervention",
+    "formats_intro": "Trois formats, selon l'ampleur et la durée de votre besoin.",
+    "formats": {
+      "daily": {
+        "title": "À la journée",
+        "desc": "Intervention ponctuelle : cadrage, audit ou atelier de travail."
+      },
+      "fixed": {
+        "title": "Au forfait",
+        "desc": "Mission délimitée, avec livrables et calendrier définis à l'avance."
+      },
+      "recurring": {
+        "title": "Accompagnement récurrent",
+        "desc": "Une présence régulière sur toute la durée d'un projet."
+      }
+    },
+    "formats_note": "Chaque mission fait l'objet d'un devis et d'un périmètre définis en amont.",
+    "final_title": "Un projet de transformation en tête ?",
+    "final_desc": "Parlons-en lors d'un premier échange, sans engagement.",
+    "final_cta": "Me contacter"
   },
   "accessibility": {
-    "dysMode": "Mode Lecture (Dyslexie)"
+    "skip": "Aller au contenu principal",
+    "theme_toLight": "Passer en mode clair",
+    "theme_toDark": "Passer en mode sombre",
+    "dys_enable": "Activer la police adaptée à la dyslexie",
+    "dys_disable": "Désactiver la police adaptée à la dyslexie",
+    "menu_open": "Ouvrir le menu",
+    "menu_close": "Fermer le menu"
   },
   "about": {
     "title": "À Propos",
     "path_title": "Mon Parcours",
-    "path_description": "Je fais le pont entre l'expertise technique et les enjeux business de demain. Passionné par l'innovation, je me dédie à l'optimisation des méthodes de travail à travers le conseil et le management. Mon ambition ? Allier agilité et technologie pour construire des organisations plus performantes et connectées, pleinement prêtes à relever les défis de ce nouveau monde.",
+    "path_description": "Spécialisé en AMOA et conduite du changement, je pilote actuellement, au sein des Ministères de la Transition Écologique, le déploiement d'une solution de recherche d'information adoptée par 100 % des 2 500 collaborateurs concernés. À l'aise sur tout le cycle projet - recueil du besoin, rédaction du cahier des charges, méthode Agile Scrum, pilotage des KPI - et doté d'un socle technique (PHP/Symfony, JavaScript), je fais le lien entre les équipes métier et les équipes techniques.",
+    "method_title": "Ma façon de travailler",
+    "method_intro": "Quatre principes qui reviennent sur toutes mes missions, quel que soit le sujet.",
+    "method": {
+      "listen": {
+        "title": "Je commence par écouter, pas par proposer",
+        "desc": "Avant de parler d'outil ou de solution, je passe du temps avec les équipes qui vont s'en servir. C'est là que se trouvent les vrais irritants, rarement dans le cahier des charges initial."
+      },
+      "translate": {
+        "title": "Je traduis dans les deux sens",
+        "desc": "Les équipes métier et les équipes techniques décrivent rarement le même problème avec les mêmes mots. Mon rôle est de faire tenir les deux dans un document commun, et de le maintenir à jour quand le projet bouge."
+      },
+      "reluctant": {
+        "title": "Je conçois pour les plus réticents",
+        "desc": "Une formation pensée pour les collaborateurs déjà à l'aise ne fait que creuser l'écart. Si le support fonctionne pour la personne la plus réfractaire de l'équipe, il fonctionne pour tout le monde. C'est le sujet de mon mémoire."
+      },
+      "adoption": {
+        "title": "Un projet n'est pas fini quand il est livré",
+        "desc": "Il est fini quand il est utilisé. Je mets en place des indicateurs d'adoption dès le départ, pour savoir si l'outil a trouvé sa place ou s'il faut reprendre l'accompagnement."
+      }
+    },
+    "location_label": "Localisation",
+    "location_value": "Paris / Région parisienne (92)",
+    "languages_label": "Langues",
+    "languages": ["Français - langue maternelle", "Anglais - B2 (CECRL)"],
     "skills_title": "Compétences",
     "skills_filterAll": "Toutes",
     "skills_hard_label": "Hard Skills",
     "skills_soft_label": "Soft Skills",
     "skills_certifications_label": "Certifications",
+    "skills_hard_pm_label": "Gestion de projet & AMOA",
     "skills_hard_dev_label": "Dév. Web",
     "skills_hard_design_label": "Design & UX/UI",
     "skills_hard_data_label": "Analytics & Outils",
+    "skills_hard_pm": ["AMOA", "Conduite du changement", "Agile Scrum", "Pilotage de projet", "Recueil du besoin", "Cahier des charges", "Suivi de KPI", "Gestion d'équipe"],
     "skills_hard_dev": ["HTML / CSS", "JavaScript", "PHP / MySQL", "Symfony", "WordPress", "GitHub"],
     "skills_hard_design": ["UX/UI", "Canva", "Suite Adobe"],
     "skills_hard_data": ["Google Analytics", "Excel", "Jira", "AI Prompting"],
-    "skills_soft": ["Travail en équipe", "Méthode Agile", "Communication", "Curiosité", "Apprentissage continu"],
-    "skills_certifications": ["Opquast", "Scrum"],
+    "skills_soft": ["Travail en équipe", "Communication", "Curiosité", "Apprentissage continu"],
+    "skills_certifications": ["Opquast 800+/1000", "PSM I - Professional Scrum Master"],
     "edu1": {
-      "role": "Bachelor — Chef de Projet Digital",
-      "org": "IIM Digital School Paris — Nanterre (92)",
-      "date": "2020 – 2026"
+      "role": "Bachelor - Chef de Projet Digital",
+      "org": "IIM Digital School Paris - Nanterre (92)",
+      "date": "2020 – 2024"
     },
     "edu2": {
-      "role": "Ingénieur — Management de la Transformation Digitale",
-      "org": "IIM / ESILV Digital School Paris — Nanterre (92)",
-      "date": "2024 – 2026"
+      "role": "Ingénieur - Management de la Transformation Digitale",
+      "org": "IIM / ESILV Digital School Paris - Nanterre (92)",
+      "date": "2024 – 2026",
+      "desc": "Mémoire professionnel - « Former à l'IA sans effrayer » : concevoir une approche pédagogique adaptée aux collaborateurs réticents aux technologies."
     },
     "exp1": {
-      "role": "Alternance — Chef de projet digital",
-      "company": "Ministères Transition Écologique, Transports & Logement — La Défense",
+      "role": "Alternance - Chef de projet digital",
+      "company": "Ministères Transition Écologique, Transports & Logement - La Défense",
       "date": "Oct. 2024 – Août 2026",
-      "desc": "Accompagnement du changement au sein d'une organisation de 2500 personnes, avec mise en place de solutions de recherche interne, automatisation des processus et création de supports pédagogiques.",
-      "tasks": ["Suivi et écoute des besoins utilisateurs", "Solution de recherche interne pour 2 500 personnes", "Accompagnement du changement", "Création de supports pédagogiques", "Ajout d'indicateurs de performance", "Automatisation des processus internes"]
+      "desc": "Je pilote en AMOA le déploiement d'une solution de recherche d'information, adoptée par 100 % des 2 500 collaborateurs concernés, en assurant la relation entre les équipes métier et les équipes techniques.",
+      "tasks": ["Solution de recherche adoptée par 100 % de 2 500 collaborateurs", "Montée en compétences de 100 collaborateurs (logiciels et IA)", "Une vingtaine de supports pédagogiques d'accompagnement", "Définition et pilotage des KPI de performance", "Automatisation de plusieurs processus internes"]
     },
     "exp2": {
-      "role": "Alternance — Assistant Chef de Projet Digital Front End",
-      "company": "Sephora — Neuilly-sur-Seine",
+      "role": "Alternance - Assistant Chef de Projet Digital Front End",
+      "company": "Sephora - Neuilly-sur-Seine",
       "date": "Sept. 2023 – Fév. 2024",
-      "desc": "Gestion des demandes d'intégration Front-end, planification des missions aux intégrateurs et pilotage de l'évolution des outils IT.",
-      "tasks": ["Gestion des demandes d'intégration Front-end", "Planification des missions aux intégrateurs", "Évolution des outils IT"]
+      "desc": "Traitement d'une cinquantaine de demandes d'intégration front-end par mois dans des délais courts, en planifiant et coordonnant les missions confiées aux intégrateurs.",
+      "tasks": ["~50 demandes d'intégration front-end par mois", "Planification et coordination des intégrateurs", "Évolution et amélioration des outils IT de l'équipe"]
     },
     "exp3": {
-      "role": "Stage — Chefferie de projet & Développement web",
+      "role": "Stage - Chefferie de projet & Développement web",
       "company": "SNCF D2D",
       "date": "Mai – Juin 2023",
       "desc": "Pilotage de projets en méthodologie Agile, gestion d'équipe et développement orienté objet.",
@@ -89,6 +209,60 @@
   },
   "projects": {
     "title": "Mes Réalisations",
+    "intro": "Les missions sur lesquelles j'ai travaillé, ce que j'y ai fait concrètement et ce qu'elles ont produit.",
+    "cases_title": "Études de cas",
+    "cases_disclaimer": "Missions menées en alternance, en stage ou dans un cadre pédagogique, et non en prestation indépendante.",
+    "label_context": "Contexte",
+    "label_mission": "Mission",
+    "label_actions": "Ce que j'ai fait",
+    "label_results": "Résultats",
+    "cases": {
+      "ministeres": {
+        "org": "Ministères de la Transition Écologique, des Transports & du Logement",
+        "role": "Alternance - Chef de projet digital",
+        "period": "Oct. 2024 – Août 2026",
+        "context": "Une administration de 2 500 collaborateurs où retrouver la bonne information interne prenait un temps considérable, avec des habitudes de travail bien ancrées.",
+        "mission": "Piloter en AMOA le déploiement d'une solution de recherche d'information, du recueil du besoin jusqu'à l'adoption réelle sur le terrain. Mission en cours.",
+        "actions": ["Recueil et formalisation du besoin auprès des équipes métier", "Pilotage de la relation entre équipes métier et équipes techniques", "Conception d'une vingtaine de supports pédagogiques", "Animation de sessions de formation dédiées", "Définition et suivi des indicateurs d'adoption"],
+        "results": ["Solution adoptée par 100 % des 2 500 collaborateurs concernés", "100 collaborateurs montés en compétences sur les nouveaux outils et l'IA", "Plusieurs processus internes automatisés", "Résistances au changement réduites par un accompagnement structuré"]
+      },
+      "sephora": {
+        "org": "Sephora",
+        "role": "Alternance - Assistant chef de projet digital front-end",
+        "period": "Sept. 2023 – Fév. 2024",
+        "context": "Une équipe digitale recevant un flux continu de demandes d'intégration front-end, avec des délais courts et des intégrateurs externes à coordonner.",
+        "mission": "Assurer la qualification, la planification et le suivi des demandes d'intégration, et contribuer à l'évolution des outils de l'équipe.",
+        "actions": ["Qualification et priorisation des demandes entrantes", "Planification des missions confiées aux intégrateurs", "Coordination et suivi des délais de livraison", "Contribution à l'évolution des outils IT de l'équipe"],
+        "results": ["Une cinquantaine de demandes traitées par mois", "Délais tenus malgré un flux continu", "Outils de l'équipe améliorés"]
+      },
+      "sncf": {
+        "org": "SNCF D2D - Saint-Denis",
+        "role": "Stage - Chefferie de projet & développement web",
+        "period": "Mai – Juin 2023",
+        "context": "Un projet web à concevoir et livrer en équipe, sur un cycle court, en méthode Agile.",
+        "mission": "Contribuer au pilotage du projet et au développement, de la conception jusqu'à la livraison.",
+        "actions": ["Pilotage du projet en méthode Agile", "Gestion et coordination de l'équipe", "Développement orienté objet"],
+        "results": ["Projet web livré dans les délais impartis"]
+      }
+    },
+    "studies_title": "Projets",
+    "studies": {
+      "memoire": {
+        "title": "Former à l'IA sans effrayer",
+        "org": "Mémoire professionnel - Diplôme d'Ingénieur, IIM / ESILV",
+        "period": "2025 – 2026",
+        "desc": "Concevoir une approche pédagogique adaptée aux collaborateurs réticents aux technologies.",
+        "question": "Comment élaborer et évaluer des méthodes de formation accessibles pour familiariser les équipes, même les plus réfractaires, à des outils d'IA basiques, afin d'en favoriser l'adoption et l'appropriation ?"
+      },
+      "startup": {
+        "title": "Création de start-up - application de jardinage connectée",
+        "org": "Projet d'études - IIM Digital School",
+        "period": "Projet d'études",
+        "desc": "Co-pilotage d'une équipe de 7 personnes (2 chefs de projet, 1 lead developer, 4 développeurs) pour concevoir une application mobile couplée à un objet connecté (IoT) : cadrage produit, priorisation des fonctionnalités, étude de marché et business plan."
+      }
+    },
+    "repos_title": "Projets techniques",
+    "repos_intro": "Mes dépôts publics, synchronisés depuis GitHub.",
     "all": "Tous",
     "sortBy": "Trier par",
     "sortOptions": {
@@ -96,15 +270,16 @@
       "stars": "Stars",
       "name": "Nom"
     },
-    "loading": "Synchronisation GitHub...",
-    "loadMore": "EXPLORER DAVANTAGE",
+    "loading": "Synchronisation GitHub…",
+    "loadMore": "Voir plus de projets",
     "noProject": "Aucun projet trouvé dans cette stack.",
+    "loadError": "Impossible de récupérer les projets depuis GitHub pour le moment.",
     "detail": "Détails"
   },
   "prestations": {
     "title": "Prestations",
-    "status_badge": "Micro-entrepreneur",
-    "intro": "En complément de mon parcours, j'interviens en prestation indépendante auprès d'organisations qui souhaitent piloter une transformation digitale, accompagner le changement ou intégrer l'IA dans leurs usages.",
+    "status_badge": "Ouvert aux missions",
+    "intro": "En complément de mon parcours, je propose des prestations indépendantes aux organisations qui souhaitent piloter une transformation digitale, accompagner le changement ou intégrer l'IA dans leurs usages.",
     "services": {
       "amoa": {
         "title": "AMOA & Cadrage",
@@ -124,7 +299,8 @@
       "ai": {
         "title": "IA & Automatisation",
         "desc": "Je déploie des assistants IA documentaires et automatise des processus pour faire gagner du temps aux équipes, avec une approche pragmatique.",
-        "items": ["Assistants IA documentaires (RAG)", "Automatisation de workflows (n8n)", "Acculturation et bonnes pratiques IA", "Cadrage de cas d'usage"]
+        "items": ["Assistants IA documentaires (RAG)", "Automatisation de workflows (n8n)", "Acculturation et bonnes pratiques IA", "Cadrage de cas d'usage"],
+        "note": "« Former à l'IA sans effrayer » : c'est le titre de mon mémoire d'ingénieur, consacré à l'adoption des outils d'IA par les collaborateurs les plus réfractaires."
       }
     },
     "how_title": "Comment travailler ensemble",
@@ -135,33 +311,33 @@
     "step3_label": "3 · Réalisation",
     "step3_desc": "Je réalise la mission avec des livrables clairs et un suivi régulier.",
     "status_title": "Cadre de la prestation",
-    "status_desc": "J'interviens sous statut de micro-entrepreneur, en toute autonomie, pour une ou plusieurs organisations. Chaque mission fait l'objet d'un devis et d'un périmètre défini.",
+    "status_desc": "J'interviens en toute autonomie, pour une ou plusieurs organisations. Chaque mission fait l'objet d'un devis et d'un périmètre défini au préalable.",
     "status_label": "Statut",
-    "status_value": "Micro-entrepreneur",
-    "siret_label": "SIRET",
-    "siret_value": "En cours d'immatriculation",
+    "status_value": "Création d'activité en cours",
+    "availability_label": "Disponibilité",
+    "availability_value": "Ouvert aux échanges dès maintenant",
     "cta": "Discuter d'une mission"
   },
   "contact": {
     "title": "Travaillons ensemble",
     "subtitle": "Une mission, un projet de transformation ou une question sur une prestation ? Écrivons-nous.",
     "email_label": "Email",
-    "copied": "Copié !"
+    "copy": "Copier",
+    "copied": "Copié !",
+    "copy_failed": "Copie impossible : sélectionne l'adresse manuellement."
   },
   "legal": {
     "title": "Mentions légales",
     "editor_title": "Éditeur du site",
-    "editor_desc": "Ce site est édité à titre personnel et professionnel par Bastien Roc, exerçant sous statut de micro-entrepreneur.",
+    "editor_desc": "Ce site est édité à titre personnel par Bastien Roc. Il présente un parcours professionnel ainsi que des prestations proposées à titre indépendant.",
     "editor_name_label": "Responsable de la publication",
     "editor_name_value": "Bastien Roc",
-    "status_label": "Statut juridique",
-    "status_value": "Entrepreneur individuel (micro-entreprise)",
-    "siret_label": "SIRET",
-    "siret_value": "En cours d'immatriculation",
+    "status_label": "Statut",
+    "status_value": "Particulier - activité indépendante en cours de création",
     "contact_label": "Contact",
-    "contact_value": "Bastienroc@free.fr",
+    "contact_value": "bastien.roc@icloud.com",
     "hosting_title": "Hébergement",
-    "hosting_desc": "Le site est hébergé par Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis — vercel.com.",
+    "hosting_desc": "Le site est hébergé par Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis - vercel.com.",
     "ip_title": "Propriété intellectuelle",
     "ip_desc": "L'ensemble des contenus présents sur ce site (textes, visuels, code) sont, sauf mention contraire, la propriété de Bastien Roc. Toute reproduction sans autorisation est interdite.",
     "data_title": "Données personnelles",

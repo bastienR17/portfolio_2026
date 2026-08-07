@@ -1,101 +1,289 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import {
+  Target, Users, Workflow, Bot,
+  Landmark, ShoppingBag, TrainFront, HeartHandshake,
+  CalendarDays, Package, Repeat,
+  ArrowRight, ArrowDown,
+} from 'lucide-vue-next'
+import { useReveal } from '../composables/useReveal'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
+useReveal()
+
+// ── Compteurs ────────────────────────────────────────────────
+// Faits vérifiables issus du CV plutôt que des chiffres d'impact : ancienneté
+// depuis 2023, étendue de l'offre, contextes traversés, certifications.
 const stats = [
-  { count: ref(0), target: 3,  suffix: '',  key: 'home.stat_sectors' },
-  { count: ref(0), target: 5,  suffix: '+', key: 'home.stat_training' },
-  { count: ref(0), target: 2,  suffix: '',  key: 'home.stat_certs' },
-  { count: ref(0), target: 13, suffix: '+', key: 'home.stat_skills' },
+  { target: 3, suffix: '', key: 'home.stat_experience', detail: 'home.stat_experience_detail' },
+  { target: 4, suffix: '', key: 'home.stat_domains', detail: 'home.stat_domains_detail' },
+  { target: 3, suffix: '', key: 'home.stat_sectors', detail: 'home.stat_sectors_detail' },
+  { target: 2, suffix: '', key: 'home.stat_certs', detail: 'home.stat_certs_detail' },
 ]
 
+const counts = ref(stats.map(() => 0))
+let intervals = []
+
+const formatCount = (n) => n.toLocaleString(locale.value === 'fr' ? 'fr-FR' : 'en-US')
+
 function animateCounters() {
-  stats.forEach(stat => {
+  stats.forEach((stat, i) => {
     const steps = 30
     const delay = 800 / steps
     let step = 0
     const interval = setInterval(() => {
       step++
-      stat.count.value = Math.min(Math.round((stat.target / steps) * step), stat.target)
+      counts.value[i] = Math.min(Math.round((stat.target / steps) * step), stat.target)
       if (step >= steps) clearInterval(interval)
     }, delay)
+    intervals.push(interval)
   })
 }
 
 onMounted(() => {
-  document.body.style.overflow = 'hidden'
+  // En mouvement réduit, on affiche directement les valeurs finales.
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    counts.value = stats.map((s) => s.target)
+    return
+  }
   setTimeout(animateCounters, 400)
 })
 
 onUnmounted(() => {
-  document.body.style.overflow = 'auto'
+  intervals.forEach(clearInterval)
+  intervals = []
 })
+
+// ── Contenu piloté depuis l'i18n ─────────────────────────────
+const services = [
+  { key: 'amoa',   icon: Target },
+  { key: 'change', icon: Users },
+  { key: 'agile',  icon: Workflow },
+  { key: 'ai',     icon: Bot },
+]
+
+const contexts = [
+  { key: 'state',     icon: Landmark },
+  { key: 'retail',    icon: ShoppingBag },
+  { key: 'transport', icon: TrainFront },
+  { key: 'assoc',     icon: HeartHandshake },
+]
+
+const formats = [
+  { key: 'daily',     icon: CalendarDays },
+  { key: 'fixed',     icon: Package },
+  { key: 'recurring', icon: Repeat },
+]
 </script>
 
 <template>
-  <div class="relative z-10 max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center gap-10 h-screen overflow-hidden transition-colors duration-500">
+  <div class="relative z-10">
 
-    <div class="flex-[3] flex flex-col justify-center min-w-0">
-      <div class="bg-white/30 dark:bg-gray-800/40 backdrop-blur-md p-6 md:p-10 rounded-2xl border border-white/20 dark:border-white/5 shadow-xl space-y-6">
-        <h1 class="text-4xl md:text-6xl font-bold text-dark-soft dark:text-white leading-tight transition-colors">
-          {{ $t('home.title') }}
-        </h1>
+    <!-- ─── 1. Hero ─────────────────────────────────────────── -->
+    <section class="max-w-6xl mx-auto px-6 pt-16 pb-20 md:pt-24 md:pb-28">
+      <div class="grid md:grid-cols-12 gap-10 items-end">
 
-        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed transition-colors">
-          {{ $t('home.subtitle') }}
-          <span class="text-terracotta font-semibold italic">{{ $t('home.sub_subtitle') }}</span>
-        </p>
+        <div class="md:col-span-7">
+          <p class="flex items-center gap-2.5 mb-8 text-sm text-ink-muted">
+            <span class="w-1.5 h-1.5 bg-accent rounded-full shrink-0" aria-hidden="true"></span>
+            {{ $t('home.availability') }}
+          </p>
 
-        <div class="flex flex-wrap gap-4 pt-2">
-          <router-link to="/projects" class="bg-terracotta text-white px-8 py-3 rounded-full font-bold shadow-lg hover:-translate-y-1 transition-transform active:scale-95">
-            {{ $t('home.cta') }}
-          </router-link>
+          <h1 class="text-5xl md:text-[4.25rem] text-ink mb-7">
+            {{ $t('home.title') }}
+          </h1>
 
-          <router-link to="/prestations" class="border-2 border-terracotta text-terracotta px-8 py-3 rounded-full font-bold hover:bg-terracotta hover:text-white transition-all active:scale-95">
-            {{ $t('home.cta_prestations') }}
-          </router-link>
+          <p class="max-w-xl text-lg text-ink-muted leading-relaxed mb-9">
+            {{ $t('home.subtitle') }}
+          </p>
 
-          <router-link to="/about" class="border-2 border-dark-soft text-dark-soft dark:border-white dark:text-white px-8 py-3 rounded-full font-bold hover:bg-dark-soft hover:text-white dark:hover:bg-white dark:hover:text-dark-soft transition-all active:scale-95">
-            {{ $t('nav.about') }}
-          </router-link>
-        </div>
+          <div class="flex flex-wrap items-center gap-3">
+            <!-- Le bouton principal mène au contact : c'est l'action qui
+                 déclenche une mission. « Explorer ↓ » couvre déjà le renvoi
+                 vers l'offre plus bas, le secondaire ne fait que le doubler. -->
+            <router-link
+              to="/contact"
+              class="inline-flex items-center gap-2 px-6 py-3 bg-accent text-accent-ink font-medium hover:opacity-90 transition-opacity"
+            >
+              {{ $t('home.cta') }}
+              <ArrowRight class="w-4 h-4" />
+            </router-link>
 
-        <!-- Stats animées -->
-        <div class="grid grid-cols-4 gap-3 pt-2 border-t border-white/30 dark:border-white/10">
-          <div v-for="stat in stats" :key="stat.key" class="text-center">
-            <div class="text-2xl md:text-3xl font-black text-terracotta tabular-nums">
-              {{ stat.count }}{{ stat.suffix }}
-            </div>
-            <div class="text-xs text-gray-500 dark:text-gray-400 font-semibold mt-0.5 leading-tight">
-              {{ t(stat.key) }}
-            </div>
+            <router-link
+              to="/prestations"
+              class="px-6 py-3 border border-line text-ink font-medium hover:border-accent hover:text-accent transition-colors"
+            >
+              {{ $t('home.cta_secondary') }}
+            </router-link>
           </div>
         </div>
-      </div>
-    </div>
 
-    <div class="hidden md:flex flex-[2] relative items-center justify-center">
-      <div class="relative bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm p-4 rounded-2xl shadow-2xl border border-white/20 dark:border-gray-700 transition-colors">
-        <img
-          src="/hero-transformation.jpg"
-          alt="Transformation digitale — Bastien Roc"
-          width="800"
-          height="533"
-          class="rounded-xl w-full h-auto"
+        <div class="md:col-span-5">
+          <!-- WebP avec repli JPEG : le navigateur ne télécharge qu'un seul
+               des deux, et le WebP fait presque moitié moins lourd. -->
+          <picture>
+            <source srcset="/hero-transformation.webp" type="image/webp">
+            <img
+              src="/hero-transformation.jpg"
+              alt="Transformation digitale - Bastien Roc"
+              width="800"
+              height="533"
+              fetchpriority="high"
+              class="w-full h-auto border border-line-soft"
+            >
+          </picture>
+        </div>
+      </div>
+
+      <!-- Compteurs, traités comme un bandeau de chiffres et non comme des cartes -->
+      <dl class="grid grid-cols-2 md:grid-cols-4 mt-16 border-t border-line-soft">
+        <div
+          v-for="(stat, i) in stats"
+          :key="stat.key"
+          class="px-1 py-6 md:px-6 md:first:pl-0 border-b md:border-b-0 md:border-r last:border-r-0 border-line-soft"
         >
-      </div>
-    </div>
+          <dd class="font-display text-4xl md:text-5xl text-accent tabular-nums leading-none mb-2">
+            {{ formatCount(counts[i]) }}{{ stat.suffix }}
+          </dd>
+          <!-- Le détail est affiché en clair et non au survol : un tooltip
+               serait invisible au doigt et demanderait une gestion du focus
+               pour rester conforme (RGAA 1.4.13). -->
+          <dt class="text-sm text-ink leading-snug">
+            {{ t(stat.key) }}
+            <span class="block mt-1 text-xs text-ink-muted">{{ t(stat.detail) }}</span>
+          </dt>
+        </div>
+      </dl>
 
-    <!-- Scroll indicator -->
-    <router-link
-      to="/about"
-      class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-dark-soft/40 dark:text-white/30 hover:text-terracotta dark:hover:text-terracotta transition-colors duration-300"
-    >
-      <span class="text-xs font-bold uppercase tracking-widest">Explorer</span>
-      <span class="animate-bounce text-xl">↓</span>
-    </router-link>
+      <p class="mt-12 flex justify-center">
+        <a
+          href="#offre"
+          class="inline-flex items-center gap-2 text-sm text-ink-muted hover:text-accent transition-colors"
+        >
+          {{ $t('home.scroll') }}
+          <ArrowDown class="w-4 h-4" />
+        </a>
+      </p>
+    </section>
+
+    <!-- ─── 2. Offre ────────────────────────────────────────── -->
+    <section id="offre" class="bg-surface-2 border-y border-line-soft scroll-mt-20">
+      <div class="max-w-6xl mx-auto px-6 py-20 md:py-24">
+        <div class="reveal max-w-2xl mb-14">
+          <h2 class="text-4xl md:text-5xl text-ink mb-5">{{ $t('home.offer_title') }}</h2>
+          <p class="text-lg text-ink-muted leading-relaxed">{{ $t('home.offer_intro') }}</p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-px bg-line-soft border border-line-soft">
+          <article
+            v-for="service in services"
+            :key="service.key"
+            class="reveal bg-surface p-8"
+          >
+            <component :is="service.icon" class="w-5 h-5 text-accent mb-5" aria-hidden="true" />
+            <h3 class="text-xl text-ink mb-3">
+              {{ $t(`prestations.services.${service.key}.title`) }}
+            </h3>
+            <p class="text-ink-muted leading-relaxed">
+              {{ $t(`prestations.services.${service.key}.desc`) }}
+            </p>
+          </article>
+        </div>
+
+        <p class="reveal mt-10">
+          <router-link
+            to="/prestations"
+            class="inline-flex items-center gap-2 font-medium text-accent hover:underline underline-offset-4"
+          >
+            {{ $t('home.offer_cta') }}
+            <ArrowRight class="w-4 h-4" />
+          </router-link>
+        </p>
+      </div>
+    </section>
+
+    <!-- ─── 3. Contextes d'intervention ─────────────────────── -->
+    <section class="bg-page">
+      <div class="max-w-6xl mx-auto px-6 py-20 md:py-24">
+        <div class="reveal max-w-2xl mb-14">
+          <h2 class="text-4xl md:text-5xl text-ink mb-5">{{ $t('home.contexts_title') }}</h2>
+          <p class="text-lg text-ink-muted leading-relaxed">{{ $t('home.contexts_intro') }}</p>
+        </div>
+
+        <ul class="border-t border-line-soft">
+          <li
+            v-for="context in contexts"
+            :key="context.key"
+            class="reveal grid md:grid-cols-12 gap-2 md:gap-6 py-7 border-b border-line-soft"
+          >
+            <div class="md:col-span-5 flex items-start gap-3">
+              <component :is="context.icon" class="w-5 h-5 text-accent shrink-0 mt-0.5" aria-hidden="true" />
+              <h3 class="text-lg text-ink leading-snug">
+                {{ $t(`home.contexts.${context.key}.org`) }}
+              </h3>
+            </div>
+            <p class="md:col-span-3 text-sm text-ink-muted md:pt-1">
+              {{ $t(`home.contexts.${context.key}.role`) }}
+            </p>
+            <p class="md:col-span-4 text-sm text-ink-muted md:pt-1">
+              {{ $t(`home.contexts.${context.key}.detail`) }}
+            </p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ─── 4. Modalités d'intervention ─────────────────────── -->
+    <section class="bg-surface-2 border-y border-line-soft">
+      <div class="max-w-6xl mx-auto px-6 py-20 md:py-24">
+        <div class="reveal max-w-2xl mb-14">
+          <h2 class="text-4xl md:text-5xl text-ink mb-5">{{ $t('home.formats_title') }}</h2>
+          <p class="text-lg text-ink-muted leading-relaxed">{{ $t('home.formats_intro') }}</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-px bg-line-soft border border-line-soft">
+          <article
+            v-for="format in formats"
+            :key="format.key"
+            class="reveal bg-surface p-8"
+          >
+            <component :is="format.icon" class="w-5 h-5 text-accent mb-5" aria-hidden="true" />
+            <h3 class="text-lg text-ink mb-3">
+              {{ $t(`home.formats.${format.key}.title`) }}
+            </h3>
+            <p class="text-sm text-ink-muted leading-relaxed">
+              {{ $t(`home.formats.${format.key}.desc`) }}
+            </p>
+          </article>
+        </div>
+
+        <p class="reveal mt-6 text-sm text-ink-muted">
+          {{ $t('home.formats_note') }}
+        </p>
+      </div>
+    </section>
+
+    <!-- ─── 5. CTA final ────────────────────────────────────── -->
+    <section class="bg-page">
+      <div class="reveal max-w-6xl mx-auto px-6 py-20 md:py-24">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-10 border-b-2 border-accent">
+          <div class="max-w-xl">
+            <h2 class="text-4xl md:text-5xl text-ink mb-4">{{ $t('home.final_title') }}</h2>
+            <p class="text-lg text-ink-muted leading-relaxed">{{ $t('home.final_desc') }}</p>
+          </div>
+
+          <router-link
+            to="/contact"
+            class="inline-flex items-center gap-2 px-6 py-3 shrink-0 bg-accent text-accent-ink font-medium hover:opacity-90 transition-opacity"
+          >
+            {{ $t('home.final_cta') }}
+            <ArrowRight class="w-4 h-4" />
+          </router-link>
+        </div>
+      </div>
+    </section>
 
   </div>
 </template>

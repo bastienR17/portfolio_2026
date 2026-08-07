@@ -1,10 +1,16 @@
 <script setup>
-import { ref, computed, watch, onMounted, nextTick } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useReveal } from '../composables/useReveal'
 
-const { t, tm } = useI18n()
+const { t, tm, te } = useI18n()
 
-// ── Timeline filter ──────────────────────────────────────────
+useReveal()
+
+// ── Façon de travailler ──────────────────────────────────────
+const method = ['listen', 'translate', 'reluctant', 'adoption']
+
+// ── Timeline ─────────────────────────────────────────────────
 const timelineFilter = ref('all')
 const timelineFilters = ['all', 'pro', 'scolaire', 'engagement']
 
@@ -21,14 +27,15 @@ const allEntries = [
 const visibleEntries = computed(() =>
   timelineFilter.value === 'all'
     ? allEntries
-    : allEntries.filter(e => e.type === timelineFilter.value)
+    : allEntries.filter((e) => e.type === timelineFilter.value),
 )
 
-// ── Skills filter ────────────────────────────────────────────
+// ── Compétences ──────────────────────────────────────────────
 const activeFilter = ref('all')
 const filters = ['all', 'hard', 'soft', 'certifications']
 
-const hardSubFilters = ['all', 'dev', 'design', 'data']
+// « pm » en premier : c'est la famille sur laquelle repose l'offre freelance.
+const hardSubFilters = ['all', 'pm', 'dev', 'design', 'data']
 const activeHardSub = ref('all')
 
 watch(activeFilter, (val) => {
@@ -39,28 +46,18 @@ const filterLabel = (f) =>
   f === 'all' ? t('about.skills_filterAll') : t(`about.skills_${f}_label`)
 
 const visibleCategories = computed(() =>
-  activeFilter.value === 'all' ? ['hard', 'soft', 'certifications'] : [activeFilter.value]
+  activeFilter.value === 'all' ? ['hard', 'soft', 'certifications'] : [activeFilter.value],
 )
 
 const visibleHardSubs = computed(() =>
-  activeHardSub.value === 'all' ? ['dev', 'design', 'data'] : [activeHardSub.value]
+  activeHardSub.value === 'all' ? ['pm', 'dev', 'design', 'data'] : [activeHardSub.value],
 )
 
-const categoryStyle = {
-  hard: {
-    badge: 'bg-terracotta/10 text-terracotta border border-terracotta/25 hover:bg-terracotta/20',
-    heading: 'text-terracotta',
-    subBadgeActive: 'bg-terracotta text-white shadow-md',
-    subBadgeInactive: 'bg-white/40 dark:bg-gray-700/40 text-dark-soft dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60 border border-white/20',
-  },
-  soft: {
-    badge: 'bg-ochre/10 text-[#B45309] border border-[#B45309]/25 hover:bg-ochre/20',
-    heading: 'text-[#B45309]',
-  },
-  certifications: {
-    badge: 'bg-emerald-50/30 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-300/30 hover:bg-emerald-100/40',
-    heading: 'text-emerald-600 dark:text-emerald-400',
-  },
+// Chaque famille de compétences a sa couleur, toutes vérifiées >= 4.5:1.
+const categoryColor = {
+  hard: 'text-accent',
+  soft: 'text-ochre-deep',
+  certifications: 'text-positive',
 }
 
 const getSkills = (cat) => {
@@ -74,275 +71,205 @@ const getHardSkills = (sub) => {
 }
 
 const getAllHardSkills = () =>
-  ['dev', 'design', 'data'].flatMap(sub => getHardSkills(sub))
-
-const scrollToSkills = () => {
-  document.getElementById('skills')?.scrollIntoView({ behavior: 'smooth' })
-}
-
-onMounted(async () => {
-  await nextTick()
-  const observer = new IntersectionObserver(
-    (entries) => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target) } }),
-    { threshold: 0.1 }
-  )
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
-})
+  ['pm', 'dev', 'design', 'data'].flatMap((sub) => getHardSkills(sub))
 </script>
 
 <template>
-  <section class="max-w-4xl mx-auto px-4 py-16 relative z-10">
-    <div class="mb-12 flex items-center justify-between flex-wrap gap-4">
-      <div>
-        <h2 class="text-4xl font-black text-terracotta uppercase tracking-tighter">
-          {{ $t('about.title') }}
+  <div class="relative z-10">
+
+    <section class="max-w-4xl mx-auto px-6 pt-16 pb-14 md:pt-24">
+      <h1 class="text-5xl md:text-6xl text-ink mb-10">
+        {{ $t('about.title') }}
+      </h1>
+
+      <p class="max-w-2xl text-lg text-ink-muted leading-relaxed border-l-2 border-accent pl-6">
+        {{ $t('about.path_description') }}
+      </p>
+
+      <dl class="flex flex-wrap gap-x-14 gap-y-6 mt-10 pt-8 border-t border-line-soft">
+        <div>
+          <dt class="text-sm text-ink-muted mb-1">{{ $t('about.location_label') }}</dt>
+          <dd class="font-medium text-ink">{{ $t('about.location_value') }}</dd>
+        </div>
+        <div>
+          <dt class="text-sm text-ink-muted mb-1">{{ $t('about.languages_label') }}</dt>
+          <dd class="font-medium text-ink">
+            <span v-for="(lang, i) in tm('about.languages')" :key="i">
+              <span v-if="i > 0" class="text-ink-muted"> · </span>{{ lang }}
+            </span>
+          </dd>
+        </div>
+      </dl>
+    </section>
+
+    <!-- ── Façon de travailler ────────────────────────────── -->
+    <section class="max-w-4xl mx-auto px-6 pb-20">
+      <div class="reveal mb-12 max-w-2xl">
+        <h2 class="text-3xl md:text-4xl text-ink mb-4">{{ $t('about.method_title') }}</h2>
+        <p class="text-lg text-ink-muted leading-relaxed">{{ $t('about.method_intro') }}</p>
+      </div>
+
+      <ol class="border-t border-line-soft">
+        <li
+          v-for="(key, i) in method"
+          :key="key"
+          class="reveal grid md:grid-cols-12 gap-2 md:gap-6 py-8 border-b border-line-soft"
+        >
+          <p class="md:col-span-1 font-display text-2xl text-accent leading-none">
+            {{ String(i + 1).padStart(2, '0') }}
+          </p>
+          <h3 class="md:col-span-5 text-lg text-ink leading-snug">
+            {{ $t(`about.method.${key}.title`) }}
+          </h3>
+          <p class="md:col-span-6 text-ink-muted leading-relaxed">
+            {{ $t(`about.method.${key}.desc`) }}
+          </p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ── Parcours ───────────────────────────────────────── -->
+    <section class="bg-surface-2 border-y border-line-soft">
+      <div class="max-w-4xl mx-auto px-6 py-20">
+        <h2 class="text-3xl md:text-4xl text-ink mb-8">
+          {{ $t('about.path_title') }}
         </h2>
-        <div class="h-1 w-20 bg-ochre mt-2"></div>
-      </div>
-      <button
-        @click="scrollToSkills"
-        class="flex items-center gap-2 px-4 py-2 bg-terracotta text-white rounded-full font-bold text-sm shadow-md hover:-translate-y-0.5 active:scale-95 transition-all duration-200"
-      >
-        ⚡ {{ $t('about.skills_title') }}
-      </button>
-    </div>
 
-    <div class="grid gap-16">
-
-      <!-- Carte parcours + description -->
-      <div class="reveal bg-white/30 dark:bg-gray-800/40 backdrop-blur-md p-8 rounded-3xl border border-white/20 dark:border-white/5 shadow-xl">
-        <p class="font-black text-2xl text-dark-soft dark:text-white mb-4 flex items-center gap-3">
-          <span class="text-[#B45309]">/</span> {{ $t('about.path_title') }}
-        </p>
-        <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
-          {{ $t('about.path_description') }}
-        </p>
-      </div>
-
-      <!-- Timeline -->
-      <div>
-        <!-- Filtres timeline -->
-        <div class="flex flex-wrap gap-3 mb-8">
+        <div class="flex flex-wrap gap-2 mb-10" role="group" aria-label="Filtrer le parcours">
           <button
             v-for="f in timelineFilters"
             :key="f"
             @click="timelineFilter = f"
-            :class="[
-              'px-4 py-1.5 rounded-full text-sm font-bold transition-all duration-200',
-              timelineFilter === f
-                ? 'bg-terracotta text-white shadow-md'
-                : 'bg-white/40 dark:bg-gray-700/40 text-dark-soft dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60 border border-white/20'
-            ]"
+            :aria-pressed="timelineFilter === f"
+            class="px-3 py-1.5 border text-sm transition-colors"
+            :class="timelineFilter === f
+              ? 'bg-accent text-accent-ink border-accent'
+              : 'border-line text-ink-muted hover:text-accent hover:border-accent'"
           >
             {{ $t(`about.timeline_${f === 'all' ? 'filterAll' : f}`) }}
           </button>
         </div>
 
-        <!-- Ligne verticale + entrées -->
-        <div class="relative ml-6">
-          <div class="absolute left-0 top-[85px] bottom-[85px] w-0.5 bg-ochre/20 dark:bg-ochre/30">
-            <div class="absolute -top-1 -left-[3px] w-2 h-2 bg-ochre rounded-full shadow-sm"></div>
-            <div class="absolute -bottom-1 -left-[3px] w-2 h-2 bg-ochre rounded-full shadow-sm"></div>
-          </div>
-
-          <TransitionGroup
-            tag="div"
-            name="entry"
-            appear
-            class="space-y-12 pl-10"
+        <ol class="border-t border-line-soft">
+          <li
+            v-for="entry in visibleEntries"
+            :key="entry.key"
+            class="grid md:grid-cols-12 gap-2 md:gap-6 py-8 border-b border-line-soft"
           >
-            <div
-              v-for="entry in visibleEntries"
-              :key="entry.key"
-              class="relative group"
-            >
-              <!-- Point centré sur la ligne : w-5 = 20px, left = pl-10(40px) - 49px = -9px du conteneur = centre sur la ligne à left:0+1px -->
-              <span
-                :class="[
-                  'absolute -left-[49px] top-1/2 -translate-y-1/2 w-5 h-5 bg-white dark:bg-gray-900 rounded-full group-hover:scale-125 transition-all duration-300 shadow-lg z-10',
-                  entry.type === 'pro'        ? 'border-4 border-ochre' :
-                  entry.type === 'scolaire'   ? 'border-4 border-emerald-500/80' :
-                                                'border-4 border-[#B45309]/70'
-                ]"
-              ></span>
+            <div class="md:col-span-3">
+              <p class="text-sm text-accent">{{ $t(`about.${entry.key}.date`) }}</p>
+              <p v-if="entry.type !== 'pro'" class="text-xs text-ink-muted mt-1">
+                {{ $t(`about.timeline_${entry.type}`) }}
+              </p>
+            </div>
 
-              <div class="bg-white/20 dark:bg-gray-800/30 hover:bg-white/40 dark:hover:bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border border-white/10 dark:border-white/5 transition-all duration-300 shadow-sm">
+            <div class="md:col-span-9">
+              <h3 class="text-lg text-ink mb-1">
+                {{ $t(`about.${entry.key}.role`) }}
+              </h3>
+              <p class="text-sm text-ink-muted mb-3">
+                {{ $t(`about.${entry.key}.${entry.type === 'pro' ? 'company' : 'org'}`) }}
+              </p>
 
-                <!-- En-tête -->
-                <div class="flex items-center gap-2 mb-1 flex-wrap">
-                  <span
-                    :class="[
-                      'text-xs font-black uppercase tracking-widest font-mono',
-                      entry.type === 'pro'      ? 'text-terracotta dark:text-[#B45309]' :
-                      entry.type === 'scolaire' ? 'text-emerald-600 dark:text-emerald-400' :
-                                                  'text-[#B45309]'
-                    ]"
-                  >{{ $t(`about.${entry.key}.date`) }}</span>
-                  <span
-                    v-if="entry.type !== 'pro'"
-                    :class="[
-                      'text-xs px-2 py-0.5 rounded-full font-bold',
-                      entry.type === 'scolaire'
-                        ? 'bg-emerald-50/40 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-300/30'
-                        : 'bg-ochre/15 text-[#B45309] border border-[#B45309]/20'
-                    ]"
-                  >{{ $t(`about.timeline_${entry.type}`) }}</span>
-                </div>
+              <!-- Affiché dès qu'une description existe, et plus seulement pour
+                   les expériences : le mémoire documente aussi la formation. -->
+              <p v-if="te(`about.${entry.key}.desc`)" class="text-ink-muted leading-relaxed mb-4">
+                {{ $t(`about.${entry.key}.desc`) }}
+              </p>
 
-                <h3 class="font-bold text-xl text-dark-soft dark:text-white mt-1">
-                  {{ $t(`about.${entry.key}.role`) }}
-                </h3>
-                <p
-                  :class="[
-                    'text-sm font-bold mb-4 uppercase tracking-wide',
-                    entry.type === 'scolaire' ? 'text-emerald-600 dark:text-emerald-400' : 'text-[#B45309]'
-                  ]"
+              <ul v-if="entry.type !== 'scolaire'" class="flex flex-wrap gap-x-4 gap-y-1.5">
+                <li
+                  v-for="task in tm(`about.${entry.key}.tasks`)"
+                  :key="task"
+                  class="flex gap-2 text-sm text-ink-muted"
                 >
-                  {{ $t(`about.${entry.key}.${entry.type === 'pro' ? 'company' : 'org'}`) }}
-                </p>
+                  <span class="text-accent" aria-hidden="true">-</span>
+                  <span>{{ task }}</span>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
 
-                <p v-if="entry.type === 'pro'" class="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
-                  {{ $t(`about.${entry.key}.desc`) }}
-                </p>
+    <!-- ── Compétences ────────────────────────────────────── -->
+    <section id="skills" class="max-w-4xl mx-auto px-6 py-20 md:py-24 scroll-mt-20">
+      <h2 class="text-3xl md:text-4xl text-ink mb-8">
+        {{ $t('about.skills_title') }}
+      </h2>
 
-                <ul v-if="entry.type !== 'scolaire'" class="flex flex-wrap gap-2">
+      <div class="flex flex-wrap gap-2 mb-4" role="group" aria-label="Filtrer les compétences">
+        <button
+          v-for="f in filters"
+          :key="f"
+          @click="activeFilter = f"
+          :aria-pressed="activeFilter === f"
+          class="px-3 py-1.5 border text-sm transition-colors"
+          :class="activeFilter === f
+            ? 'bg-accent text-accent-ink border-accent'
+            : 'border-line text-ink-muted hover:text-accent hover:border-accent'"
+        >
+          {{ filterLabel(f) }}
+        </button>
+      </div>
+
+      <div v-if="activeFilter === 'hard'" class="flex flex-wrap gap-2 mb-8">
+        <button
+          v-for="sub in hardSubFilters"
+          :key="sub"
+          @click="activeHardSub = sub"
+          :aria-pressed="activeHardSub === sub"
+          class="px-2.5 py-1 border text-xs transition-colors"
+          :class="activeHardSub === sub
+            ? 'border-accent text-accent'
+            : 'border-line-soft text-ink-muted hover:border-accent'"
+        >
+          {{ sub === 'all' ? $t('about.skills_filterAll') : $t(`about.skills_hard_${sub}_label`) }}
+        </button>
+      </div>
+
+      <div class="space-y-10 mt-8">
+        <div v-for="cat in visibleCategories" :key="cat">
+          <h3 :class="['text-sm font-semibold mb-4 pb-2 border-b border-line-soft', categoryColor[cat]]">
+            {{ $t(`about.skills_${cat}_label`) }}
+          </h3>
+
+          <template v-if="cat === 'hard'">
+            <ul v-if="activeFilter !== 'hard'" class="flex flex-wrap gap-2">
+              <li
+                v-for="skill in getAllHardSkills()"
+                :key="skill"
+                class="px-3 py-1.5 border border-line-soft text-sm text-ink"
+              >{{ skill }}</li>
+            </ul>
+
+            <div v-else class="space-y-6">
+              <div v-for="sub in visibleHardSubs" :key="sub">
+                <p v-if="activeHardSub === 'all'" class="text-xs text-ink-muted mb-2">
+                  {{ $t(`about.skills_hard_${sub}_label`) }}
+                </p>
+                <ul class="flex flex-wrap gap-2">
                   <li
-                    v-for="task in tm(`about.${entry.key}.tasks`)"
-                    :key="task"
-                    :class="[
-                      'text-xs px-3 py-1 rounded-full font-medium',
-                      entry.type === 'pro'
-                        ? 'bg-terracotta/10 text-terracotta border border-terracotta/20'
-                        : 'bg-ochre/10 text-[#B45309] border border-[#B45309]/20'
-                    ]"
-                  >{{ task }}</li>
+                    v-for="skill in getHardSkills(sub)"
+                    :key="skill"
+                    class="px-3 py-1.5 border border-line-soft text-sm text-ink"
+                  >{{ skill }}</li>
                 </ul>
-
               </div>
             </div>
-          </TransitionGroup>
+          </template>
+
+          <ul v-else class="flex flex-wrap gap-2">
+            <li
+              v-for="skill in getSkills(cat)"
+              :key="skill"
+              class="px-3 py-1.5 border border-line-soft text-sm text-ink"
+            >{{ skill }}</li>
+          </ul>
         </div>
       </div>
+    </section>
 
-      <!-- Section compétences -->
-      <div id="skills" class="reveal bg-white/30 dark:bg-gray-800/40 backdrop-blur-md p-8 rounded-3xl border border-white/20 dark:border-white/5 shadow-xl">
-        <p class="font-black text-2xl text-dark-soft dark:text-white mb-6 flex items-center gap-3">
-          <span class="text-[#B45309]">/</span> {{ $t('about.skills_title') }}
-        </p>
-
-        <!-- Filtres niveau 1 -->
-        <div class="flex flex-wrap gap-3 mb-4">
-          <button
-            v-for="f in filters"
-            :key="f"
-            @click="activeFilter = f"
-            :class="[
-              'px-4 py-1.5 rounded-full text-sm font-bold transition-all duration-200',
-              activeFilter === f
-                ? 'bg-terracotta text-white shadow-md'
-                : 'bg-white/40 dark:bg-gray-700/40 text-dark-soft dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-700/60 border border-white/20'
-            ]"
-          >
-            {{ filterLabel(f) }}
-          </button>
-        </div>
-
-        <!-- Filtres niveau 2 -->
-        <transition name="slide-fade">
-          <div v-if="activeFilter === 'hard'" class="flex flex-wrap gap-2 mb-6 pl-1">
-            <button
-              v-for="sub in hardSubFilters"
-              :key="sub"
-              @click="activeHardSub = sub"
-              :class="[
-                'px-3 py-1 rounded-full text-xs font-bold transition-all duration-200',
-                activeHardSub === sub
-                  ? categoryStyle.hard.subBadgeActive
-                  : categoryStyle.hard.subBadgeInactive
-              ]"
-            >
-              {{ sub === 'all' ? $t('about.skills_filterAll') : $t(`about.skills_hard_${sub}_label`) }}
-            </button>
-          </div>
-        </transition>
-
-        <!-- Badges par catégorie -->
-        <div class="space-y-6">
-          <div v-for="cat in visibleCategories" :key="cat">
-            <p :class="['text-xs font-black uppercase tracking-widest mb-3', categoryStyle[cat].heading]">
-              {{ $t(`about.skills_${cat}_label`) }}
-            </p>
-
-            <template v-if="cat === 'hard'">
-              <div v-if="activeFilter !== 'hard'" class="flex flex-wrap gap-2">
-                <span
-                  v-for="skill in getAllHardSkills()"
-                  :key="skill"
-                  :class="['px-3 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 cursor-default', categoryStyle.hard.badge]"
-                >{{ skill }}</span>
-              </div>
-              <div v-else class="space-y-4">
-                <div v-for="sub in visibleHardSubs" :key="sub">
-                  <p v-if="activeHardSub === 'all'" class="text-xs font-semibold text-terracotta/60 uppercase tracking-wider mb-2">
-                    {{ $t(`about.skills_hard_${sub}_label`) }}
-                  </p>
-                  <div class="flex flex-wrap gap-2">
-                    <span
-                      v-for="skill in getHardSkills(sub)"
-                      :key="skill"
-                      :class="['px-3 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 cursor-default', categoryStyle.hard.badge]"
-                    >{{ skill }}</span>
-                  </div>
-                </div>
-              </div>
-            </template>
-
-            <template v-else>
-              <div class="flex flex-wrap gap-2">
-                <span
-                  v-for="skill in getSkills(cat)"
-                  :key="skill"
-                  :class="['px-3 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 cursor-default', categoryStyle[cat].badge]"
-                >{{ skill }}</span>
-              </div>
-            </template>
-
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
+  </div>
 </template>
-
-<style scoped>
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-.slide-fade-enter-from,
-.slide-fade-leave-to {
-  opacity: 0;
-  transform: translateY(-6px);
-}
-
-.entry-enter-active,
-.entry-leave-active {
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-.entry-enter-from,
-.entry-leave-to {
-  opacity: 0;
-  transform: translateX(-12px);
-}
-</style>

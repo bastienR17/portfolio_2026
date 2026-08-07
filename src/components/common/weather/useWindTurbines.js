@@ -1,68 +1,87 @@
-import * as THREE from 'three'
+import { BoxGeometry, Color, CylinderGeometry, Group, Mesh, MeshBasicMaterial } from 'three'
+import { palette, turbineDrift } from './palette'
 
-export function useWindTurbines(scene) {
+const LERP = 0.06
+const TAU = Math.PI * 2
+const REF_Z = -200 // profondeur de référence pour l'amplitude de dérive
+
+/**
+ * Éoliennes en silhouette sur les crêtes lointaines.
+ *
+ * Volontairement conservées : elles font le lien avec l'alternance aux
+ * Ministères de la Transition Écologique. Mais elles sont désormais traitées en
+ * aplat sombre pris dans le brouillard, sans la loupiote rouge clignotante qui
+ * attirait l'œil sur un détail sans intérêt.
+ */
+export function useWindTurbines(scene, camera) {
   const rotors = []
-  const lights = []
+  const materials = []
 
-  const createTurbine = (x, z, groundY, scale = 1) => {
-    const group = new THREE.Group()
+  // Toutes les éoliennes vivent dans un même groupe : elles dérivent ensemble,
+  // à leur propre vitesse de parallaxe, sans se désolidariser du décor.
+  const field = new Group()
+  scene.add(field)
 
-    // 1. Mât
-    const poleGeo = new THREE.CylinderGeometry(0.4 * scale, 0.7 * scale, 35 * scale, 8)
-    const poleMat = new THREE.MeshStandardMaterial({ color: '#f3f4f6' })
-    const pole = new THREE.Mesh(poleGeo, poleMat)
-    pole.position.y = 17.5 * scale
+  const colorLight = new Color(palette.light.turbine)
+  const colorDark = new Color(palette.dark.turbine)
+
+  const createTurbine = (x, y, z, scale = 1) => {
+    const group = new Group()
+    const material = new MeshBasicMaterial({ color: colorLight, fog: true })
+    materials.push(material)
+
+    // Mât — plus élancé que la version précédente, pour une silhouette plus fine.
+    const pole = new Mesh(
+      new CylinderGeometry(0.22 * scale, 0.45 * scale, 34 * scale, 6),
+      material,
+    )
+    pole.position.y = 17 * scale
     group.add(pole)
 
-    // 2. Nacelle (Moteur)
-    const engineGeo = new THREE.BoxGeometry(1.5 * scale, 1.5 * scale, 3 * scale)
-    const engine = new THREE.Mesh(engineGeo, poleMat)
-    engine.position.y = 35 * scale
-    group.add(engine)
+    const nacelle = new Mesh(
+      new BoxGeometry(0.9 * scale, 0.9 * scale, 2.2 * scale),
+      material,
+    )
+    nacelle.position.y = 34 * scale
+    group.add(nacelle)
 
-    // 3. Loupiote rouge (MeshBasicMaterial pour qu'elle brille sans lumière)
-    const lightGeo = new THREE.SphereGeometry(0.3 * scale, 8, 8)
-    const lightMat = new THREE.MeshBasicMaterial({ color: '#ff0000' })
-    const redDot = new THREE.Mesh(lightGeo, lightMat)
-    redDot.position.set(0, 36 * scale, 0)
-    group.add(redDot)
-    lights.push(redDot)
+    const rotorGroup = new Group()
+    rotorGroup.position.set(0, 34 * scale, 1.2 * scale)
 
-    // 4. Rotor
-    const rotorGroup = new THREE.Group()
-    rotorGroup.position.set(0, 35 * scale, 1.6 * scale)
-    const bladeGeo = new THREE.BoxGeometry(0.8 * scale, 12 * scale, 0.2 * scale)
-    const bladeMat = new THREE.MeshStandardMaterial({ color: '#ffffff' })
+    const bladeGeo = new BoxGeometry(0.45 * scale, 13 * scale, 0.12 * scale)
     for (let i = 0; i < 3; i++) {
-      const blade = new THREE.Mesh(bladeGeo, bladeMat)
-      const pivot = new THREE.Group()
-      blade.position.y = 6 * scale
-      pivot.rotation.z = (Math.PI * 2 / 3) * i
+      const blade = new Mesh(bladeGeo, material)
+      const pivot = new Group()
+      blade.position.y = 6.5 * scale
+      pivot.rotation.z = ((Math.PI * 2) / 3) * i
       pivot.add(blade)
       rotorGroup.add(pivot)
     }
     group.add(rotorGroup)
 
-    group.position.set(x, groundY, z)
-    scene.add(group)
+    group.position.set(x, y, z)
+    field.add(group)
 
-    rotors.push({ mesh: rotorGroup, speed: 0.015 + Math.random() * 0.01 })
+    rotors.push({ mesh: rotorGroup, speed: 0.006 + Math.random() * 0.004 })
   }
 
-  const update = (weather, isDark, elapsed) => {
-    const multiplier = weather === 'storm' ? 4 : 1
-    rotors.forEach(r => {
+  const update = ({ weather, isDark, elapsed }) => {
+    // Rotation lente : un décor ne doit pas capter le regard.
+    const multiplier = weather === 'storm' ? 2.2 : 1
+    rotors.forEach((r) => {
       r.mesh.rotation.z += r.speed * multiplier
     })
 
-    lights.forEach(light => {
-      if (isDark) {
-        // Clignote toutes les secondes environ
-        light.visible = Math.sin(elapsed * 4) > 0 
-      } else {
-        light.visible = false
-      }
-    })
+    // Même dérive que les crêtes, dosée pour la profondeur des éoliennes.
+    const aspect = Number.isFinite(camera.aspect) ? camera.aspect : 1
+    const halfW = Math.tan((camera.fov * Math.PI) / 360) * (camera.position.z - REF_Z) * aspect
+    field.position.x =
+      Math.sin((elapsed / turbineDrift.periodX) * TAU + turbineDrift.phase) *
+      halfW *
+      turbineDrift.factorX
+
+    const target = isDark ? colorDark : colorLight
+    materials.forEach((m) => m.color.lerp(target, LERP))
   }
 
   return { createTurbine, update }

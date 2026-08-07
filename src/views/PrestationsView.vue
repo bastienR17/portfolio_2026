@@ -1,141 +1,145 @@
 <script setup>
-import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { Target, Users, Workflow, Bot, BadgeCheck, ArrowRight } from 'lucide-vue-next'
+import { Target, Users, Workflow, Bot, ArrowRight } from 'lucide-vue-next'
+import { useReveal } from '../composables/useReveal'
 
-const router = useRouter()
-const { tm } = useI18n()
+const { tm, te } = useI18n()
+
+useReveal()
 
 // Les services pilotés depuis l'i18n : clé de traduction + icône associée
 const services = [
   { key: 'amoa', icon: Target },
   { key: 'change', icon: Users },
   { key: 'agile', icon: Workflow },
-  { key: 'ai', icon: Bot }
+  { key: 'ai', icon: Bot },
 ]
 
 const steps = ['step1', 'step2', 'step3']
 </script>
 
 <template>
-  <section class="max-w-6xl mx-auto py-24 px-4 relative z-10 transition-colors duration-500">
+  <div class="relative z-10">
 
     <!-- En-tête -->
-    <div class="mb-16 max-w-3xl">
-      <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-terracotta/10 dark:bg-ochre/10 border border-terracotta/30 dark:border-ochre/20 text-terracotta dark:text-ochre text-xs font-black uppercase tracking-widest mb-6">
-        <BadgeCheck class="w-4 h-4" />
+    <section class="max-w-6xl mx-auto px-6 pt-16 pb-14 md:pt-24">
+      <p class="flex items-center gap-2.5 mb-8 text-sm text-ink-muted">
+        <span class="w-1.5 h-1.5 bg-accent rounded-full shrink-0" aria-hidden="true"></span>
         {{ $t('prestations.status_badge') }}
-      </span>
+      </p>
 
-      <h2 class="text-5xl font-extrabold text-dark-soft dark:text-white mb-6 tracking-tight">
+      <h1 class="text-5xl md:text-6xl text-ink mb-6">
         {{ $t('prestations.title') }}
-      </h2>
+      </h1>
 
-      <p class="text-gray-600 dark:text-gray-400 text-lg font-medium leading-relaxed">
+      <p class="max-w-2xl text-lg text-ink-muted leading-relaxed">
         {{ $t('prestations.intro') }}
       </p>
-    </div>
+    </section>
 
     <!-- Services -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
-      <div
-        v-for="service in services"
-        :key="service.key"
-        class="group relative bg-white/60 dark:bg-slate-900/40 backdrop-blur-xl p-8 rounded-3xl border border-white/30 dark:border-white/10 transition-all duration-300 shadow-lg hover:shadow-2xl hover:-translate-y-1 hover:border-terracotta/40"
-      >
-        <div class="flex items-center justify-center w-14 h-14 rounded-2xl bg-terracotta/10 dark:bg-ochre/10 text-terracotta dark:text-ochre mb-6 transition-transform group-hover:scale-110">
-          <component :is="service.icon" class="w-7 h-7" />
-        </div>
-
-        <h3 class="text-2xl font-bold text-dark-soft dark:text-white mb-3 tracking-tight">
-          {{ $t(`prestations.services.${service.key}.title`) }}
-        </h3>
-
-        <p class="text-gray-600 dark:text-gray-400 font-medium mb-6 leading-relaxed">
-          {{ $t(`prestations.services.${service.key}.desc`) }}
-        </p>
-
-        <ul class="space-y-2.5">
-          <li
-            v-for="(item, i) in tm(`prestations.services.${service.key}.items`)"
-            :key="i"
-            class="flex items-start gap-3 text-sm text-dark-soft dark:text-gray-300 font-medium"
+    <section class="bg-surface-2 border-y border-line-soft">
+      <div class="max-w-6xl mx-auto px-6 py-20">
+        <div class="grid sm:grid-cols-2 gap-px bg-line-soft border border-line-soft">
+          <article
+            v-for="service in services"
+            :key="service.key"
+            class="reveal bg-surface p-8"
           >
-            <span class="mt-1.5 w-1.5 h-1.5 rounded-full bg-terracotta dark:bg-ochre shrink-0"></span>
-            <span>{{ item }}</span>
-          </li>
-        </ul>
+            <component :is="service.icon" class="w-5 h-5 text-accent mb-5" aria-hidden="true" />
+
+            <h2 class="font-sans font-semibold text-xl text-ink mb-3 tracking-tight">
+              {{ $t(`prestations.services.${service.key}.title`) }}
+            </h2>
+
+            <p class="text-ink-muted leading-relaxed mb-6">
+              {{ $t(`prestations.services.${service.key}.desc`) }}
+            </p>
+
+            <ul class="space-y-2 border-t border-line-soft pt-5">
+              <li
+                v-for="(item, i) in tm(`prestations.services.${service.key}.items`)"
+                :key="i"
+                class="flex gap-3 text-sm text-ink-muted"
+              >
+                <span class="text-accent shrink-0" aria-hidden="true">-</span>
+                <span>{{ item }}</span>
+              </li>
+            </ul>
+
+            <!-- Preuve d'expertise quand il y en a une : une affirmation
+                 adossée à un travail de recherche pèse plus qu'une liste. -->
+            <p
+              v-if="te(`prestations.services.${service.key}.note`)"
+              class="mt-5 pt-5 border-t border-line-soft text-sm text-ink italic"
+            >
+              {{ $t(`prestations.services.${service.key}.note`) }}
+            </p>
+          </article>
+        </div>
       </div>
-    </div>
+    </section>
 
     <!-- Comment travailler ensemble -->
-    <div class="mb-24">
-      <h3 class="text-3xl font-extrabold text-dark-soft dark:text-white mb-12 tracking-tight text-center">
+    <section class="max-w-6xl mx-auto px-6 py-20 md:py-24">
+      <h2 class="reveal text-4xl md:text-5xl text-ink mb-14 max-w-2xl">
         {{ $t('prestations.how_title') }}
-      </h3>
+      </h2>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
-        <div
+      <ol class="grid md:grid-cols-3 gap-10 md:gap-12">
+        <li
           v-for="(step, index) in steps"
           :key="step"
-          class="relative text-center px-4"
+          class="reveal border-t-2 border-accent pt-5"
         >
-          <div class="flex items-center justify-center w-12 h-12 mx-auto rounded-full bg-terracotta text-white font-black text-lg mb-5 shadow-lg">
-            {{ index + 1 }}
-          </div>
-          <h4 class="text-lg font-bold text-dark-soft dark:text-white mb-2 tracking-tight">
+          <p class="font-display text-3xl text-accent mb-3">0{{ index + 1 }}</p>
+          <h3 class="text-lg text-ink mb-2">
             {{ $t(`prestations.${step}_label`) }}
-          </h4>
-          <p class="text-gray-600 dark:text-gray-400 font-medium text-sm leading-relaxed">
+          </h3>
+          <p class="text-ink-muted leading-relaxed text-sm">
             {{ $t(`prestations.${step}_desc`) }}
           </p>
-        </div>
-      </div>
-    </div>
+        </li>
+      </ol>
+    </section>
 
     <!-- Cadre de la prestation + CTA -->
-    <div class="bg-white/60 dark:bg-slate-900/40 backdrop-blur-xl p-10 md:p-12 rounded-3xl border-2 border-dashed border-ochre/40 dark:border-ochre/20 shadow-xl">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+    <section class="bg-surface-2 border-y border-line-soft">
+      <div class="reveal max-w-6xl mx-auto px-6 py-20">
+        <div class="grid md:grid-cols-2 gap-12 items-start">
 
-        <div>
-          <h3 class="text-2xl font-bold text-dark-soft dark:text-white mb-4 tracking-tight">
-            {{ $t('prestations.status_title') }}
-          </h3>
-          <p class="text-gray-600 dark:text-gray-400 font-medium leading-relaxed mb-6">
-            {{ $t('prestations.status_desc') }}
-          </p>
+          <div>
+            <h2 class="font-sans font-semibold text-2xl text-ink mb-4 tracking-tight">
+              {{ $t('prestations.status_title') }}
+            </h2>
+            <p class="text-ink-muted leading-relaxed mb-8 max-w-lg">
+              {{ $t('prestations.status_desc') }}
+            </p>
 
-          <div class="flex flex-wrap gap-x-10 gap-y-4">
-            <div>
-              <p class="text-[10px] uppercase tracking-widest text-gray-500 dark:text-ochre/60 font-black mb-1">
-                {{ $t('prestations.status_label') }}
-              </p>
-              <p class="text-sm font-bold text-dark-soft dark:text-white">
-                {{ $t('prestations.status_value') }}
-              </p>
-            </div>
-            <div>
-              <p class="text-[10px] uppercase tracking-widest text-gray-500 dark:text-ochre/60 font-black mb-1">
-                {{ $t('prestations.siret_label') }}
-              </p>
-              <p class="text-sm font-bold text-dark-soft dark:text-white">
-                {{ $t('prestations.siret_value') }}
-              </p>
-            </div>
+            <dl class="grid grid-cols-2 gap-6 border-t border-line-soft pt-6 max-w-lg">
+              <div>
+                <dt class="text-sm text-ink-muted mb-1">{{ $t('prestations.status_label') }}</dt>
+                <dd class="font-medium text-ink">{{ $t('prestations.status_value') }}</dd>
+              </div>
+              <div>
+                <dt class="text-sm text-ink-muted mb-1">{{ $t('prestations.availability_label') }}</dt>
+                <dd class="font-medium text-ink">{{ $t('prestations.availability_value') }}</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="md:text-right">
+            <router-link
+              to="/contact"
+              class="inline-flex items-center gap-2 px-6 py-3 bg-accent text-accent-ink font-medium hover:opacity-90 transition-opacity"
+            >
+              {{ $t('prestations.cta') }}
+              <ArrowRight class="w-4 h-4" />
+            </router-link>
           </div>
         </div>
-
-        <div class="flex md:justify-end">
-          <button
-            @click="router.push('/contact')"
-            class="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-terracotta text-white font-black uppercase tracking-wider shadow-lg hover:bg-ochre transition-all duration-300 hover:shadow-2xl active:scale-95"
-          >
-            {{ $t('prestations.cta') }}
-            <ArrowRight class="w-5 h-5 transition-transform group-hover:translate-x-1" />
-          </button>
-        </div>
       </div>
-    </div>
+    </section>
 
-  </section>
+  </div>
 </template>

@@ -1,32 +1,29 @@
-import * as THREE from 'three'
+const DECAY = 3.5 // retour à zéro en ~0,3 s
+const STRIKES_PER_SECOND = 0.25
 
-export function useStorm(scene, dirLight, colors) {
-  
-  // Fonction pour déclencher un éclair
-  const triggerLightning = (isDark) => {
-    // 1. Boost de la lumière principale
-    dirLight.intensity = 5 
-    
-    // 2. Flash du ciel (on peint tout le fond en blanc/bleu très clair)
-    const originalBg = isDark ? colors.dark.bg : colors.light.bg
-    scene.background = new THREE.Color('#ffffff')
+/**
+ * Éclairs d'orage, exprimés sous forme d'une intensité 0 → 1 qui décroît.
+ *
+ * L'ancienne version repeignait directement `scene.background` en blanc : comme
+ * la boucle de rendu réassignait le fond au début de chaque frame, le flash ne
+ * durait qu'une seule image et ne se voyait pratiquement pas. Ici l'intensité
+ * est un état, lue ensuite par le ciel et par la lumière.
+ *
+ * La probabilité est pondérée par le delta : la fréquence des éclairs ne dépend
+ * plus du nombre d'images par seconde de la machine.
+ */
+export function useStorm() {
+  let intensity = 0
 
-    // 3. Durée aléatoire très courte pour le flash
-    setTimeout(() => {
-      if (dirLight) dirLight.intensity = 0.6
-      scene.background = new THREE.Color(originalBg)
-    }, 50 + Math.random() * 100)
-  }
+  const update = (weatherState, delta) => {
+    intensity = Math.max(0, intensity - delta * DECAY)
 
-  // Fonction de mise à jour appelée à chaque frame
-  const updateStorm = (weatherState, isDark) => {
-    if (weatherState !== 'storm') return
-
-    // Probabilité de déclencher un éclair (environ 1% de chance par frame)
-    if (Math.random() > 0.99) {
-      triggerLightning(isDark)
+    if (weatherState === 'storm' && Math.random() < delta * STRIKES_PER_SECOND) {
+      intensity = 0.65 + Math.random() * 0.35
     }
+
+    return intensity
   }
 
-  return { updateStorm }
+  return { update }
 }

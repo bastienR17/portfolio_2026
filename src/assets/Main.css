@@ -1,97 +1,221 @@
 /* 1. Imports */
-@import url('https://cdn.jsdelivr.net/npm/@fontsource/opendyslexic@5.0.1/index.css');
-@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap');
 @import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* 2. Polices auto-hébergées
+   Lexend (corps) et Instrument Serif (titres) sont servies depuis /fonts.
+   Auparavant elles venaient du CDN Google : chaque visite transmettait l'adresse
+   IP du visiteur à un sous-traitant hors UE, ce qui est difficilement défendable
+   face à des clients du secteur public. En prime, cela supprime deux
+   connexions vers un domaine tiers.
 
-/* 2. Configuration du Thème v4 */
+   Lexend est variable : un seul fichier couvre les graisses 400 à 700.
+   Les sous-ensembles latin / latin-ext sont séparés, le navigateur ne
+   télécharge que ce dont la page a besoin. */
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/instrument-serif-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/instrument-serif-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lexend';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/lexend-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lexend';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/lexend-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* 3. Thème
+   Les couleurs pointent vers des variables redéfinies sous .dark : une classe
+   comme `text-accent` s'adapte donc au thème sans variante `dark:`.
+   Toutes les paires texte/fond sont vérifiées >= 4.5:1 (RGAA 4.1 / WCAG AA),
+   >= 3:1 pour le texte large et les composants d'interface. */
 @theme {
-  --color-cream: #FFF9F5;
-  --color-terracotta: #E2725B;
-  --color-dark-soft: #2D2926;
+  --color-page: var(--c-page);
+  --color-surface: var(--c-surface);
+  --color-surface-2: var(--c-surface-2);
+  --color-ink: var(--c-ink);
+  --color-ink-muted: var(--c-ink-muted);
+  --color-line: var(--c-line);
+  --color-line-soft: var(--c-line-soft);
+  --color-accent: var(--c-accent);
+  --color-accent-ink: var(--c-accent-ink);
+  --color-accent-wash: var(--c-accent-wash);
   --color-ochre: #F4D06F;
+  --color-ochre-deep: var(--c-ochre-deep);
+  --color-positive: var(--c-positive);
 
-  --font-sans: "Lexend", ui-sans-serif, system-ui;
+  /* Alias hérités : les anciennes classes restent valides et deviennent
+     conformes d'elles-mêmes. */
+  --color-terracotta: var(--c-accent);
+  --color-cream: #FFF9F5;
+  --color-dark-soft: #2D2926;
+
+  --font-sans: "Lexend", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Instrument Serif", ui-serif, Georgia, "Times New Roman", serif;
   --font-dys: "OpenDyslexic", sans-serif;
 }
 
-/* 3. Activation du Dark Mode Manuel */
+:root {
+  --c-page: #FFF9F5;
+  --c-surface: #FFFFFF;
+  --c-surface-2: #F8F2EC;
+  --c-ink: #2D2926;
+  --c-ink-muted: #5A534E;   /* 7.55:1 sur surface */
+  --c-line: #A08776;        /* 3.38:1 — bordures porteuses de sens */
+  --c-line-soft: #E7DCD2;   /* séparation purement décorative */
+  --c-accent: #C44127;      /* 5.08:1 sur blanc, porte du texte blanc */
+  --c-accent-ink: #FFFFFF;
+  --c-accent-wash: #F6E7E2; /* fond très pâle pour pastilles et icônes */
+  --c-ochre-deep: #8F6D0F;  /* ochre lisible en texte sur fond clair */
+  --c-positive: #047857;
+}
+
+.dark {
+  --c-page: #10131A;
+  --c-surface: #171B24;
+  --c-surface-2: #1F242F;
+  --c-ink: #F2EEEA;
+  --c-ink-muted: #ADA69F;   /* 7.17:1 sur surface */
+  --c-line: #656E81;        /* 3.36:1 */
+  --c-line-soft: #2C323E;
+  --c-accent: #E2725B;      /* 5.57:1 sur surface sombre */
+  --c-accent-ink: #22160F;  /* texte sombre sur bouton accent : 5.71:1 */
+  --c-accent-wash: #2A1E1C;
+  --c-ochre-deep: #F4D06F;
+  --c-positive: #34D399;
+}
+
+/* 4. Activation du Dark Mode manuel */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* 4. Styles de base */
+/* 5. Styles de base */
 @layer base {
   html, body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
-    font-size: 15px;
+    font-size: 16px;
   }
 
   body {
-    @apply bg-cream text-dark-soft transition-colors duration-300;
+    background-color: var(--c-page);
+    color: var(--c-ink);
     font-family: var(--font-sans);
+    transition: background-color 0.3s, color 0.3s;
   }
 
-  .dark body {
-    background-color: #111827; 
-    color: #FFF9F5;
+  /* Hiérarchie portée par la taille et la famille, pas par une graisse noire
+     sur tous les niveaux. */
+  h1, h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.08;
   }
 
-  .dark h1, .dark h2, .dark h3 {
-    color: #ffffff !important;
+  h3, h4 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  /* RGAA 10.7 — la prise de focus doit rester visible partout. */
+  :focus-visible {
+    outline: 2px solid var(--c-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
   }
 
   /* --- MODE DYSLEXIQUE --- */
   .font-dys, .font-dys * {
     font-family: var(--font-dys) !important;
-    font-size: 1.1rem; 
-    line-height: 1.6 !important; 
+    line-height: 1.7 !important;
     letter-spacing: 0.03em;
+    word-spacing: 0.1em;
   }
 
-  /* Boost du H1 Accueil (PC) */
-  .font-dys h1 { 
-    font-size: 3.5rem !important; 
-    line-height: 1.1 !important;
-    margin-bottom: 2rem;
-  }
+  .font-dys h1 { font-size: 3rem !important; line-height: 1.15 !important; }
+  .font-dys h2 { font-size: 2.1rem !important; }
 
-  .font-dys h2 { 
-    font-size: 2.5rem !important; 
-  }
-
-  /* --- AJUSTEMENTS RESPONSIVE --- */
   @media (max-width: 768px) {
-    .font-dys, .font-dys * {
-      font-size: 0.95rem; 
-      line-height: 1.5 !important;
-    }
-
-    .font-dys h1 { 
-      font-size: 2.2rem !important; /* H1 puissant sur Mobile */
-      line-height: 1.1 !important;
-    }
-
-    .font-dys h2 { 
-      font-size: 1.8rem !important; 
-    }
+    .font-dys h1 { font-size: 2rem !important; }
+    .font-dys h2 { font-size: 1.6rem !important; }
   }
-/* --- Styles globaux de la Navigation --- */
 
-/* Style pour le lien actif (page courante) */
-.router-link-active:not(.text-2xl) {
-  @apply text-terracotta font-black;
+  /* Lien de navigation actif */
+  .router-link-active:not(.no-active) {
+    color: var(--c-accent);
+    font-weight: 600;
+  }
 }
 
-/* Effet au survol du logo (B.R) */
-a:first-child:hover .text-terracotta {
-  @apply text-ochre;
-  transition: color 0.3s ease;
-}
-  
+/* 6. Lien d'évitement (RGAA 12.7)
+   Écrit à la main plutôt qu'avec sr-only / focus:not-sr-only : dans Tailwind 4
+   ces deux utilitaires ont la même spécificité et l'ordre de cascade ne
+   garantit pas que la variante focus l'emporte — le lien restait invisible
+   même au focus, donc inutilisable. */
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 200;
+  padding: 0.75rem 1.25rem;
+  background-color: var(--c-accent);
+  color: var(--c-accent-ink);
+  font-weight: 500;
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform 0.15s ease;
 }
 
+.skip-link:focus {
+  transform: translateY(0);
+}
 
+/* 7. Apparition au scroll — piloté par useReveal().
+
+   Le contenu n'est masqué que si <html> porte .reveal-ready, classe posée par
+   useReveal() uniquement quand l'animation peut se jouer. Sans JS, sans
+   IntersectionObserver ou en mouvement réduit, tout reste visible. */
+.reveal-ready .reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.reveal-ready .reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

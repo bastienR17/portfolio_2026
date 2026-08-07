@@ -2,7 +2,6 @@ import { ref } from 'vue'
 
 export function useWeatherLogic() {
   const weatherState = ref('clear')
-  const city = ref('Paris') // Fixé par défaut
 
   const fetchWeatherData = async () => {
     try {
@@ -34,5 +33,5 @@ export function useWeatherLogic() {
     }
   }
 
-  return { weatherState, city, fetchWeatherData }
+  return { weatherState, fetchWeatherData }
 }

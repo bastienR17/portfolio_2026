@@ -1,171 +1,281 @@
-import * as THREE from 'three'
+import { BufferAttribute, BufferGeometry, Color, DoubleSide, FogExp2, Mesh, MeshBasicMaterial, PlaneGeometry, ShaderMaterial } from 'three'
+import { palette, ridgeDrift as DRIFT } from './palette'
 
-export function useEnvironment(scene, colors) {
-  let earthGroup, sun, moon
+const SKY_Z = -320
+const LERP = 0.06 // vitesse de fondu entre thème clair et sombre
 
- 
+/**
+ * Dérive lente des crêtes, une entrée par plan (de la plus lointaine à la plus
+ * proche). C'est une oscillation et non un défilement continu : la géométrie
+ * n'a donc jamais besoin de boucler et aucun bord ne peut apparaître.
+ *
+ * Les périodes sont longues et volontairement non multiples entre elles, pour
+ * que les plans ne se resynchronisent jamais et que le mouvement ne se lise pas
+ * comme un va-et-vient. Plus un plan est proche, plus il bouge : c'est ce
+ * décalage qui crée la profondeur.
+ */
+const MAX_FACTOR_X = Math.max(...DRIFT.map((d) => d.factorX))
 
-  const createLowPolyTree = () => {
-    const tree = new THREE.Group()
-    const trunk = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.5, 0.7, 3, 6), 
-      new THREE.MeshStandardMaterial({ color: colors.light.treeTrunk, flatShading: true })
-    )
-    trunk.position.y = 1.5
-    trunk.name = "trunkMesh"
+const RIDGE_SEGMENTS = 200
 
-    const leaves = new THREE.Mesh(
-      new THREE.IcosahedronGeometry(2.5, 0), 
-      new THREE.MeshStandardMaterial({ color: colors.light.treeLeaves, flatShading: true })
-    )
-    leaves.position.y = 4
-    leaves.name = "leavesMesh"
+/**
+ * Vitesse de houle par plan (radians/seconde sur la composante dominante).
+ * Le plan le plus proche ondule le plus vite : c'est ce qui donne la parallaxe.
+ */
+const SWELL_SPEED = [0.016, 0.024, 0.036]
 
-    tree.add(trunk, leaves)
-    return tree
+/**
+ * Profil de crête calculé dans le vertex shader : trois sinusoïdes dont les
+ * phases avancent à des vitesses différentes, et dans des sens opposés.
+ *
+ * C'est ce décalage qui fait que la crête se déforme au lieu de simplement
+ * glisser : translater la géométrie entière ne se voyait pas, car un décalage
+ * de quelques pour cent de la longueur d'onde laisse une courbe lisse
+ * pratiquement identique à elle-même.
+ */
+const ridgeVertexChunk = /* glsl */ `
+  float t = uTime * uSpeed;
+  float x = transformed.x;
+  transformed.y = uBase
+    + sin(x * 0.0055 + uSeed        + t)       * uAmp
+    + sin(x * 0.0131 + uSeed * 2.1  - t * 1.3) * uAmp * 0.45
+    + sin(x * 0.0307 + uSeed * 3.7  + t * 0.7) * uAmp * 0.2;
+`
+
+const skyVertex = /* glsl */ `
+  varying vec2 vUv;
+  void main() {
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`
+
+const skyFragment = /* glsl */ `
+  uniform vec3 topColor;
+  uniform vec3 horizonColor;
+  uniform vec3 glowColor;
+  uniform float glowStrength;
+  uniform float flash;
+  varying vec2 vUv;
+
+  void main() {
+    float h = pow(clamp(vUv.y, 0.0, 1.0), 1.3);
+    vec3 col = mix(horizonColor, topColor, h);
+
+    // Lueur chaude resserrée sur l'horizon : le rappel terracotta de la marque.
+    float glow = pow(1.0 - clamp(vUv.y, 0.0, 1.0), 3.5) * glowStrength;
+    col = mix(col, glowColor, glow);
+
+    gl_FragColor = vec4(col + flash, 1.0);
+  }
+`
+
+/** Cibles instanciées une fois : rien ne doit allouer dans la boucle de rendu. */
+const toTargets = (p) => ({
+  top: new Color(p.skyTop),
+  horizon: new Color(p.skyHorizon),
+  fog: new Color(p.fog),
+  ridges: p.ridges.map((c) => new Color(c)),
+  glowStrength: p.glowStrength,
+})
+
+const TARGETS = { light: toTargets(palette.light), dark: toTargets(palette.dark) }
+
+/**
+ * Demi-dimensions du frustum à une profondeur donnée.
+ * Sans ça, un plan placé loin derrière la caméra est dimensionné pour la
+ * mauvaise distance et ne couvre qu'une fraction de l'écran.
+ */
+const frustumAt = (camera, z, minAspect = 1) => {
+  const distance = camera.position.z - z
+  const halfH = Math.tan((camera.fov * Math.PI) / 360) * distance
+  // Un aspect non fini (conteneur mesuré à 0×0) contaminerait toute la
+  // géométrie en NaN : on retombe sur le minimum plutôt que de propager.
+  const aspect = Number.isFinite(camera.aspect) ? camera.aspect : minAspect
+  return { halfH, halfW: halfH * Math.max(aspect, minAspect) }
+}
+
+export function useEnvironment(scene, camera) {
+  let sky = null
+  const ridges = []
+
+  // Couleurs courantes, interpolées vers la cible à chaque frame pour que le
+  // basculement de thème soit fondu et non brutal.
+  const current = {
+    top: new Color(palette.light.skyTop),
+    horizon: new Color(palette.light.skyHorizon),
+    fog: new Color(palette.light.fog),
+    ridges: palette.light.ridges.map((c) => new Color(c)),
   }
 
-  const createLowPolyHouse = () => {
-    const house = new THREE.Group()
-    const walls = new THREE.Mesh(
-      new THREE.BoxGeometry(4, 3, 4), 
-      new THREE.MeshStandardMaterial({ color: colors.light.houseWall, flatShading: true })
-    )
-    walls.position.y = 1.5
-    walls.name = "wallMesh"
+  const createSky = () => {
+    const uniforms = {
+      topColor: { value: current.top },
+      horizonColor: { value: current.horizon },
+      glowColor: { value: new Color(palette.light.glow) },
+      glowStrength: { value: palette.light.glowStrength },
+      flash: { value: 0 },
+    }
 
-    const roof = new THREE.Mesh(
-      new THREE.ConeGeometry(3.5, 2.5, 4), 
-      new THREE.MeshStandardMaterial({ color: colors.light.houseRoof, flatShading: true })
+    sky = new Mesh(
+      new PlaneGeometry(1, 1),
+      new ShaderMaterial({
+        uniforms,
+        vertexShader: skyVertex,
+        fragmentShader: skyFragment,
+        depthWrite: false,
+        fog: false, // le ciel ne doit pas être mangé par son propre brouillard
+      }),
     )
-    roof.position.y = 4.25
-    roof.rotation.y = Math.PI / 4
-    roof.name = "roofMesh"
-
-    const win = new THREE.Mesh(
-      new THREE.PlaneGeometry(0.8, 1), 
-      new THREE.MeshStandardMaterial({ 
-        color: colors.light.window, 
-        emissive: new THREE.Color(0x000000), 
-        emissiveIntensity: 0 
-      })
-    )
-    win.position.set(0, 1.5, 2.01)
-    win.name = "windowMesh"
-
-    house.add(walls, roof, win)
-    return house
+    sky.position.z = SKY_Z
+    sky.renderOrder = -1
+    scene.add(sky)
+    resizeSky()
   }
 
-  // --- NOUVEAU : Création du Soleil et de la Lune ---
-
-  const createCelestialBodies = (screenBounds) => {
-    // 1. LE SOLEIL
-    const sunGeo = new THREE.IcosahedronGeometry(screenBounds.h * 0.08, 1)
-    const sunMat = new THREE.MeshBasicMaterial({ color: colors.light.sun })
-    sun = new THREE.Mesh(sunGeo, sunMat)
-    
-    // 2. LA LUNE (Groupe avec masque pour l'effet croissant)
-    moon = new THREE.Group()
-    const moonSize = screenBounds.h * 0.07
-    
-    const moonVisible = new THREE.Mesh(
-      new THREE.IcosahedronGeometry(moonSize, 1),
-      new THREE.MeshStandardMaterial({ 
-        color: colors.dark.moon, 
-        flatShading: true, 
-        emissive: colors.dark.moon, 
-        emissiveIntensity: 0.2 
-      })
-    )
-    
-    const mask = new THREE.Mesh(
-      new THREE.IcosahedronGeometry(moonSize * 1.1, 1),
-      new THREE.MeshBasicMaterial({ color: colors.dark.bg })
-    )
-    mask.position.set(moonSize * 0.4, 0, 2)
-    
-    moon.add(moonVisible, mask)
-    moon.rotation.z = Math.PI / 6
-
-    scene.add(sun, moon)
+  /** Dimensionne le plan de ciel pour couvrir le frustum à sa profondeur réelle. */
+  const resizeSky = () => {
+    if (!sky) return
+    const { halfW, halfH } = frustumAt(camera, SKY_Z)
+    sky.scale.set(halfW * 2.1, halfH * 2.1, 1) // 5 % de marge de chaque côté
   }
 
-  // --- Fonctions Principales ---
+  /**
+   * Trois plans de crêtes : le plus lointain est le plus clair et le plus haut,
+   * le plus proche est le plus sombre. Combiné au brouillard, cela donne la
+   * perspective atmosphérique.
+   */
+  const createRidges = (bounds, groundY) => {
+    const layers = [
+      { z: -220, amp: bounds.h * 0.1, lift: bounds.h * 0.2, seed: 1.7 },
+      { z: -150, amp: bounds.h * 0.08, lift: bounds.h * 0.1, seed: 4.2 },
+      { z: -80, amp: bounds.h * 0.07, lift: bounds.h * 0.02, seed: 8.9 },
+    ]
 
-  const createWorld = (screenBounds, groundY) => {
-    earthGroup = new THREE.Group()
-    
-    const ground = new THREE.Mesh(
-      new THREE.PlaneGeometry(screenBounds.w * 3, 200),
-      new THREE.MeshStandardMaterial({ color: colors.light.ground, flatShading: true, roughness: 1 })
-    )
-    ground.rotation.x = -Math.PI / 2
-    ground.position.y = groundY
-    ground.name = "groundMesh"
-    earthGroup.add(ground)
+    layers.forEach((layer, i) => {
+      // Largeur calculée à la profondeur de la crête, avec un aspect minimum
+      // généreux : la géométrie n'est pas régénérée au redimensionnement, elle
+      // doit donc déjà couvrir les écrans très larges — et absorber la dérive.
+      const { halfW: visibleHalfW, halfH } = frustumAt(camera, layer.z, 5)
+      const halfW = visibleHalfW * (1 + MAX_FACTOR_X)
+      // Le bas du ruban descend bien sous le champ visible : ni la houle ni la
+      // dérive ne peuvent découvrir son arête inférieure.
+      const bottom = -halfH * 2
 
-    for (let i = 0; i < 15; i++) {
-      const tree = createLowPolyTree()
-      tree.position.set((Math.random() - 0.5) * screenBounds.w * 1.2, groundY, (Math.random() - 0.5) * 60 - 10)
-      tree.scale.setScalar(0.6 + Math.random() * 0.6)
-      earthGroup.add(tree)
-    }
+      // Ruban de triangles construit à la main : contrairement à ShapeGeometry,
+      // on sait quels sommets forment l'arête supérieure, donc le shader peut
+      // les déplacer sans toucher au reste.
+      const positions = new Float32Array((RIDGE_SEGMENTS + 1) * 2 * 3)
+      const isTop = new Float32Array((RIDGE_SEGMENTS + 1) * 2)
+      const indices = []
 
-    for (let i = 0; i < 4; i++) {
-      const house = createLowPolyHouse()
-      house.position.set((Math.random() - 0.5) * screenBounds.w * 0.9, groundY, (Math.random() * -40) - 5)
-      earthGroup.add(house)
-    }
+      for (let s = 0; s <= RIDGE_SEGMENTS; s++) {
+        const x = -halfW + (halfW * 2 * s) / RIDGE_SEGMENTS
+        const top = s * 2
+        positions[top * 3] = x
+        positions[top * 3 + 1] = groundY + layer.lift // remplacé par le shader
+        isTop[top] = 1
+        positions[(top + 1) * 3] = x
+        positions[(top + 1) * 3 + 1] = bottom
+        isTop[top + 1] = 0
 
-    earthGroup.position.z = -5
-    scene.add(earthGroup)
-
-    // On initialise les astres
-    createCelestialBodies(screenBounds)
-  }
-
-  const updateEnvironment = (isDark, theme, weatherState, screenBounds) => {
-    if (!earthGroup) return
-
-    // 1. Mise à jour du SOLEIL
-    if (sun) {
-      sun.visible = !isDark
-      sun.position.set(screenBounds.w * 0.40, screenBounds.h * 0.5, -150)
-      sun.rotation.y += 0.005
-    }
-
-    // 2. Mise à jour de la LUNE
-    if (moon) {
-      moon.visible = isDark
-      moon.position.set(-screenBounds.w * 0.40, screenBounds.h * 0.5, -150)
-      moon.rotation.y += 0.002
-      // Mise à jour de la couleur du masque pour qu'il se fonde dans le ciel
-      if (moon.children[1]) moon.children[1].material.color.set(theme.bg)
-    }
-
-    // 3. Mise à jour du VILLAGE
-    earthGroup.traverse(m => {
-      if (!m.isMesh) return
-      
-      if (m.name === "groundMesh") m.material.color.set(theme.ground)
-      if (m.name === "trunkMesh") m.material.color.set(theme.treeTrunk)
-      if (m.name === "leavesMesh") m.material.color.set(theme.treeLeaves)
-      if (m.name === "wallMesh") m.material.color.set(theme.houseWall)
-      if (m.name === "roofMesh") m.material.color.set(theme.houseRoof)
-      
-      if (m.name === "windowMesh") {
-        m.material.color.set(theme.window)
-        if (isDark) {
-          m.material.emissive.set(theme.window)
-          m.material.emissiveIntensity = 1.5
-        } else {
-          m.material.emissive.set(0x000000)
-          m.material.emissiveIntensity = 0
+        if (s < RIDGE_SEGMENTS) {
+          const a = s * 2
+          indices.push(a, a + 1, a + 2, a + 1, a + 3, a + 2)
         }
       }
+
+      const geo = new BufferGeometry()
+      geo.setAttribute('position', new BufferAttribute(positions, 3))
+      geo.setAttribute('aTop', new BufferAttribute(isTop, 1))
+      geo.setIndex(indices)
+
+      const material = new MeshBasicMaterial({
+        color: current.ridges[i],
+        fog: true,
+        side: DoubleSide, // évite toute question d'ordre des sommets
+      })
+
+      // onBeforeCompile plutôt qu'un ShaderMaterial : on garde le brouillard de
+      // three.js gratuitement, c'est lui qui donne la profondeur.
+      material.onBeforeCompile = (shader) => {
+        shader.uniforms.uTime = { value: 0 }
+        shader.uniforms.uAmp = { value: layer.amp }
+        shader.uniforms.uSeed = { value: layer.seed }
+        shader.uniforms.uBase = { value: groundY + layer.lift }
+        shader.uniforms.uSpeed = { value: SWELL_SPEED[i] }
+
+        shader.vertexShader = shader.vertexShader
+          .replace(
+            '#include <common>',
+            `#include <common>
+             uniform float uTime;
+             uniform float uAmp;
+             uniform float uSeed;
+             uniform float uBase;
+             uniform float uSpeed;
+             attribute float aTop;`,
+          )
+          .replace(
+            '#include <begin_vertex>',
+            `#include <begin_vertex>
+             if (aTop > 0.5) {${ridgeVertexChunk}}`,
+          )
+
+        material.userData.shader = shader
+      }
+
+      const mesh = new Mesh(geo, material)
+      mesh.position.z = layer.z
+      // Le shader déplace les sommets : la sphère englobante calculée sur le
+      // CPU est fausse, on désactive donc le culling pour ce maillage.
+      mesh.frustumCulled = false
+      // La profondeur est relue à chaque frame pour recalculer l'amplitude :
+      // un redimensionnement change le ratio, donc la largeur visible.
+      mesh.userData.drift = { ...DRIFT[i], z: layer.z }
+      scene.add(mesh)
+      ridges.push(mesh)
     })
   }
 
-  return { createWorld, updateEnvironment }
+  const createWorld = (bounds, groundY) => {
+    scene.fog = new FogExp2(current.fog, 0.002)
+    createSky()
+    createRidges(bounds, groundY)
+  }
+
+  const update = ({ isDark, flash, elapsed }) => {
+    const target = isDark ? TARGETS.dark : TARGETS.light
+    const TAU = Math.PI * 2
+
+    current.top.lerp(target.top, LERP)
+    current.horizon.lerp(target.horizon, LERP)
+    current.fog.lerp(target.fog, LERP)
+
+    if (sky) {
+      const glow = sky.material.uniforms.glowStrength
+      glow.value += (target.glowStrength - glow.value) * LERP
+      sky.material.uniforms.flash.value = flash * 0.16
+    }
+
+    ridges.forEach((mesh, i) => {
+      current.ridges[i].lerp(target.ridges[i], LERP)
+      mesh.material.color.copy(current.ridges[i])
+
+      // La houle est calculée sur le GPU : côté CPU il n'y a qu'un uniform à
+      // pousser, quel que soit le nombre de sommets.
+      const shader = mesh.material.userData.shader
+      if (shader) shader.uniforms.uTime.value = elapsed
+
+      // Dérive d'ensemble, qui s'ajoute à la houle et écarte les plans entre eux.
+      const d = mesh.userData.drift
+      const ampX = frustumAt(camera, d.z).halfW * d.factorX
+      mesh.position.x = Math.sin((elapsed / d.periodX) * TAU + d.phase) * ampX
+      mesh.position.y = Math.sin((elapsed / d.periodY) * TAU + d.phase) * d.ampY
+    })
+
+    if (scene.fog) scene.fog.color.copy(current.fog)
+  }
+
+  return { createWorld, update, resize: resizeSky }
 }

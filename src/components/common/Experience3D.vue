@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, onBeforeUnmount, ref, nextTick } from 'vue'
-import * as THREE from 'three'
+import { Clock, PerspectiveCamera, Scene, WebGLRenderer } from 'three'
 
 import { useWeatherLogic } from './weather/useWeatherLogic'
 import { useEnvironment } from './weather/useEnvironment'
@@ -8,131 +8,150 @@ import { useAtmosphere } from './weather/useAtmosphere'
 import { useStorm } from './weather/useStorm'
 import { useWindTurbines } from './weather/useWindTurbines'
 
-// Initialisation propre pour éviter les erreurs "any"
 const container = ref(null)
+
 let scene = null
 let camera = null
 let renderer = null
 let animationId = null
-let dirLight = null
-let screenBounds = { w: 0, h: 0 }
-const clock = new THREE.Clock() 
+let bounds = { w: 0, h: 0 }
+let groundY = 0
+let flash = 0
 
-const { weatherState, city, fetchWeatherData } = useWeatherLogic()
+const clock = new Clock()
+const { weatherState, fetchWeatherData } = useWeatherLogic()
 
-const colors = {
-  light: { bg: '#87CEEB', rain: '#1E3A8A', ground: '#4ADE80', sun: '#FDE047', treeTrunk: '#78350F', treeLeaves: '#22C55E', houseWall: '#F3F4F6', houseRoof: '#EF4444', window: '#334155' },
-  dark: { bg: '#111827', rain: '#E2725B', moon: '#F3F4F6', ground: '#064E3B', treeTrunk: '#451a03', treeLeaves: '#065F46', houseWall: '#374151', houseRoof: '#991B1B', window: '#FDE047', stormBg: '#0f172a' }
-}
-
-// Initialisation des controllers à null
 let env = null
 let atmosphere = null
-let stormController = null
-let windTurbines = null
+let storm = null
+let turbines = null
 
-// --- UTILITAIRE DE PERSPECTIVE ---
-const mapLinear = (x, a, b, c, d) => {
-  return c + (d - c) * ((x - a) / (b - a))
-}
+const prefersReducedMotion = () =>
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-// --- MODE DEBUG MÉTÉO ---
-window.setWeather = (state) => {
-  const validStates = ['clear', 'clouds', 'rain', 'storm', 'snow']
-  if (validStates.includes(state) && weatherState) {
-    weatherState.value = state
-    console.log(`%c 🛠 Météo forcée : ${state.toUpperCase()} `, 'background: #333; color: #fff; padding: 2px 5px;')
+// Outil de test des ambiances, réservé au développement : en production il n'y
+// a aucune variable globale ni aucun log laissé derrière.
+if (import.meta.env.DEV) {
+  window.setWeather = (state) => {
+    if (['clear', 'clouds', 'rain', 'storm', 'snow'].includes(state)) {
+      weatherState.value = state
+    }
   }
 }
+
+const mapLinear = (x, a, b, c, d) => c + (d - c) * ((x - a) / (b - a))
+
+/**
+ * Dimensions du viewport bornées à au moins 1px.
+ * Si le conteneur est mesuré à 0×0 (monté masqué, volet non affiché), le
+ * rapport 0/0 donne un aspect NaN qui se propage à toute la géométrie et
+ * produit des `Computed radius is NaN` côté three.js.
+ */
+const viewportSize = () => ({
+  w: Math.max(window.innerWidth || 0, 1),
+  h: Math.max(window.innerHeight || 0, 1),
+})
 
 const updateScreenBounds = () => {
   if (!camera) return
   const vFOV = (camera.fov * Math.PI) / 180
   const h = 2 * Math.tan(vFOV / 2) * 100
-  screenBounds.w = h * camera.aspect
-  screenBounds.h = h
+  bounds.w = h * camera.aspect
+  bounds.h = h
 }
 
 const onWindowResize = () => {
   if (!camera || !renderer) return
-  camera.aspect = window.innerWidth / window.innerHeight
+  const { w, h } = viewportSize()
+  camera.aspect = w / h
   camera.updateProjectionMatrix()
-  renderer.setSize(window.innerWidth, window.innerHeight)
+  renderer.setSize(w, h)
   updateScreenBounds()
+  env?.resize()
 }
 
 const init = () => {
   if (!container.value) return
 
-  scene = new THREE.Scene()
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+  const { w, h } = viewportSize()
+
+  scene = new Scene()
+  camera = new PerspectiveCamera(75, w / h, 0.1, 1000)
   camera.position.set(0, 5, 100)
-  
-  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
-  renderer.setSize(window.innerWidth, window.innerHeight)
+
+  renderer = new WebGLRenderer({ antialias: true, alpha: true })
+  renderer.setSize(w, h)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-  
   container.value.appendChild(renderer.domElement)
 
   updateScreenBounds()
-  const groundY = -screenBounds.h * 0.55
+  groundY = -bounds.h * 0.55
 
-  scene.add(new THREE.AmbientLight(0xffffff, 0.7))
-  dirLight = new THREE.DirectionalLight(0xffffff, 0.6)
-  dirLight.position.set(50, 50, 20)
-  scene.add(dirLight)
+  // Aucune source de lumière : ciel, crêtes et éoliennes sont des aplats
+  // (shader et MeshBasicMaterial). La profondeur vient du brouillard, pas de
+  // l'éclairage.
+  env = useEnvironment(scene, camera)
+  atmosphere = useAtmosphere(scene)
+  storm = useStorm()
+  turbines = useWindTurbines(scene, camera)
 
-  // On assigne nos controllers
-  env = useEnvironment(scene, colors)
-  atmosphere = useAtmosphere(scene, colors)
-  stormController = useStorm(scene, dirLight, colors)
-  windTurbines = useWindTurbines(scene)
+  env.createWorld(bounds, groundY)
+  atmosphere.create(bounds)
 
-  env.createWorld(screenBounds, groundY)
-  atmosphere.createClouds(15, screenBounds)
-  atmosphere.createRain(1000, screenBounds)
-  atmosphere.createSnow(600, screenBounds)
-
-  // --- GÉNÉRATION ÉOLIENNES (Réduites à 4 pour un look épuré) ---
-  const turbineCount = 3
-  const zProche = -40
-  const zLoin = -120
-
-  for (let i = 0; i < turbineCount; i++) {
-    const z = zProche - Math.random() * (Math.abs(zLoin) - Math.abs(zProche))
-    const scale = mapLinear(z, zProche, zLoin, 1.3, 0.5)
-    let x = (Math.random() - 0.5) * 250 
-    if (x > -30 && x < 30) x += x > 0 ? 40 : -40 
-
-    if (windTurbines) windTurbines.createTurbine(x, z, groundY, scale)
+  // Trois éoliennes posées entre la crête lointaine et la crête médiane, qui
+  // masque leur base. On évite le centre de l'écran, occupé par le contenu.
+  const zNear = -180
+  const zFar = -215
+  for (let i = 0; i < 3; i++) {
+    const z = zNear - Math.random() * Math.abs(zFar - zNear)
+    const scale = mapLinear(z, zNear, zFar, 0.55, 0.35)
+    let x = (Math.random() - 0.5) * bounds.w * 1.6
+    if (x > -40 && x < 40) x += x > 0 ? 55 : -55
+    turbines.createTurbine(x, groundY + bounds.h * 0.13, z, scale)
   }
-  
-  animate()
+
+  if (prefersReducedMotion()) renderFrame()
+  else animate()
+}
+
+const renderFrame = () => {
+  if (!renderer || !scene || !atmosphere || !env) return
+
+  const isDark = document.documentElement.classList.contains('dark')
+  const delta = Math.min(clock.getDelta(), 0.1)
+  const elapsed = clock.getElapsedTime()
+  const weather = weatherState.value
+
+  flash = storm.update(weather, delta)
+
+  const ctx = { isDark, weather, bounds, groundY, elapsed, delta, flash }
+
+  env.update(ctx)
+  atmosphere.update(ctx)
+  turbines.update(ctx)
+
+  renderer.render(scene, camera)
 }
 
 const animate = () => {
   animationId = requestAnimationFrame(animate)
-  if (!renderer || !scene || !atmosphere || !env) return
+  renderFrame()
+}
 
-  const isDark = document.documentElement.classList.contains('dark')
-  const groundY = -screenBounds.h * 0.55
-  const elapsed = clock.getElapsedTime() 
-
-  scene.background = new THREE.Color(isDark ? colors.dark.bg : colors.light.bg)
-
-  atmosphere.update(weatherState.value, screenBounds, groundY, isDark)
-  
-  if (stormController) {
-    stormController.updateStorm(weatherState.value, isDark)
+/**
+ * La boucle tournait même onglet masqué : un décor de fond n'a aucune raison
+ * de consommer du GPU quand personne ne le regarde.
+ */
+const onVisibilityChange = () => {
+  if (document.hidden) {
+    if (animationId) {
+      cancelAnimationFrame(animationId)
+      animationId = null
+    }
+  } else if (!animationId && renderer && !prefersReducedMotion()) {
+    clock.getDelta() // absorbe le temps écoulé pendant la pause
+    animate()
   }
-
-  if (windTurbines) {
-    windTurbines.update(weatherState.value, isDark, elapsed)
-  }
-
-  env.updateEnvironment(isDark, isDark ? colors.dark : colors.light, weatherState.value, screenBounds)
-
-  renderer.render(scene, camera)
 }
 
 onMounted(async () => {
@@ -141,18 +160,23 @@ onMounted(async () => {
   await nextTick()
   init()
   window.addEventListener('resize', onWindowResize)
+  document.addEventListener('visibilitychange', onVisibilityChange)
 })
 
 onBeforeUnmount(() => {
   if (animationId) cancelAnimationFrame(animationId)
+  animationId = null
   window.removeEventListener('resize', onWindowResize)
+  document.removeEventListener('visibilitychange', onVisibilityChange)
+  if (import.meta.env.DEV) delete window.setWeather
   if (renderer) renderer.dispose()
 })
 </script>
 
 <template>
-  <div v-if="city" class="fixed bottom-4 right-4 text-[10px] font-mono opacity-40 z-50 mix-blend-difference pointer-events-none text-black dark:text-white uppercase italic">
-    {{ city }} // {{ weatherState }}
-  </div>
-  <div ref="container" class="fixed top-0 left-0 w-full h-full -z-50 pointer-events-none" />
+  <div
+    ref="container"
+    aria-hidden="true"
+    class="fixed top-0 left-0 w-full h-full -z-50 pointer-events-none"
+  />
 </template>

@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "node scripts/generate-seo-files.js",
     "build": "vite build",
+    "seo:files": "node scripts/generate-seo-files.js",
     "preview": "vite preview",
     "lint": "run-s lint:*",
     "lint:oxlint": "oxlint . --fix",
@@ -13,8 +15,7 @@
     "format": "prettier --write --experimental-cli src/"
   },
   "dependencies": {
-    "@tresjs/core": "^5.4.1",
-"lucide-vue-next": "^0.577.0",
+    "lucide-vue-next": "^0.577.0",
     "three": "^0.182.0",
     "vue": "^3.5.27",
     "vue-i18n": "^9.14.5",

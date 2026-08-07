@@ -4,27 +4,121 @@
     <meta charset="UTF-8">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bastien Roc - Manager Digital & Freelance | AMOA, Conduite du changement, IA</title>
 
-    <!-- SEO -->
-    <meta name="description" content="Bastien Roc, Manager de la Transformation Digitale et freelance (micro-entrepreneur). Prestations en AMOA & cadrage, conduite du changement, pilotage agile (PSM I) et IA & automatisation. Découvrez mes projets et mon parcours.">
-    <meta name="keywords" content="Bastien Roc, freelance, transformation digitale, AMOA, conduite du changement, agile, Scrum, IA, automatisation, consultant, micro-entrepreneur">
+    <!--
+      Applique le thème et la police avant le premier paint.
+      Sans ça, les visiteurs en mode sombre voient un flash clair à chaque
+      chargement, le temps que Vue soit monté.
+    -->
+    <script>
+      (function () {
+        try {
+          var root = document.documentElement
+          var saved = localStorage.getItem('theme')
+          if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            root.classList.add('dark')
+          }
+          if (localStorage.getItem('font-preference') === 'dys') {
+            root.classList.add('font-dys')
+          }
+        } catch (e) {
+          /* localStorage indisponible (navigation privée stricte) : on garde le thème clair. */
+        }
+      })()
+    </script>
+
+    <title>Bastien Roc - Freelance AMOA, conduite du changement & IA</title>
+
+    <!-- Polices auto-hébergées (voir Main.css) : aucune requête vers un
+         domaine tiers, donc aucune donnée de visiteur transmise hors UE.
+         On précharge les deux fichiers latin, seuls nécessaires en français. -->
+    <link rel="preload" href="/fonts/lexend-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+    <!-- SEO — valeurs par défaut, mises à jour par route via useSeo() -->
+    <meta name="description" content="J'accompagne vos projets de transformation digitale du cadrage jusqu'à l'adoption réelle par les équipes : AMOA, conduite du changement, pilotage agile et IA.">
+    <meta name="keywords" content="Bastien Roc, freelance, transformation digitale, AMOA, conduite du changement, agile, Scrum, IA, automatisation, consultant">
     <meta name="author" content="Bastien Roc">
     <meta name="robots" content="index, follow">
+    <link rel="canonical" href="%SITE_URL%/">
 
     <!-- Open Graph (LinkedIn, Facebook, WhatsApp) -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://portfolio-2026-zmnk.vercel.app/">
-    <meta property="og:title" content="Bastien Roc - Manager Digital & Freelance | AMOA, Conduite du changement, IA">
-    <meta property="og:description" content="Prestations indépendantes en transformation digitale : AMOA & cadrage, conduite du changement, pilotage agile et IA & automatisation. Découvrez le portfolio de Bastien Roc.">
-    <meta property="og:image" content="https://portfolio-2026-zmnk.vercel.app/Screenshot_PF_BR.png">
+    <meta property="og:url" content="%SITE_URL%/">
+    <meta property="og:title" content="Bastien Roc - Freelance AMOA, conduite du changement & IA">
+    <meta property="og:description" content="Prestations indépendantes en transformation digitale : AMOA & cadrage, conduite du changement, pilotage agile et IA & automatisation.">
+    <meta property="og:image" content="%SITE_URL%/og-image.jpg">
     <meta property="og:locale" content="fr_FR">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Bastien Roc - Manager Digital & Freelance | AMOA, Conduite du changement, IA">
+    <meta name="twitter:title" content="Bastien Roc - Freelance AMOA, conduite du changement & IA">
     <meta name="twitter:description" content="Prestations indépendantes en transformation digitale : AMOA, conduite du changement, pilotage agile et IA & automatisation.">
-    <meta name="twitter:image" content="https://portfolio-2026-zmnk.vercel.app/Screenshot_PF_BR.png">
+    <meta name="twitter:image" content="%SITE_URL%/og-image.jpg">
+
+    <!--
+      Données structurées : type Person et non ProfessionalService /
+      LocalBusiness, qui impliqueraient une entité commerciale immatriculée.
+      À faire évoluer une fois le SIRET obtenu.
+    -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Bastien Roc",
+      "url": "%SITE_URL%/",
+      "jobTitle": "Manager de la Transformation Digitale",
+      "email": "mailto:bastien.roc@icloud.com",
+      "image": "%SITE_URL%/og-image.jpg",
+      "sameAs": [
+        "https://www.linkedin.com/in/bastien-roc/",
+        "https://github.com/bastienR17"
+      ],
+      "knowsAbout": [
+        "AMOA",
+        "Conduite du changement",
+        "Gestion de projet agile",
+        "Scrum",
+        "Intelligence artificielle",
+        "Automatisation des processus",
+        "Transformation digitale"
+      ],
+      "makesOffer": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "AMOA & Cadrage",
+            "description": "Traduction d'un besoin métier en projet pilotable et coordination entre équipes métier et techniques."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Conduite du changement",
+            "description": "Accompagnement de l'adoption d'un nouvel outil ou d'une nouvelle organisation, du plan de communication à la mesure de l'adoption."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Pilotage de projet agile",
+            "description": "Structuration et facilitation de projets en méthode agile, animation des rituels et priorisation du backlog."
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "IA & Automatisation",
+            "description": "Déploiement d'assistants IA documentaires et automatisation de processus métier."
+          }
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="app"></div>
