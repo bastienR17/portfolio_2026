@@ -1,0 +1,13 @@
+{
+  // Site 100 % statique : aucun script Worker, on ne sert que le contenu de dist.
+  // Sans ce fichier, `wrangler deploy` ne sait pas quoi publier et va inspecter
+  // vite.config.js, d'où l'erreur "Error parsing file".
+  "name": "portfolio-2026",
+  "compatibility_date": "2026-08-01",
+  "assets": {
+    "directory": "./dist",
+    // Renvoie index.html en 200 pour toute URL inconnue : c'est le routeur Vue
+    // qui affiche ensuite la page, y compris la 404.
+    "not_found_handling": "single-page-application"
+  }
+}
