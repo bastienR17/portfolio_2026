@@ -21,7 +21,7 @@ onMounted(() => {
 <template>
   <button
     @click="toggleDark"
-    class="p-2 text-ink-muted hover:text-accent transition-colors"
+    class="inline-flex items-center justify-center w-11 h-11 text-ink-muted hover:text-accent transition-colors"
     :aria-label="isDark ? $t('accessibility.theme_toLight') : $t('accessibility.theme_toDark')"
     :aria-pressed="isDark"
   >

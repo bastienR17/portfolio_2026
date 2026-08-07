@@ -91,7 +91,7 @@ const formats = [
             {{ $t('home.availability') }}
           </p>
 
-          <h1 class="text-5xl md:text-[4.25rem] text-ink mb-7">
+          <h1 class="h-hero text-ink mb-7">
             {{ $t('home.title') }}
           </h1>
 
@@ -145,7 +145,7 @@ const formats = [
             >
             <img
               src="/hero-transformation.jpg"
-              alt="Transformation digitale - Bastien Roc"
+              :alt="$t('home.hero_alt')"
               width="800"
               height="533"
               fetchpriority="high"
@@ -190,7 +190,7 @@ const formats = [
     <section id="offre" class="bg-surface-2 border-y border-line-soft scroll-mt-20">
       <div class="max-w-6xl mx-auto px-6 py-20 md:py-24">
         <div class="reveal max-w-2xl mb-14">
-          <h2 class="text-4xl md:text-5xl text-ink mb-5">{{ $t('home.offer_title') }}</h2>
+          <h2 class="h-section text-ink mb-5">{{ $t('home.offer_title') }}</h2>
           <p class="text-lg text-ink-muted leading-relaxed">{{ $t('home.offer_intro') }}</p>
         </div>
 
@@ -226,7 +226,7 @@ const formats = [
     <section class="bg-page">
       <div class="max-w-6xl mx-auto px-6 py-20 md:py-24">
         <div class="reveal max-w-2xl mb-14">
-          <h2 class="text-4xl md:text-5xl text-ink mb-5">{{ $t('home.contexts_title') }}</h2>
+          <h2 class="h-section text-ink mb-5">{{ $t('home.contexts_title') }}</h2>
           <p class="text-lg text-ink-muted leading-relaxed">{{ $t('home.contexts_intro') }}</p>
         </div>
 
@@ -257,7 +257,7 @@ const formats = [
     <section class="bg-surface-2 border-y border-line-soft">
       <div class="max-w-6xl mx-auto px-6 py-20 md:py-24">
         <div class="reveal max-w-2xl mb-14">
-          <h2 class="text-4xl md:text-5xl text-ink mb-5">{{ $t('home.formats_title') }}</h2>
+          <h2 class="h-section text-ink mb-5">{{ $t('home.formats_title') }}</h2>
           <p class="text-lg text-ink-muted leading-relaxed">{{ $t('home.formats_intro') }}</p>
         </div>
 
@@ -288,7 +288,7 @@ const formats = [
       <div class="reveal max-w-6xl mx-auto px-6 py-20 md:py-24">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-10 border-b-2 border-accent">
           <div class="max-w-xl">
-            <h2 class="text-4xl md:text-5xl text-ink mb-4">{{ $t('home.final_title') }}</h2>
+            <h2 class="h-section text-ink mb-4">{{ $t('home.final_title') }}</h2>
             <p class="text-lg text-ink-muted leading-relaxed">{{ $t('home.final_desc') }}</p>
           </div>
 

@@ -10,7 +10,9 @@ const locales = [
 </script>
 
 <template>
-  <div class="flex items-center gap-1">
+  <!-- Les deux boutons portent une cible de 44 px sans grossir visuellement :
+       le rembourrage est transparent, seul le texte se voit. -->
+  <div class="flex items-center">
     <template v-for="(l, i) in locales" :key="l.code">
       <span v-if="i > 0" class="text-ink-muted select-none" aria-hidden="true">/</span>
       <button
@@ -18,7 +20,7 @@ const locales = [
         :lang="l.code"
         :aria-label="l.name"
         :aria-pressed="locale === l.code"
-        class="px-1.5 py-1 text-sm transition-colors"
+        class="inline-flex items-center justify-center min-w-11 min-h-11 text-sm transition-colors"
         :class="locale === l.code ? 'text-accent font-semibold' : 'text-ink-muted hover:text-accent'"
       >
         {{ l.label }}

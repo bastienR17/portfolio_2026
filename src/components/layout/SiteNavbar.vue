@@ -35,7 +35,7 @@
       <button
         ref="burger"
         @click="isMenuOpen = !isMenuOpen"
-        class="md:hidden p-2 text-ink"
+        class="md:hidden inline-flex items-center justify-center w-11 h-11 -mr-2 text-ink"
         :aria-expanded="isMenuOpen"
         aria-controls="mobile-menu"
         :aria-label="isMenuOpen ? $t('accessibility.menu_close') : $t('accessibility.menu_open')"

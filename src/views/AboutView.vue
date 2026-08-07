@@ -73,13 +73,31 @@ const getHardSkills = (sub) => {
 
 const getAllHardSkills = () =>
   ['pm', 'ai', 'dev', 'design', 'data'].flatMap((sub) => getHardSkills(sub))
+
+/**
+ * Nombre de compétences réellement affichées, pour la région d'annonce.
+ * Filtrer ne déplace pas le focus et ne change rien autour du bouton : sans
+ * message vocal, une personne au lecteur d'écran clique et n'entend rien,
+ * alors que la liste sous ses doigts vient d'être remplacée.
+ */
+const visibleSkillsCount = computed(() => {
+  if (activeFilter.value === 'hard') {
+    return activeHardSub.value === 'all'
+      ? getAllHardSkills().length
+      : getHardSkills(activeHardSub.value).length
+  }
+  return visibleCategories.value.reduce(
+    (total, cat) => total + (cat === 'hard' ? getAllHardSkills().length : getSkills(cat).length),
+    0,
+  )
+})
 </script>
 
 <template>
   <div class="relative z-10">
 
     <section class="max-w-4xl mx-auto px-6 pt-16 pb-14 md:pt-24">
-      <h1 class="text-5xl md:text-6xl text-ink mb-10">
+      <h1 class="h-hero text-ink mb-10">
         {{ $t('about.title') }}
       </h1>
 
@@ -106,7 +124,7 @@ const getAllHardSkills = () =>
     <!-- ── Façon de travailler ────────────────────────────── -->
     <section class="max-w-4xl mx-auto px-6 pb-20">
       <div class="reveal mb-12 max-w-2xl">
-        <h2 class="text-3xl md:text-4xl text-ink mb-4">{{ $t('about.method_title') }}</h2>
+        <h2 class="h-section text-ink mb-4">{{ $t('about.method_title') }}</h2>
         <p class="text-lg text-ink-muted leading-relaxed">{{ $t('about.method_intro') }}</p>
       </div>
 
@@ -132,11 +150,11 @@ const getAllHardSkills = () =>
     <!-- ── Parcours ───────────────────────────────────────── -->
     <section class="bg-surface-2 border-y border-line-soft">
       <div class="max-w-4xl mx-auto px-6 py-20">
-        <h2 class="text-3xl md:text-4xl text-ink mb-8">
+        <h2 class="h-section text-ink mb-8">
           {{ $t('about.path_title') }}
         </h2>
 
-        <div class="flex flex-wrap gap-2 mb-10" role="group" aria-label="Filtrer le parcours">
+        <div class="flex flex-wrap gap-2 mb-10" role="group" :aria-label="$t('about.timeline_filterLabel')">
           <button
             v-for="f in timelineFilters"
             :key="f"
@@ -150,6 +168,10 @@ const getAllHardSkills = () =>
             {{ $t(`about.timeline_${f === 'all' ? 'filterAll' : f}`) }}
           </button>
         </div>
+
+        <p role="status" class="sr-only">
+          {{ $t('about.timeline_results', { count: visibleEntries.length }, visibleEntries.length) }}
+        </p>
 
         <ol class="border-t border-line-soft">
           <li
@@ -196,11 +218,11 @@ const getAllHardSkills = () =>
 
     <!-- ── Compétences ────────────────────────────────────── -->
     <section id="skills" class="max-w-4xl mx-auto px-6 py-20 md:py-24 scroll-mt-20">
-      <h2 class="text-3xl md:text-4xl text-ink mb-8">
+      <h2 class="h-section text-ink mb-8">
         {{ $t('about.skills_title') }}
       </h2>
 
-      <div class="flex flex-wrap gap-2 mb-4" role="group" aria-label="Filtrer les compétences">
+      <div class="flex flex-wrap gap-2 mb-4" role="group" :aria-label="$t('about.skills_filterLabel')">
         <button
           v-for="f in filters"
           :key="f"
@@ -229,6 +251,10 @@ const getAllHardSkills = () =>
           {{ sub === 'all' ? $t('about.skills_filterAll') : $t(`about.skills_hard_${sub}_label`) }}
         </button>
       </div>
+
+      <p role="status" class="sr-only">
+        {{ $t('about.skills_results', { count: visibleSkillsCount }, visibleSkillsCount) }}
+      </p>
 
       <div class="space-y-10 mt-8">
         <div v-for="cat in visibleCategories" :key="cat">

@@ -60,7 +60,7 @@ const filteredAndSortedProjects = computed(() => {
 
     <!-- En-tête -->
     <section class="max-w-6xl mx-auto px-6 pt-16 pb-14 md:pt-24">
-      <h1 class="text-5xl md:text-6xl text-ink mb-6">
+      <h1 class="h-hero text-ink mb-6">
         {{ $t('projects.title') }}
       </h1>
       <p class="max-w-2xl text-lg text-ink-muted leading-relaxed">
@@ -72,7 +72,7 @@ const filteredAndSortedProjects = computed(() => {
     <section class="bg-surface-2 border-y border-line-soft">
       <div class="max-w-6xl mx-auto px-6 py-20 md:py-24">
         <div class="reveal mb-14 max-w-2xl">
-          <h2 class="text-4xl md:text-5xl text-ink mb-4">{{ $t('projects.cases_title') }}</h2>
+          <h2 class="h-section text-ink mb-4">{{ $t('projects.cases_title') }}</h2>
           <!-- Cadre honnête : ces missions ne sont pas des prestations clients. -->
           <p class="text-sm text-ink-muted leading-relaxed border-l-2 border-line pl-4">
             {{ $t('projects.cases_disclaimer') }}
@@ -143,7 +143,7 @@ const filteredAndSortedProjects = computed(() => {
     <!-- ─── Projets ─────────────────────────────────────────── -->
     <section class="bg-page">
       <div class="max-w-6xl mx-auto px-6 py-20 md:py-24">
-        <h2 class="reveal text-4xl md:text-5xl text-ink mb-14 max-w-2xl">
+        <h2 class="reveal h-section text-ink mb-14 max-w-2xl">
           {{ $t('projects.studies_title') }}
         </h2>
 
@@ -182,7 +182,7 @@ const filteredAndSortedProjects = computed(() => {
     <section class="bg-surface-2 border-y border-line-soft">
       <div class="max-w-6xl mx-auto px-6 py-20 md:py-24">
         <div class="reveal mb-12 max-w-2xl">
-          <h2 class="text-4xl md:text-5xl text-ink mb-4">{{ $t('projects.repos_title') }}</h2>
+          <h2 class="h-section text-ink mb-4">{{ $t('projects.repos_title') }}</h2>
           <p class="text-lg text-ink-muted leading-relaxed">{{ $t('projects.repos_intro') }}</p>
         </div>
 

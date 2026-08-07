@@ -21,7 +21,7 @@ const identity = [
 <template>
   <section class="relative z-10 max-w-3xl mx-auto px-6 pt-16 pb-24 md:pt-24">
 
-    <h1 class="text-4xl md:text-5xl text-ink mb-14">
+    <h1 class="h-page text-ink mb-14">
       {{ $t('legal.title') }}
     </h1>
 
@@ -29,7 +29,7 @@ const identity = [
 
       <!-- Éditeur du site + carte d'identité -->
       <section>
-        <h2 class="font-sans font-semibold text-xl text-ink mb-3 tracking-tight">
+        <h2 class="h-doc text-ink mb-3">
           {{ $t('legal.editor_title') }}
         </h2>
         <p class="text-ink-muted leading-relaxed mb-6">
@@ -50,7 +50,7 @@ const identity = [
 
       <!-- Autres sections textuelles -->
       <section v-for="key in sections.slice(1)" :key="key">
-        <h2 class="font-sans font-semibold text-xl text-ink mb-3 tracking-tight">
+        <h2 class="h-doc text-ink mb-3">
           {{ $t(`legal.${key}_title`) }}
         </h2>
         <p class="text-ink-muted leading-relaxed">

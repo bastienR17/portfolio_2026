@@ -2,17 +2,16 @@
 @import "tailwindcss";
 
 /* 2. Polices auto-hébergées
-   Lexend (corps) et Instrument Serif (titres) sont servies depuis /fonts.
-   Auparavant elles venaient du CDN Google : chaque visite transmettait l'adresse
-   IP du visiteur à un sous-traitant hors UE, ce qui est difficilement défendable
-   face à des clients du secteur public. En prime, cela supprime deux
-   connexions vers un domaine tiers.
+   Lexend (corps), Instrument Serif (titres) et OpenDyslexic (mode lecture) sont
+   toutes servies depuis /fonts. Auparavant elles venaient de CDN tiers : chaque
+   visite transmettait l'adresse IP du visiteur à un sous-traitant hors UE, ce
+   qui est difficilement défendable face à des clients du secteur public.
 
-   Les deux fichiers sont sous-ensemblés par scripts/subset-fonts.py à partir
-   de fonts-src/ : seuls les caractères que le site peut afficher sont
-   embarqués, et Lexend est ramené de la plage 100-900 à 400-700. Il n'y a plus
-   qu'un fichier par famille, donc plus de découpage latin / latin-ext ni de
-   unicode-range : tout ce que contient le fichier est utile.
+   Les fichiers sont sous-ensemblés par scripts/subset-fonts.py à partir de
+   fonts-src/ : seuls les caractères que le site peut afficher sont embarqués,
+   et Lexend est ramené de la plage 100-900 à 400-700. Il n'y a plus qu'un
+   fichier par famille et par graisse, donc plus de découpage latin / latin-ext
+   ni de unicode-range : tout ce que contient le fichier est utile.
    Après modification du jeu de caractères, relancer `npm run fonts`. */
 @font-face {
   font-family: 'Instrument Serif';
@@ -30,6 +29,27 @@
   src: url('/fonts/lexend.woff2') format('woff2');
 }
 
+/* OpenDyslexic n'est pas variable : une déclaration par graisse, sinon les
+   titres et les intitulés en gras tombent en gras synthétique.
+   Ces deux fichiers ne sont téléchargés qu'au moment où la famille est
+   réellement appliquée, c'est-à-dire au premier clic sur la bascule Dys —
+   déclarer un @font-face ne coûte aucune requête tant qu'il ne sert pas. */
+@font-face {
+  font-family: 'OpenDyslexic';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/opendyslexic-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'OpenDyslexic';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/opendyslexic-700.woff2') format('woff2');
+}
+
 /* 3. Thème
    Les couleurs pointent vers des variables redéfinies sous .dark : une classe
    comme `text-accent` s'adapte donc au thème sans variante `dark:`.
@@ -45,16 +65,15 @@
   --color-line-soft: var(--c-line-soft);
   --color-accent: var(--c-accent);
   --color-accent-ink: var(--c-accent-ink);
-  --color-accent-wash: var(--c-accent-wash);
-  --color-ochre: #F4D06F;
   --color-ochre-deep: var(--c-ochre-deep);
   --color-positive: var(--c-positive);
 
-  /* Alias hérités : les anciennes classes restent valides et deviennent
-     conformes d'elles-mêmes. */
-  --color-terracotta: var(--c-accent);
-  --color-cream: #FFF9F5;
-  --color-dark-soft: #2D2926;
+  /* Un jeton absent de cette liste est un jeton que personne ne peut écrire par
+     erreur. Ont été retirés : accent-wash (aucun usage), ochre (#F4D06F fixe,
+     donc 1,49:1 en clair — `text-ochre` aurait été illisible), et les alias
+     terracotta / cream / dark-soft, hérités d'avant le passage aux variables de
+     thème et plus référencés nulle part. La palette du décor 3D est
+     indépendante : voir components/common/weather/palette.js. */
 
   --font-sans: "Lexend", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Instrument Serif", ui-serif, Georgia, "Times New Roman", serif;
@@ -71,8 +90,7 @@
   --c-line-soft: #E7DCD2;   /* séparation purement décorative */
   --c-accent: #C44127;      /* 5.08:1 sur blanc, porte du texte blanc */
   --c-accent-ink: #FFFFFF;
-  --c-accent-wash: #F6E7E2; /* fond très pâle pour pastilles et icônes */
-  --c-ochre-deep: #8F6D0F;  /* ochre lisible en texte sur fond clair */
+  --c-ochre-deep: #8F6D0F;  /* 4.61:1 sur page — réservé au fond de page */
   --c-positive: #047857;
 }
 
@@ -86,8 +104,7 @@
   --c-line-soft: #2C323E;
   --c-accent: #E2725B;      /* 5.57:1 sur surface sombre */
   --c-accent-ink: #22160F;  /* texte sombre sur bouton accent : 5.71:1 */
-  --c-accent-wash: #2A1E1C;
-  --c-ochre-deep: #F4D06F;
+  --c-ochre-deep: #F4D06F;  /* 11.57:1 sur surface */
   --c-positive: #34D399;
 }
 
@@ -155,7 +172,53 @@
   }
 }
 
-/* 6. Lien d'évitement (RGAA 12.7)
+/* 6. Échelle typographique des titres
+
+   Avant, chaque vue choisissait ses propres tailles : un <h2> pouvait valoir
+   36 px sur une page et 48 px sur la suivante, et la variante sans-serif était
+   recopiée à la main en quatre classes (`font-sans font-semibold text-xl
+   tracking-tight`) sans nom ni définition. Le niveau sémantique ne disait donc
+   plus rien du rendu.
+
+   Deux espèces de titres, quatre classes, plus aucune taille en dur dans les
+   vues. Les tailles restent volontairement dans @layer components : une
+   utilitaire `text-*` posée dans un template l'emportera toujours, pour les cas
+   particuliers qui le justifient vraiment. */
+@layer components {
+  /* <h1> d'une page de contenu. */
+  .h-hero {
+    font-size: 3rem;      /* 48px */
+  }
+
+  /* <h1> d'une page utilitaire : mentions légales, 404. Le titre y annonce un
+     document, il n'ouvre pas une page de présentation. */
+  .h-page {
+    font-size: 2.25rem;   /* 36px */
+  }
+
+  /* <h2> ouvrant une section — serif d'affichage, hérité de @layer base. */
+  .h-section {
+    font-size: 2.25rem;   /* 36px */
+  }
+
+  /* <h2> à l'intérieur d'un texte suivi. Repasse en sans-serif : à cette
+     taille, l'Instrument Serif se lit moins bien qu'il ne décore. */
+  .h-doc {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 1.25rem;   /* 20px */
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+
+  @media (min-width: 768px) {
+    .h-hero    { font-size: 3.75rem; }  /* 60px */
+    .h-page    { font-size: 3rem; }     /* 48px */
+    .h-section { font-size: 3rem; }     /* 48px */
+  }
+}
+
+/* 7. Lien d'évitement (RGAA 12.7)
    Écrit à la main plutôt qu'avec sr-only / focus:not-sr-only : dans Tailwind 4
    ces deux utilitaires ont la même spécificité et l'ordre de cascade ne
    garantit pas que la variante focus l'emporte — le lien restait invisible
@@ -178,7 +241,7 @@
   transform: translateY(0);
 }
 
-/* 7. Apparition au scroll — piloté par useReveal().
+/* 8. Apparition au scroll — piloté par useReveal().
 
    Le contenu n'est masqué que si <html> porte .reveal-ready, classe posée par
    useReveal() uniquement quand l'animation peut se jouer. Sans JS, sans

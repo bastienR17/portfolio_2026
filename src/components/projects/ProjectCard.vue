@@ -12,7 +12,7 @@ defineProps({
     <div class="relative h-44 overflow-hidden bg-surface-2 border-b border-line-soft">
       <img
         :src="`https://opengraph.githubassets.com/1/${project.owner.login}/${project.name}`"
-        :alt="`Aperçu du dépôt ${project.name}`"
+        :alt="$t('projects.repo_alt', { name: project.name })"
         loading="lazy"
         class="object-cover w-full h-full"
       >
@@ -45,7 +45,8 @@ defineProps({
           class="inline-flex items-center gap-1 py-1 text-sm font-medium text-accent hover:underline underline-offset-4"
         >
           {{ $t('projects.detail') }}
-          <ArrowUpRight class="w-4 h-4" />
+          <span class="sr-only">({{ $t('accessibility.new_window') }})</span>
+          <ArrowUpRight class="w-4 h-4" aria-hidden="true" />
         </a>
       </div>
     </div>

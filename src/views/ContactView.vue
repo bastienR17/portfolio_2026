@@ -23,7 +23,7 @@ const copyEmail = async () => {
 <template>
   <section class="relative z-10 max-w-3xl mx-auto px-6 pt-16 pb-24 md:pt-24">
 
-    <h1 class="text-5xl md:text-6xl text-ink mb-6">
+    <h1 class="h-hero text-ink mb-6">
       {{ $t('contact.title') }}
     </h1>
 
@@ -55,6 +55,14 @@ const copyEmail = async () => {
         </button>
       </div>
 
+      <!-- L'échec avait déjà son annonce, pas la réussite : au lecteur d'écran,
+           copier semblait ne rien faire tant que ça marchait. Le libellé du
+           bouton n'est pas touché — nom accessible et texte visible restent
+           identiques (WCAG 2.5.3). -->
+      <p role="status" class="sr-only">
+        {{ isCopied ? $t('contact.copied') : '' }}
+      </p>
+
       <p v-if="copyFailed" role="alert" class="mt-3 text-sm text-accent">
         {{ $t('contact.copy_failed') }}
       </p>
@@ -72,6 +80,7 @@ const copyEmail = async () => {
           <span>
             <span class="block font-medium text-ink">LinkedIn</span>
             <span class="block text-sm text-ink-muted">Bastien Roc</span>
+            <span class="sr-only">({{ $t('accessibility.new_window') }})</span>
           </span>
         </a>
       </li>
@@ -86,6 +95,7 @@ const copyEmail = async () => {
           <span>
             <span class="block font-medium text-ink">GitHub</span>
             <span class="block text-sm text-ink-muted">bastienR17</span>
+            <span class="sr-only">({{ $t('accessibility.new_window') }})</span>
           </span>
         </a>
       </li>

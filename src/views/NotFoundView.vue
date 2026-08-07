@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-vue-next'
   <section class="relative z-10 max-w-3xl mx-auto px-6 pt-24 pb-32">
     <p class="font-display text-6xl text-accent mb-6">404</p>
 
-    <h1 class="text-4xl md:text-5xl text-ink mb-5">
+    <h1 class="h-page text-ink mb-5">
       {{ $t('notfound.title') }}
     </h1>
 

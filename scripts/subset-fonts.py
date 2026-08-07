@@ -3,9 +3,11 @@
 Sous-ensemble les polices auto-hébergées.
 
 Les fichiers d'origine (fonts-src/) sont les sous-ensembles « latin » de Google
-Fonts. Ils couvrent large : l'alphabet latin complet, les monnaies, les symboles
-mathématiques. Le site n'utilise qu'une centaine de caractères, et chaque
-kilo-octet compte : les polices sont bloquantes au premier rendu.
+Fonts, et pour OpenDyslexic celui du paquet @fontsource/opendyslexic (SIL OFL,
+licence conservée dans fonts-src/opendyslexic.LICENSE.txt). Ils couvrent large :
+l'alphabet latin complet, les monnaies, les symboles mathématiques. Le site
+n'utilise qu'une centaine de caractères, et chaque kilo-octet compte : les
+polices sont bloquantes au premier rendu.
 
 On garde volontairement plus que le strict nécessaire (voir UNICODES) pour
 qu'ajouter du contenu ne fasse pas basculer un caractère en police de repli.
@@ -53,9 +55,14 @@ UNICODES = ",".join(
 #          jamais demandées représentent la moitié du fichier.
 # hinting : les instructions TrueType n'améliorent le rendu qu'en petits corps.
 #          Instrument Serif ne sert qu'aux titres (30 px et plus), on les jette.
+#
+# OpenDyslexic n'est pas variable : il faut un fichier par graisse. Les deux ne
+# sont téléchargés qu'au premier passage en mode lecture, jamais par défaut.
 FONTS = [
     {"src": "lexend.source.woff2", "out": "lexend.woff2", "axes": {"wght": (400, 700)}},
     {"src": "instrument-serif.source.woff2", "out": "instrument-serif.woff2", "hinting": False},
+    {"src": "opendyslexic-400.source.woff2", "out": "opendyslexic-400.woff2"},
+    {"src": "opendyslexic-700.source.woff2", "out": "opendyslexic-700.woff2"},
 ]
 
 

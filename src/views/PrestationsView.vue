@@ -28,7 +28,7 @@ const steps = ['step1', 'step2', 'step3']
         {{ $t('prestations.status_badge') }}
       </p>
 
-      <h1 class="text-5xl md:text-6xl text-ink mb-6">
+      <h1 class="h-hero text-ink mb-6">
         {{ $t('prestations.title') }}
       </h1>
 
@@ -48,7 +48,7 @@ const steps = ['step1', 'step2', 'step3']
           >
             <component :is="service.icon" class="w-5 h-5 text-accent mb-5" aria-hidden="true" />
 
-            <h2 class="font-sans font-semibold text-xl text-ink mb-3 tracking-tight">
+            <h2 class="h-doc text-ink mb-3">
               {{ $t(`prestations.services.${service.key}.title`) }}
             </h2>
 
@@ -82,7 +82,7 @@ const steps = ['step1', 'step2', 'step3']
 
     <!-- Comment travailler ensemble -->
     <section class="max-w-6xl mx-auto px-6 py-20 md:py-24">
-      <h2 class="reveal text-4xl md:text-5xl text-ink mb-14 max-w-2xl">
+      <h2 class="reveal h-section text-ink mb-14 max-w-2xl">
         {{ $t('prestations.how_title') }}
       </h2>
 
@@ -109,7 +109,7 @@ const steps = ['step1', 'step2', 'step3']
         <div class="grid md:grid-cols-2 gap-12 items-start">
 
           <div>
-            <h2 class="font-sans font-semibold text-2xl text-ink mb-4 tracking-tight">
+            <h2 class="h-doc text-ink mb-4">
               {{ $t('prestations.status_title') }}
             </h2>
             <p class="text-ink-muted leading-relaxed mb-8 max-w-lg">
