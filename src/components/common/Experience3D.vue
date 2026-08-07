@@ -44,6 +44,11 @@ if (import.meta.env.DEV) {
   window.__scene3d = {
     setWeather,
     refetchWeather: fetchWeatherData,
+    // Avance d'une image à la main : utile pour inspecter une ambiance sans
+    // attendre le fondu, ou dans un contexte sans requestAnimationFrame.
+    // Enveloppé dans une lambda : renderFrame est un const déclaré plus bas,
+    // le référencer directement ici le lirait avant son initialisation.
+    step: () => renderFrame(),
     weatherState,
     weatherInfo,
     get scene() {
@@ -156,8 +161,20 @@ const renderFrame = () => {
   renderer.render(scene, camera)
 }
 
-const animate = () => {
+/**
+ * Un décor de fond n'a rien à gagner à 60 images par seconde : le mouvement y
+ * est lent par construction. On plafonne à 30, ce qui divise par deux le temps
+ * passé sur le thread principal et sur le GPU. Les déplacements étant exprimés
+ * par seconde, l'aspect ne change pas.
+ */
+const TARGET_FPS = 30
+const FRAME_INTERVAL = 1000 / TARGET_FPS
+let lastRender = 0
+
+const animate = (now = 0) => {
   animationId = requestAnimationFrame(animate)
+  if (now - lastRender < FRAME_INTERVAL) return
+  lastRender = now
   renderFrame()
 }
 

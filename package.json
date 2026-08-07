@@ -7,6 +7,7 @@
     "dev": "vite",
     "prebuild": "node scripts/generate-seo-files.js",
     "build": "vite build",
+    "postbuild": "node scripts/prerender-routes.js",
     "seo:files": "node scripts/generate-seo-files.js",
     "fonts": "python scripts/subset-fonts.py",
     "preview": "vite preview",

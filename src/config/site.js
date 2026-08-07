@@ -20,14 +20,18 @@ export const SITE = {
 }
 
 /**
- * Routes exposées au crawl, utilisées pour générer le sitemap.
+ * Routes exposées au crawl. Sert à la fois à générer le sitemap et à écrire un
+ * fichier HTML par route au build (scripts/prerender-routes.js).
+ *
+ * `seoKey` pointe vers seo.<clé>.title / .description dans les locales, comme
+ * le `meta.seoKey` du routeur.
  * À tenir à jour avec src/router/index.js quand une route publique est ajoutée.
  */
 export const SITEMAP_ROUTES = [
-  { path: '/', priority: '1.0', changefreq: 'monthly' },
-  { path: '/prestations', priority: '0.9', changefreq: 'monthly' },
-  { path: '/about', priority: '0.8', changefreq: 'monthly' },
-  { path: '/projects', priority: '0.7', changefreq: 'weekly' },
-  { path: '/contact', priority: '0.7', changefreq: 'yearly' },
-  { path: '/mentions-legales', priority: '0.2', changefreq: 'yearly' },
+  { path: '/', seoKey: 'home', view: 'HomeView.vue', priority: '1.0', changefreq: 'monthly' },
+  { path: '/prestations', seoKey: 'prestations', view: 'PrestationsView.vue', priority: '0.9', changefreq: 'monthly' },
+  { path: '/about', seoKey: 'about', view: 'AboutView.vue', priority: '0.8', changefreq: 'monthly' },
+  { path: '/projects', seoKey: 'projects', view: 'ProjectsView.vue', priority: '0.7', changefreq: 'weekly' },
+  { path: '/contact', seoKey: 'contact', view: 'ContactView.vue', priority: '0.7', changefreq: 'yearly' },
+  { path: '/mentions-legales', seoKey: 'legal', view: 'LegalView.vue', priority: '0.2', changefreq: 'yearly' },
 ]

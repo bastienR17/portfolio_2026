@@ -8,6 +8,19 @@
     "directory": "./dist",
     // Renvoie index.html en 200 pour toute URL inconnue : c'est le routeur Vue
     // qui affiche ensuite la page, y compris la 404.
+    //
+    // À BASCULER VERS "404-page" — mais seulement après vérification.
+    //
+    // dist/404.html est déjà généré, en noindex. Le passage à "404-page"
+    // supprimerait les « soft 404 » : aujourd'hui toute URL morte répond 200
+    // avec le contenu de l'accueil, ce que Google compte comme une page
+    // indexable tant que le JavaScript n'a pas posé le noindex.
+    //
+    // Pourquoi ne pas l'avoir fait tout de suite : ce repli est aussi le filet
+    // de sécurité des six routes. Il n'est retirable que si Cloudflare résout
+    // bien /prestations vers prestations.html ou prestations/index.html — ce
+    // qui ne se vérifie qu'en ligne. Déployer d'abord, confirmer que
+    // /prestations renvoie bien son propre titre, puis basculer cette valeur.
     "not_found_handling": "single-page-application"
   }
 }

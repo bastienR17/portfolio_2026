@@ -65,9 +65,11 @@ export function useWindTurbines(scene, camera) {
     rotors.push({ mesh: rotorGroup, speed: 0.006 + Math.random() * 0.004 })
   }
 
-  const update = ({ weather, isDark, elapsed }) => {
+  const update = ({ weather, isDark, elapsed, delta }) => {
     // Rotation lente : un décor ne doit pas capter le regard.
-    const multiplier = weather === 'storm' ? 2.2 : 1
+    // Vitesse par seconde et non par image, sinon la rotation dépend de la
+    // fréquence de l'écran et du plafond de la boucle de rendu.
+    const multiplier = (weather === 'storm' ? 2.2 : 1) * delta * 60
     rotors.forEach((r) => {
       r.mesh.rotation.z += r.speed * multiplier
     })

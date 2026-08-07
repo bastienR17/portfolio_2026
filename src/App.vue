@@ -83,9 +83,11 @@ onMounted(() => {
 </template>
 
 <style>
-/* Animation de sortie du rideau */
+/* Animation de sortie du rideau.
+   `all` embarquait toutes les propriétés animables, y compris celles qui
+   déclenchent une mise en page. Seule l'opacité change réellement ici. */
 .reveal-leave-active {
-  transition: all 0.8s cubic-bezier(0.7, 0, 0.3, 1);
+  transition: opacity 0.8s cubic-bezier(0.7, 0, 0.3, 1);
 }
 
 .reveal-leave-to {
@@ -108,13 +110,20 @@ onMounted(() => {
   transform: translateY(-10px);
 }
 
-/* Animation de la barre de progression */
+/* Animation de la barre de progression.
+   Uniquement transform : animer `width` forçait un calcul de mise en page à
+   chaque image, sur le thread principal, pendant le chargement — exactement ce
+   que Lighthouse signale sous « animations non compositées ». scaleX produit le
+   même effet visuel et reste sur le compositeur. */
 @keyframes progress {
-  0% { width: 0%; transform: translateX(-100%); }
-  50% { width: 100%; transform: translateX(0); }
-  100% { width: 0%; transform: translateX(100%); }
+  0% { transform: translateX(-100%) scaleX(0.2); }
+  50% { transform: translateX(0) scaleX(1); }
+  100% { transform: translateX(100%) scaleX(0.2); }
 }
 .animate-progress {
+  width: 100%;
+  transform-origin: left center;
+  will-change: transform;
   animation: progress 2s infinite ease-in-out;
 }
 

@@ -52,8 +52,13 @@ export function useAtmosphere(scene) {
     scene.add(points)
   }
 
-  const update = ({ weather, bounds, isDark, elapsed }) => {
+  const update = ({ weather, bounds, isDark, elapsed, delta }) => {
     if (!points) return
+
+    // Les déplacements sont exprimés par seconde, pas par image. Sans ça la
+    // neige tombe deux fois plus vite sur un écran 120 Hz que sur un 60 Hz, et
+    // plafonner la boucle ralentirait tout d'autant.
+    const step = delta * 60
 
     const profile = particleProfile[weather] ?? particleProfile.clear
     const targetDensity = fogDensity[weather] ?? fogDensity.clear
@@ -76,8 +81,8 @@ export function useAtmosphere(scene) {
 
     for (let i = 0; i < COUNT; i++) {
       const y = i * 3 + 1
-      pos[y] -= current.speed * speeds[i]
-      pos[i * 3] += Math.sin(elapsed * 0.6 + phases[i]) * current.sway * 0.02
+      pos[y] -= current.speed * speeds[i] * step
+      pos[i * 3] += Math.sin(elapsed * 0.6 + phases[i]) * current.sway * 0.02 * step
 
       if (pos[y] < bottom) {
         pos[y] = top

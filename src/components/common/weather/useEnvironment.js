@@ -1,5 +1,5 @@
 import { BufferAttribute, BufferGeometry, Color, DoubleSide, FogExp2, Mesh, MeshBasicMaterial, PlaneGeometry, ShaderMaterial } from 'three'
-import { palette, ridgeDrift as DRIFT } from './palette'
+import { palette, ridgeDrift as DRIFT, weatherGlow } from './palette'
 
 const SKY_Z = -320
 const LERP = 0.06 // vitesse de fondu entre thème clair et sombre
@@ -244,7 +244,7 @@ export function useEnvironment(scene, camera) {
     createRidges(bounds, groundY)
   }
 
-  const update = ({ isDark, flash, elapsed }) => {
+  const update = ({ isDark, weather, flash, elapsed }) => {
     const target = isDark ? TARGETS.dark : TARGETS.light
     const TAU = Math.PI * 2
 
@@ -253,8 +253,12 @@ export function useEnvironment(scene, camera) {
     current.fog.lerp(target.fog, LERP)
 
     if (sky) {
+      // Le halo suit la météo autant que le thème : c'est ce qui distingue le
+      // mieux les ambiances sur un ciel sombre, où l'écart de brouillard entre
+      // deux états se lit à peine.
       const glow = sky.material.uniforms.glowStrength
-      glow.value += (target.glowStrength - glow.value) * LERP
+      const glowTarget = target.glowStrength * (weatherGlow[weather] ?? 1)
+      glow.value += (glowTarget - glow.value) * LERP
       sky.material.uniforms.flash.value = flash * 0.16
     }
 

@@ -22,10 +22,30 @@ export const palette = {
     glow: '#E2725B',
     glowStrength: 0.09,
     fog: '#0E1117',
-    ridges: ['#1C212B', '#161A23', '#0D1015'],
-    turbine: '#262C38',
-    particle: '#5C6474',
+    // Les crêtes s'ÉCLAIRCISSENT en se rapprochant, alors qu'en thème clair
+    // elles s'assombrissent : dans les deux cas elles s'écartent du ciel.
+    // L'ancienne rampe (#1C212B, #161A23, #0D1015) traversait la luminance du
+    // ciel et la crête la plus proche disparaissait — rapport 1,03, invisible.
+    // Le brouillard n'avait alors plus rien à voiler et toutes les ambiances
+    // se ressemblaient. La rampe actuelle donne 1,53 par temps clair contre
+    // 1,16 sous l'orage : une vraie amplitude, tout en restant discrète.
+    ridges: ['#1A2029', '#242B39', '#31394B'],
+    turbine: '#3A4256',
+    particle: '#6B7488',
   },
+}
+
+/**
+ * Intensité du halo d'horizon selon la météo, en multiple de la valeur du
+ * thème. C'est le levier le plus lisible en mode sombre : une lueur chaude sur
+ * un ciel presque noir se remarque bien mieux qu'un écart de brouillard.
+ */
+export const weatherGlow = {
+  clear: 1.4,
+  clouds: 0.8,
+  snow: 0.5,
+  rain: 0.35,
+  storm: 0.12,
 }
 
 /**
@@ -33,8 +53,8 @@ export const palette = {
  * plus il y a de brouillard, plus les crêtes lointaines s'effacent.
  */
 export const fogDensity = {
-  clear: 0.0016,
-  clouds: 0.0029,
+  clear: 0.0014,
+  clouds: 0.0032,
   rain: 0.0042,
   storm: 0.0052,
   snow: 0.0038,
@@ -63,10 +83,17 @@ export const ridgeDrift = [
  */
 export const turbineDrift = { factorX: 0.037, periodX: 117, phase: 0.9 }
 
-/** Réglage des particules par état météo. */
+/**
+ * Réglage des particules par état météo.
+ *
+ * `clear` et `clouds` sont volontairement bien séparés : ce sont les deux
+ * états dans lesquels Paris se trouve le plus souvent, et à 0,14 contre 0,18
+ * d'opacité ils étaient indiscernables. La quasi-totalité des visiteurs ne
+ * voyait donc jamais la météo changer quoi que ce soit.
+ */
 export const particleProfile = {
-  clear:  { opacity: 0.14, speed: 0.03, sway: 0.6,  size: 0.5 },
-  clouds: { opacity: 0.18, speed: 0.05, sway: 0.5,  size: 0.55 },
+  clear:  { opacity: 0.12, speed: 0.03, sway: 0.6,  size: 0.5 },
+  clouds: { opacity: 0.26, speed: 0.05, sway: 0.5,  size: 0.6 },
   rain:   { opacity: 0.32, speed: 0.85, sway: 0.06, size: 0.42 },
   storm:  { opacity: 0.4,  speed: 1.25, sway: 0.05, size: 0.45 },
   snow:   { opacity: 0.45, speed: 0.16, sway: 1.0,  size: 0.7 },

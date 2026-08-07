@@ -122,9 +122,27 @@ const formats = [
 
         <div class="md:col-span-5">
           <!-- WebP avec repli JPEG : le navigateur ne télécharge qu'un seul
-               des deux, et le WebP fait presque moitié moins lourd. -->
+               des deux, et le WebP fait presque moitié moins lourd.
+
+               Les trois largeurs viennent de scripts/generate-hero-images.py.
+               Une seule image de 800 px était servie à tout le monde alors
+               qu'elle s'affiche à 437 px sur un écran de bureau : un poste en
+               densité 1 téléchargeait plus de trois fois les pixels utiles.
+               `sizes` décrit la place réellement occupée, calculée sur la
+               grille : contenu = min(fenêtre, 1152) - 48, douze colonnes
+               séparées de 40 px, la cellule en occupe cinq plus quatre
+               gouttières. Au-delà de 1200 px, max-w-6xl plafonne et la largeur
+               reste bloquée à 437 px. -->
           <picture>
-            <source srcset="/hero-transformation.webp" type="image/webp">
+            <source
+              type="image/webp"
+              sizes="(min-width: 1200px) 440px, (min-width: 768px) 37vw, calc(100vw - 3rem)"
+              srcset="
+                /hero-transformation-440.webp 440w,
+                /hero-transformation-640.webp 640w,
+                /hero-transformation-800.webp 800w
+              "
+            >
             <img
               src="/hero-transformation.jpg"
               alt="Transformation digitale - Bastien Roc"
