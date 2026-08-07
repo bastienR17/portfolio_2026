@@ -18,6 +18,10 @@ const MAX_FACTOR_X = Math.max(...DRIFT.map((d) => d.factorX))
 
 const RIDGE_SEGMENTS = 200
 
+/** Cède la main au navigateur entre deux étapes de construction, pour que
+ * chaque étape reste une tâche courte plutôt qu'un seul bloc synchrone long. */
+const nextFrame = () => new Promise((resolve) => requestAnimationFrame(resolve))
+
 /**
  * Vitesse de houle par plan (radians/seconde sur la composante dominante).
  * Le plan le plus proche ondule le plus vite : c'est ce qui donne la parallaxe.
@@ -145,14 +149,16 @@ export function useEnvironment(scene, camera) {
    * le plus proche est le plus sombre. Combiné au brouillard, cela donne la
    * perspective atmosphérique.
    */
-  const createRidges = (bounds, groundY) => {
+  const createRidges = async (bounds, groundY) => {
     const layers = [
       { z: -220, amp: bounds.h * 0.1, lift: bounds.h * 0.2, seed: 1.7 },
       { z: -150, amp: bounds.h * 0.08, lift: bounds.h * 0.1, seed: 4.2 },
       { z: -80, amp: bounds.h * 0.07, lift: bounds.h * 0.02, seed: 8.9 },
     ]
 
-    layers.forEach((layer, i) => {
+    for (let i = 0; i < layers.length; i++) {
+      const layer = layers[i]
+      if (i > 0) await nextFrame() // une crête par frame : pas de tâche longue
       // Largeur calculée à la profondeur de la crête, avec un aspect minimum
       // généreux : la géométrie n'est pas régénérée au redimensionnement, elle
       // doit donc déjà couvrir les écrans très larges — et absorber la dérive.
@@ -235,13 +241,13 @@ export function useEnvironment(scene, camera) {
       mesh.userData.drift = { ...DRIFT[i], z: layer.z }
       scene.add(mesh)
       ridges.push(mesh)
-    })
+    }
   }
 
-  const createWorld = (bounds, groundY) => {
+  const createWorld = async (bounds, groundY) => {
     scene.fog = new FogExp2(current.fog, 0.002)
     createSky()
-    createRidges(bounds, groundY)
+    await createRidges(bounds, groundY)
   }
 
   const update = ({ isDark, weather, flash, elapsed }) => {

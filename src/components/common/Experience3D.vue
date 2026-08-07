@@ -29,6 +29,10 @@ let turbines = null
 const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+/** Cède la main au navigateur entre deux étapes de construction, pour que
+ * chaque étape reste une tâche courte plutôt qu'un seul bloc synchrone long. */
+const nextFrame = () => new Promise((resolve) => requestAnimationFrame(resolve))
+
 // Pont de développement : lu par DebugPanel.vue, et utilisable directement
 // depuis la console. `import.meta.env.DEV` vaut littéralement false au build,
 // donc tout ce bloc disparaît du bundle de production.
@@ -98,7 +102,7 @@ const onWindowResize = () => {
   env?.resize()
 }
 
-const init = () => {
+const init = async () => {
   if (!container.value) return
 
   const { w, h } = viewportSize()
@@ -123,7 +127,11 @@ const init = () => {
   storm = useStorm()
   turbines = useWindTurbines(scene, camera)
 
-  env.createWorld(bounds, groundY)
+  // Construction étalée sur plusieurs frames : la scène complète (ciel,
+  // crêtes shadées, particules, éoliennes) reste sous les 50 ms par étape
+  // au lieu d'un seul bloc synchrone qui bloquait le thread principal.
+  await env.createWorld(bounds, groundY)
+  await nextFrame()
   atmosphere.create(bounds)
 
   // Trois éoliennes posées entre la crête lointaine et la crête médiane, qui
@@ -131,6 +139,7 @@ const init = () => {
   const zNear = -180
   const zFar = -215
   for (let i = 0; i < 3; i++) {
+    await nextFrame()
     const z = zNear - Math.random() * Math.abs(zFar - zNear)
     const scale = mapLinear(z, zNear, zFar, 0.55, 0.35)
     let x = (Math.random() - 0.5) * bounds.w * 1.6
