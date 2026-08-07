@@ -141,7 +141,10 @@
     "location_label": "Localisation",
     "location_value": "Paris / Région parisienne (92)",
     "languages_label": "Langues",
-    "languages": ["Français - langue maternelle", "Anglais - B2 (CECRL)"],
+    "languages": [
+      "Français - langue maternelle",
+      "Anglais - B2 (CECRL)"
+    ],
     "skills_title": "Compétences",
     "skills_filterAll": "Toutes",
     "skills_hard_label": "Hard Skills",
@@ -152,13 +155,53 @@
     "skills_hard_dev_label": "Dév. Web",
     "skills_hard_design_label": "Design & UX/UI",
     "skills_hard_data_label": "Analytics & Outils",
-    "skills_hard_ai": ["IA générative", "RAG", "Chunking sémantique", "Architecture MCP", "CI/CD", "Automatisation (n8n)", "AI Prompting"],
-    "skills_hard_pm": ["AMOA", "Conduite du changement", "Agile Scrum", "Pilotage de projet", "Recueil du besoin", "Cahier des charges", "Suivi de KPI", "Gestion d'équipe"],
-    "skills_hard_dev": ["HTML / CSS", "JavaScript", "PHP / MySQL", "Symfony", "WordPress", "GitHub"],
-    "skills_hard_design": ["UX/UI", "Canva", "Suite Adobe"],
-    "skills_hard_data": ["Google Analytics", "Excel", "Jira"],
-    "skills_soft": ["Travail en équipe", "Communication", "Curiosité", "Apprentissage continu"],
-    "skills_certifications": ["Opquast 800+/1000", "PSM I - Professional Scrum Master"],
+    "skills_hard_ai": [
+      "IA générative",
+      "RAG",
+      "Chunking sémantique",
+      "Architecture MCP",
+      "CI/CD",
+      "Automatisation (n8n)",
+      "AI Prompting"
+    ],
+    "skills_hard_pm": [
+      "AMOA",
+      "Conduite du changement",
+      "Agile Scrum",
+      "Pilotage de projet",
+      "Recueil du besoin",
+      "Cahier des charges",
+      "Suivi de KPI",
+      "Gestion d'équipe"
+    ],
+    "skills_hard_dev": [
+      "HTML / CSS",
+      "JavaScript",
+      "PHP / MySQL",
+      "Symfony",
+      "WordPress",
+      "GitHub"
+    ],
+    "skills_hard_design": [
+      "UX/UI",
+      "Canva",
+      "Suite Adobe"
+    ],
+    "skills_hard_data": [
+      "Google Analytics",
+      "Excel",
+      "Jira"
+    ],
+    "skills_soft": [
+      "Travail en équipe",
+      "Communication",
+      "Curiosité",
+      "Apprentissage continu"
+    ],
+    "skills_certifications": [
+      "Opquast 800+/1000",
+      "PSM I - Professional Scrum Master"
+    ],
     "edu1": {
       "role": "Bachelor - Chef de Projet Digital",
       "org": "IIM Digital School Paris - Nanterre (92)",
@@ -175,21 +218,35 @@
       "company": "Ministères Transition Écologique, Transports & Logement - La Défense",
       "date": "Oct. 2024 – Août 2026",
       "desc": "Je pilote en AMOA le déploiement d'une solution de recherche d'information, adoptée par 100 % des 2 500 collaborateurs concernés, en assurant la relation entre les équipes métier et les équipes techniques.",
-      "tasks": ["Solution de recherche adoptée par 100 % de 2 500 collaborateurs", "Montée en compétences de 100 collaborateurs (logiciels et IA)", "Une vingtaine de supports pédagogiques d'accompagnement", "Définition et pilotage des KPI de performance", "Automatisation de plusieurs processus internes"]
+      "tasks": [
+        "Solution de recherche adoptée par 100 % de 2 500 collaborateurs",
+        "Montée en compétences de 100 collaborateurs (logiciels et IA)",
+        "Une vingtaine de supports pédagogiques d'accompagnement",
+        "Définition et pilotage des KPI de performance",
+        "Automatisation de plusieurs processus internes"
+      ]
     },
     "exp2": {
       "role": "Alternance - Assistant Chef de Projet Digital Front End",
       "company": "Sephora - Neuilly-sur-Seine",
       "date": "Sept. 2023 – Fév. 2024",
       "desc": "Traitement d'une cinquantaine de demandes d'intégration front-end par mois dans des délais courts, en planifiant et coordonnant les missions confiées aux intégrateurs.",
-      "tasks": ["~50 demandes d'intégration front-end par mois", "Planification et coordination des intégrateurs", "Évolution et amélioration des outils IT de l'équipe"]
+      "tasks": [
+        "~50 demandes d'intégration front-end par mois",
+        "Planification et coordination des intégrateurs",
+        "Évolution et amélioration des outils IT de l'équipe"
+      ]
     },
     "exp3": {
       "role": "Stage - Chefferie de projet & Développement web",
       "company": "SNCF D2D",
       "date": "Mai – Juin 2023",
       "desc": "Pilotage de projets en méthodologie Agile, gestion d'équipe et développement orienté objet.",
-      "tasks": ["Gestion de projet Agile", "Gestion d'équipe", "Programmation orientée objet"]
+      "tasks": [
+        "Gestion de projet Agile",
+        "Gestion d'équipe",
+        "Programmation orientée objet"
+      ]
     },
     "engagements_title": "Bénévolat",
     "timeline_filterAll": "Toutes",
@@ -200,13 +257,21 @@
       "role": "Trésorier",
       "org": "Leon'Art",
       "date": "Juil. 2023 – Juil. 2024",
-      "tasks": ["Suivi financier et reporting", "Garant de la transparence financière"]
+      "tasks": [
+        "Suivi financier et reporting",
+        "Garant de la transparence financière"
+      ]
     },
     "eng2": {
       "role": "Consultant",
       "org": "Leon'Art",
       "date": "Juil. 2025 – Juil. 2026",
-      "tasks": ["Gestion du budget annuel", "Conseil stratégique en organisation", "Optimisation des opérations internes", "Support opérationnel"]
+      "tasks": [
+        "Gestion du budget annuel",
+        "Conseil stratégique en organisation",
+        "Optimisation des opérations internes",
+        "Support opérationnel"
+      ]
     }
   },
   "projects": {
@@ -225,8 +290,19 @@
         "period": "Oct. 2024 – Août 2026",
         "context": "Une administration de 2 500 agents où retrouver la bonne information RH prenait un temps considérable, avec des habitudes de travail bien ancrées.",
         "mission": "Piloter Aidy, un assistant IA basé sur le RAG donnant accès à la documentation RH, de la conception technique jusqu'à l'adoption réelle sur le terrain. Mission en cours.",
-        "actions": ["Recueil et formalisation du besoin auprès des équipes métier", "Conception des pipelines CI/CD et chunking sémantique des corpus", "Architecture MCP pour connecter les API aux assistants IA", "Conception d'une vingtaine de supports pédagogiques et animation des formations", "Définition et suivi des indicateurs d'adoption"],
-        "results": ["Solution adoptée par 100 % des 2 500 collaborateurs concernés", "100 collaborateurs montés en compétences sur les nouveaux outils et l'IA", "Plusieurs processus internes automatisés", "Résistances au changement réduites par un accompagnement structuré"]
+        "actions": [
+          "Recueil et formalisation du besoin auprès des équipes métier",
+          "Conception des pipelines CI/CD et chunking sémantique des corpus",
+          "Architecture MCP pour connecter les API aux assistants IA",
+          "Conception d'une vingtaine de supports pédagogiques et animation des formations",
+          "Définition et suivi des indicateurs d'adoption"
+        ],
+        "results": [
+          "Solution adoptée par 100 % des 2 500 collaborateurs concernés",
+          "100 collaborateurs montés en compétences sur les nouveaux outils et l'IA",
+          "Plusieurs processus internes automatisés",
+          "Résistances au changement réduites par un accompagnement structuré"
+        ]
       },
       "sephora": {
         "org": "Sephora",
@@ -234,8 +310,17 @@
         "period": "Sept. 2023 – Fév. 2024",
         "context": "Une équipe digitale recevant un flux continu de demandes d'intégration front-end, avec des délais courts et des intégrateurs externes à coordonner.",
         "mission": "Assurer la qualification, la planification et le suivi des demandes d'intégration, et contribuer à l'évolution des outils de l'équipe.",
-        "actions": ["Qualification et priorisation des demandes entrantes", "Planification des missions confiées aux intégrateurs", "Coordination et suivi des délais de livraison", "Contribution à l'évolution des outils IT de l'équipe"],
-        "results": ["Une cinquantaine de demandes traitées par mois", "Délais tenus malgré un flux continu", "Outils de l'équipe améliorés"]
+        "actions": [
+          "Qualification et priorisation des demandes entrantes",
+          "Planification des missions confiées aux intégrateurs",
+          "Coordination et suivi des délais de livraison",
+          "Contribution à l'évolution des outils IT de l'équipe"
+        ],
+        "results": [
+          "Une cinquantaine de demandes traitées par mois",
+          "Délais tenus malgré un flux continu",
+          "Outils de l'équipe améliorés"
+        ]
       },
       "sncf": {
         "org": "SNCF D2D - Saint-Denis",
@@ -243,8 +328,14 @@
         "period": "Mai – Juin 2023",
         "context": "Un projet web à concevoir et livrer en équipe, sur un cycle court, en méthode Agile.",
         "mission": "Contribuer au pilotage du projet et au développement, de la conception jusqu'à la livraison.",
-        "actions": ["Pilotage du projet en méthode Agile", "Gestion et coordination de l'équipe", "Développement orienté objet"],
-        "results": ["Projet web livré dans les délais impartis"]
+        "actions": [
+          "Pilotage du projet en méthode Agile",
+          "Gestion et coordination de l'équipe",
+          "Développement orienté objet"
+        ],
+        "results": [
+          "Projet web livré dans les délais impartis"
+        ]
       }
     },
     "studies_title": "Projets",
@@ -286,22 +377,42 @@
       "amoa": {
         "title": "AMOA & Cadrage",
         "desc": "Je traduis un besoin métier en projet pilotable, et j'assure la coordination entre les équipes métier et techniques.",
-        "items": ["Recueil et formalisation du besoin", "Rédaction de spécifications fonctionnelles", "Pilotage de la relation MOA / MOE", "Suivi de recette et déploiement"]
+        "items": [
+          "Recueil et formalisation du besoin",
+          "Rédaction de spécifications fonctionnelles",
+          "Pilotage de la relation MOA / MOE",
+          "Suivi de recette et déploiement"
+        ]
       },
       "change": {
         "title": "Conduite du changement",
         "desc": "J'accompagne l'adoption d'un nouvel outil ou d'une nouvelle organisation, du plan de communication à la mesure de l'adoption.",
-        "items": ["Plan d'accompagnement et de communication", "Création de supports pédagogiques", "Formation et acculturation des équipes", "Indicateurs de mesure de l'adoption"]
+        "items": [
+          "Plan d'accompagnement et de communication",
+          "Création de supports pédagogiques",
+          "Formation et acculturation des équipes",
+          "Indicateurs de mesure de l'adoption"
+        ]
       },
       "agile": {
         "title": "Pilotage de projet agile",
         "desc": "Je structure et facilite vos projets en méthode agile, en gardant l'équipe alignée et le backlog priorisé (certifié PSM I).",
-        "items": ["Animation des rituels Scrum", "Gestion et priorisation du backlog", "Coordination des parties prenantes", "Reporting et suivi d'avancement"]
+        "items": [
+          "Animation des rituels Scrum",
+          "Gestion et priorisation du backlog",
+          "Coordination des parties prenantes",
+          "Reporting et suivi d'avancement"
+        ]
       },
       "ai": {
         "title": "IA & Automatisation",
         "desc": "Je déploie des assistants IA documentaires et automatise des processus pour faire gagner du temps aux équipes, avec une approche pragmatique.",
-        "items": ["Assistants IA documentaires (RAG)", "Automatisation de workflows (n8n)", "Acculturation et bonnes pratiques IA", "Cadrage de cas d'usage"],
+        "items": [
+          "Assistants IA documentaires (RAG)",
+          "Automatisation de workflows (n8n)",
+          "Acculturation et bonnes pratiques IA",
+          "Cadrage de cas d'usage"
+        ],
         "note": "C'est ce que je fais aujourd'hui : je pilote Aidy, un assistant IA basé sur le RAG déployé auprès de 2 500 agents, du chunking des corpus jusqu'à la formation des équipes. Mon mémoire d'ingénieur, « Former à l'IA sans effrayer », porte sur la seconde moitié du problème."
       }
     },
@@ -337,7 +448,6 @@
     "status_label": "Statut",
     "status_value": "Particulier - activité indépendante en cours de création",
     "contact_label": "Contact",
-    "contact_value": "contact@bastienroc.fr",
     "hosting_title": "Hébergement",
     "hosting_desc": "Le site est hébergé par Cloudflare, Inc., 101 Townsend Street, San Francisco, CA 94107, États-Unis (cloudflare.com). Le nom de domaine est enregistré auprès d'OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.",
     "ip_title": "Propriété intellectuelle",

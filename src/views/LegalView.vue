@@ -1,10 +1,21 @@
 <script setup>
+import { SITE } from '../config/site'
+
 // Sections pilotées par l'i18n : chaque entrée = un bloc de texte simple
 const sections = ['editor', 'hosting', 'ip', 'data']
 
 // Lignes d'identité (label / value) du bloc éditeur.
 // Le SIRET sera réintroduit ici une fois l'immatriculation effective.
-const identity = ['editor_name', 'status', 'contact']
+//
+// L'adresse vient de site.js et non des traductions. Une adresse e-mail ne se
+// traduit pas, et surtout vue-i18n lit « @ » comme le début d'un lien vers un
+// autre message : « contact@bastienroc.fr » ne compilait plus depuis la v11 et
+// faisait échouer le rendu de toute la page.
+const identity = [
+  { key: 'editor_name' },
+  { key: 'status' },
+  { key: 'contact', value: SITE.email },
+]
 </script>
 
 <template>
@@ -26,12 +37,12 @@ const identity = ['editor_name', 'status', 'contact']
         </p>
 
         <dl class="grid sm:grid-cols-3 gap-6 border-t border-line-soft pt-6">
-          <div v-for="row in identity" :key="row">
+          <div v-for="row in identity" :key="row.key">
             <dt class="text-sm text-ink-muted mb-1">
-              {{ $t(`legal.${row}_label`) }}
+              {{ $t(`legal.${row.key}_label`) }}
             </dt>
             <dd class="text-ink font-medium break-words">
-              {{ $t(`legal.${row}_value`) }}
+              {{ row.value ?? $t(`legal.${row.key}_value`) }}
             </dd>
           </div>
         </dl>

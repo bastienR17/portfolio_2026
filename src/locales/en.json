@@ -141,7 +141,10 @@
     "location_label": "Location",
     "location_value": "Paris / Greater Paris area (92)",
     "languages_label": "Languages",
-    "languages": ["French - native", "English - B2 (CEFR)"],
+    "languages": [
+      "French - native",
+      "English - B2 (CEFR)"
+    ],
     "skills_title": "Skills",
     "skills_filterAll": "All",
     "skills_hard_label": "Hard Skills",
@@ -152,13 +155,53 @@
     "skills_hard_dev_label": "Web Dev",
     "skills_hard_design_label": "Design & UX/UI",
     "skills_hard_data_label": "Analytics & Tools",
-    "skills_hard_ai": ["Generative AI", "RAG", "Semantic chunking", "MCP architecture", "CI/CD", "Workflow automation (n8n)", "AI prompting"],
-    "skills_hard_pm": ["Business analysis", "Change management", "Agile Scrum", "Project steering", "Requirements gathering", "Functional specifications", "KPI tracking", "Team management"],
-    "skills_hard_dev": ["HTML / CSS", "JavaScript", "PHP / MySQL", "Symfony", "WordPress", "GitHub"],
-    "skills_hard_design": ["UX/UI", "Canva", "Adobe Suite"],
-    "skills_hard_data": ["Google Analytics", "Excel", "Jira"],
-    "skills_soft": ["Teamwork", "Communication", "Curiosity", "Continuous Learning"],
-    "skills_certifications": ["Opquast 800+/1000", "PSM I - Professional Scrum Master"],
+    "skills_hard_ai": [
+      "Generative AI",
+      "RAG",
+      "Semantic chunking",
+      "MCP architecture",
+      "CI/CD",
+      "Workflow automation (n8n)",
+      "AI prompting"
+    ],
+    "skills_hard_pm": [
+      "Business analysis",
+      "Change management",
+      "Agile Scrum",
+      "Project steering",
+      "Requirements gathering",
+      "Functional specifications",
+      "KPI tracking",
+      "Team management"
+    ],
+    "skills_hard_dev": [
+      "HTML / CSS",
+      "JavaScript",
+      "PHP / MySQL",
+      "Symfony",
+      "WordPress",
+      "GitHub"
+    ],
+    "skills_hard_design": [
+      "UX/UI",
+      "Canva",
+      "Adobe Suite"
+    ],
+    "skills_hard_data": [
+      "Google Analytics",
+      "Excel",
+      "Jira"
+    ],
+    "skills_soft": [
+      "Teamwork",
+      "Communication",
+      "Curiosity",
+      "Continuous Learning"
+    ],
+    "skills_certifications": [
+      "Opquast 800+/1000",
+      "PSM I - Professional Scrum Master"
+    ],
     "edu1": {
       "role": "Bachelor - Digital Project Manager",
       "org": "IIM Digital School Paris - Nanterre (92)",
@@ -175,21 +218,35 @@
       "company": "Ministries of Ecological Transition, Transport & Housing - La Défense",
       "date": "Oct. 2024 – Aug. 2026",
       "desc": "I lead the rollout of an information-search solution as business analyst, adopted by 100% of the 2,500 staff concerned, steering the relationship between business and technical teams.",
-      "tasks": ["Search solution adopted by 100% of 2,500 staff", "100 people upskilled on new software and AI tools", "Around 20 training and support materials produced", "Performance KPIs defined and tracked", "Several internal processes automated"]
+      "tasks": [
+        "Search solution adopted by 100% of 2,500 staff",
+        "100 people upskilled on new software and AI tools",
+        "Around 20 training and support materials produced",
+        "Performance KPIs defined and tracked",
+        "Several internal processes automated"
+      ]
     },
     "exp2": {
       "role": "Apprenticeship - Digital Front-End Project Assistant",
       "company": "Sephora - Neuilly-sur-Seine",
       "date": "Sept. 2023 – Feb. 2024",
       "desc": "Handled around 50 front-end integration requests a month to tight deadlines, planning and coordinating the work assigned to integrators.",
-      "tasks": ["~50 front-end integration requests per month", "Planning and coordination of integrators", "Evolution and improvement of the team's IT tools"]
+      "tasks": [
+        "~50 front-end integration requests per month",
+        "Planning and coordination of integrators",
+        "Evolution and improvement of the team's IT tools"
+      ]
     },
     "exp3": {
       "role": "Intern - Project Management & Web Development",
       "company": "SNCF D2D",
       "date": "May – June 2023",
       "desc": "Leading projects using Agile methodology, team management, and object-oriented development.",
-      "tasks": ["Agile project management", "Team management", "Object-oriented programming"]
+      "tasks": [
+        "Agile project management",
+        "Team management",
+        "Object-oriented programming"
+      ]
     },
     "engagements_title": "Volunteering",
     "timeline_filterAll": "All",
@@ -200,13 +257,21 @@
       "role": "Treasurer",
       "org": "Leon'Art",
       "date": "Jul. 2023 – Jul. 2024",
-      "tasks": ["Financial tracking & reporting", "Financial transparency oversight"]
+      "tasks": [
+        "Financial tracking & reporting",
+        "Financial transparency oversight"
+      ]
     },
     "eng2": {
       "role": "Consultant",
       "org": "Leon'Art",
       "date": "Jul. 2025 – Jul. 2026",
-      "tasks": ["Annual budget management", "Strategic organizational consulting", "Internal operations optimization", "Operational support"]
+      "tasks": [
+        "Annual budget management",
+        "Strategic organizational consulting",
+        "Internal operations optimization",
+        "Operational support"
+      ]
     }
   },
   "projects": {
@@ -225,8 +290,19 @@
         "period": "Oct. 2024 – Aug. 2026",
         "context": "A 2,500-strong administration where finding the right HR information took considerable time, with deeply established working habits.",
         "mission": "Lead Aidy, a RAG-based AI assistant giving access to HR documentation, from the technical design through to real adoption on the ground. Ongoing.",
-        "actions": ["Gathered and formalised requirements with business teams", "Designed the CI/CD pipelines and semantic chunking of the corpora", "MCP architecture connecting APIs to the AI assistants", "Produced around 20 training materials and ran the sessions", "Defined and tracked adoption indicators"],
-        "results": ["Solution adopted by 100% of the 2,500 staff concerned", "100 people upskilled on the new tools and on AI", "Several internal processes automated", "Resistance to change reduced through structured support"]
+        "actions": [
+          "Gathered and formalised requirements with business teams",
+          "Designed the CI/CD pipelines and semantic chunking of the corpora",
+          "MCP architecture connecting APIs to the AI assistants",
+          "Produced around 20 training materials and ran the sessions",
+          "Defined and tracked adoption indicators"
+        ],
+        "results": [
+          "Solution adopted by 100% of the 2,500 staff concerned",
+          "100 people upskilled on the new tools and on AI",
+          "Several internal processes automated",
+          "Resistance to change reduced through structured support"
+        ]
       },
       "sephora": {
         "org": "Sephora",
@@ -234,8 +310,17 @@
         "period": "Sept. 2023 – Feb. 2024",
         "context": "A digital team receiving a constant flow of front-end integration requests, with tight deadlines and external integrators to coordinate.",
         "mission": "Qualify, plan and track integration requests, and contribute to improving the team's tooling.",
-        "actions": ["Qualified and prioritised incoming requests", "Planned the work assigned to integrators", "Coordinated and tracked delivery deadlines", "Contributed to the evolution of the team's IT tools"],
-        "results": ["Around 50 requests handled per month", "Deadlines met despite a constant flow", "Team tooling improved"]
+        "actions": [
+          "Qualified and prioritised incoming requests",
+          "Planned the work assigned to integrators",
+          "Coordinated and tracked delivery deadlines",
+          "Contributed to the evolution of the team's IT tools"
+        ],
+        "results": [
+          "Around 50 requests handled per month",
+          "Deadlines met despite a constant flow",
+          "Team tooling improved"
+        ]
       },
       "sncf": {
         "org": "SNCF D2D - Saint-Denis",
@@ -243,8 +328,14 @@
         "period": "May – June 2023",
         "context": "A web project to design and deliver as a team, on a short cycle, using Agile.",
         "mission": "Contribute to both project steering and development, from design through to delivery.",
-        "actions": ["Steered the project using Agile", "Managed and coordinated the team", "Object-oriented development"],
-        "results": ["Web project delivered on time"]
+        "actions": [
+          "Steered the project using Agile",
+          "Managed and coordinated the team",
+          "Object-oriented development"
+        ],
+        "results": [
+          "Web project delivered on time"
+        ]
       }
     },
     "studies_title": "Projects",
@@ -286,22 +377,42 @@
       "amoa": {
         "title": "Business Analysis & Scoping",
         "desc": "I turn a business need into a manageable project and coordinate between business and technical teams.",
-        "items": ["Needs gathering and formalization", "Functional specifications writing", "Business / IT relationship steering", "Acceptance testing and rollout"]
+        "items": [
+          "Needs gathering and formalization",
+          "Functional specifications writing",
+          "Business / IT relationship steering",
+          "Acceptance testing and rollout"
+        ]
       },
       "change": {
         "title": "Change Management",
         "desc": "I support the adoption of a new tool or organization, from communication planning to adoption measurement.",
-        "items": ["Support and communication plan", "Educational materials creation", "Team training and AI literacy", "Adoption measurement indicators"]
+        "items": [
+          "Support and communication plan",
+          "Educational materials creation",
+          "Team training and AI literacy",
+          "Adoption measurement indicators"
+        ]
       },
       "agile": {
         "title": "Agile Project Management",
         "desc": "I structure and facilitate your projects using agile methods, keeping the team aligned and the backlog prioritized (PSM I certified).",
-        "items": ["Scrum ceremonies facilitation", "Backlog management and prioritization", "Stakeholder coordination", "Reporting and progress tracking"]
+        "items": [
+          "Scrum ceremonies facilitation",
+          "Backlog management and prioritization",
+          "Stakeholder coordination",
+          "Reporting and progress tracking"
+        ]
       },
       "ai": {
         "title": "AI & Automation",
         "desc": "I deploy documentary AI assistants and automate processes to save teams time, with a pragmatic approach.",
-        "items": ["Documentary AI assistants (RAG)", "Workflow automation (n8n)", "AI literacy and best practices", "Use case scoping"],
+        "items": [
+          "Documentary AI assistants (RAG)",
+          "Workflow automation (n8n)",
+          "AI literacy and best practices",
+          "Use case scoping"
+        ],
         "note": "This is what I do today: I lead Aidy, a RAG-based AI assistant deployed to 2,500 staff, from chunking the corpora through to training the teams. My engineering thesis, \"Training teams on AI without scaring them\", covers the second half of that problem."
       }
     },
@@ -337,7 +448,6 @@
     "status_label": "Status",
     "status_value": "Private individual - independent activity being registered",
     "contact_label": "Contact",
-    "contact_value": "contact@bastienroc.fr",
     "hosting_title": "Hosting",
     "hosting_desc": "This site is hosted by Cloudflare, Inc., 101 Townsend Street, San Francisco, CA 94107, USA (cloudflare.com). The domain name is registered with OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.",
     "ip_title": "Intellectual property",

@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "node scripts/generate-seo-files.js",
+    "prebuild": "node scripts/check-locales.js && node scripts/generate-seo-files.js",
+    "check:locales": "node scripts/check-locales.js",
     "build": "vite build",
     "postbuild": "node scripts/prerender-routes.js",
     "seo:files": "node scripts/generate-seo-files.js",

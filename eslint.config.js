@@ -21,6 +21,18 @@ export default defineConfig([
     },
   },
 
+  {
+    // Les scripts de build tournent dans Node, pas dans le navigateur : ils ont
+    // accès à process, et pas à window ni document.
+    name: 'app/build-scripts',
+    files: ['scripts/**/*.js'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+  },
+
   js.configs.recommended,
   ...pluginVue.configs['flat/essential'],
 
