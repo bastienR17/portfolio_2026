@@ -10,9 +10,9 @@ useReveal()
 // Les services pilotés depuis l'i18n : clé de traduction + icône associée
 const services = [
   { key: 'amoa', icon: Target },
+  { key: 'ai', icon: Bot },
   { key: 'change', icon: Users },
   { key: 'agile', icon: Workflow },
-  { key: 'ai', icon: Bot },
 ]
 
 const steps = ['step1', 'step2', 'step3']

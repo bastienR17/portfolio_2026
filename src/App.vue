@@ -101,10 +101,15 @@ onMounted(() => {
   filter: blur(20px);
 }
 
-/* Transitions de page */
+/* Transitions de page
+   mode="out-in" (sur le router-view) attend la fin de la sortie avant de
+   démarrer l'entrée : à 0,25 s chacune, ça faisait jusqu'à 500 ms sans rien
+   de nouveau à l'écran après un clic — perceptible comme un délai. Ramené à
+   0,12 s : reste un fondu, mais le contenu suivant arrive nettement plus
+   vite après le clic. */
 .page-enter-active,
 .page-leave-active {
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transition: opacity 0.12s ease, transform 0.12s ease;
 }
 .page-enter-from {
   opacity: 0;
