@@ -416,7 +416,7 @@
         "desc": "I deploy documentary AI assistants and automate processes to save teams time, with a pragmatic approach.",
         "items": [
           "Documentary AI assistants (RAG)",
-          "Workflow automation (n8n)",
+          "Workflow automation (via CI/CD)",
           "AI literacy and best practices",
           "Use case scoping"
         ],

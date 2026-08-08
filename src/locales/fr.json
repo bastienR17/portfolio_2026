@@ -416,7 +416,7 @@
         "desc": "Je déploie des assistants IA documentaires et automatise des processus pour faire gagner du temps aux équipes, avec une approche pragmatique.",
         "items": [
           "Assistants IA documentaires (RAG)",
-          "Automatisation de workflows (n8n)",
+          "Automatisation de workflows (via CI/CD)",
           "Acculturation et bonnes pratiques IA",
           "Cadrage de cas d'usage"
         ],
