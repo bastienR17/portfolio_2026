@@ -7,7 +7,7 @@ defineProps({
 </script>
 
 <template>
-  <article class="group flex flex-col h-full overflow-hidden bg-surface border border-line-soft hover:border-line transition-colors">
+  <article class="card-punch group flex flex-col h-full overflow-hidden bg-surface md:odd:-rotate-[0.4deg] md:even:rotate-[0.4deg]">
 
     <div class="relative h-44 overflow-hidden bg-surface-2 border-b border-line-soft">
       <img
@@ -18,7 +18,7 @@ defineProps({
       >
       <span
         v-if="project.language"
-        class="absolute top-3 right-3 px-2 py-0.5 text-xs font-medium bg-surface border border-line text-ink"
+        class="absolute top-3 right-3 px-2 py-0.5 text-xs font-medium bg-surface border border-line text-ink -rotate-2"
       >
         {{ project.language }}
       </span>

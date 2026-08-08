@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { MapPin, Languages } from 'lucide-vue-next'
 import { useReveal } from '../composables/useReveal'
 
 const { t, tm, te } = useI18n()
@@ -57,7 +58,7 @@ const visibleHardSubs = computed(() =>
 // Chaque famille de compétences a sa couleur, toutes vérifiées >= 4.5:1.
 const categoryColor = {
   hard: 'text-accent',
-  soft: 'text-ochre-deep',
+  soft: 'text-ink',
   certifications: 'text-positive',
 }
 
@@ -97,32 +98,37 @@ const visibleSkillsCount = computed(() => {
   <div class="relative z-10">
 
     <section class="max-w-4xl mx-auto px-6 pt-16 pb-14 md:pt-24">
+      <!-- Localisation et langues traitées en tampons, comme le badge de
+           disponibilité en accueil — même grammaire visuelle, même position
+           (au-dessus du titre) plutôt qu'une liste dt/dd ou une grille serrée
+           à côté du titre. -->
+      <div class="flex flex-wrap gap-2 mb-8">
+        <span class="tag-stamp text-ink -rotate-1">
+          <MapPin class="w-3 h-3 text-accent shrink-0" aria-hidden="true" />
+          {{ $t('about.location_value') }}
+        </span>
+        <span
+          v-for="(lang, i) in tm('about.languages')"
+          :key="i"
+          class="tag-stamp text-ink"
+          :class="i % 2 === 0 ? 'rotate-1' : '-rotate-1'"
+        >
+          <Languages v-if="i === 0" class="w-3 h-3 text-accent shrink-0" aria-hidden="true" />
+          {{ lang }}
+        </span>
+      </div>
+
       <h1 class="h-hero text-ink mb-10">
         {{ $t('about.title') }}
       </h1>
 
-      <p class="max-w-2xl text-lg text-ink-muted leading-relaxed border-l-2 border-accent pl-6">
+      <p class="max-w-2xl text-lg text-ink-muted leading-relaxed">
         {{ $t('about.path_description') }}
       </p>
-
-      <dl class="flex flex-wrap gap-x-14 gap-y-6 mt-10 pt-8 border-t border-line-soft">
-        <div>
-          <dt class="text-sm text-ink-muted mb-1">{{ $t('about.location_label') }}</dt>
-          <dd class="font-medium text-ink">{{ $t('about.location_value') }}</dd>
-        </div>
-        <div>
-          <dt class="text-sm text-ink-muted mb-1">{{ $t('about.languages_label') }}</dt>
-          <dd class="font-medium text-ink">
-            <span v-for="(lang, i) in tm('about.languages')" :key="i">
-              <span v-if="i > 0" class="text-ink-muted"> · </span>{{ lang }}
-            </span>
-          </dd>
-        </div>
-      </dl>
     </section>
 
     <!-- ── Façon de travailler ────────────────────────────── -->
-    <section class="max-w-4xl mx-auto px-6 pb-20">
+    <section class="max-w-4xl mx-auto px-6 pt-14 pb-20 border-t border-line-soft">
       <div class="reveal mb-12 max-w-2xl">
         <h2 class="h-section text-ink mb-4">{{ $t('about.method_title') }}</h2>
         <p class="text-lg text-ink-muted leading-relaxed">{{ $t('about.method_intro') }}</p>
@@ -132,17 +138,19 @@ const visibleSkillsCount = computed(() => {
         <li
           v-for="(key, i) in method"
           :key="key"
-          class="reveal grid md:grid-cols-12 gap-2 md:gap-6 py-8 border-b border-line-soft"
+          class="reveal py-8 border-b border-line-soft"
         >
-          <p class="md:col-span-1 font-display text-2xl text-accent leading-none">
+          <p class="font-display text-5xl md:text-6xl text-accent leading-none mb-4">
             {{ String(i + 1).padStart(2, '0') }}
           </p>
-          <h3 class="md:col-span-5 text-lg text-ink leading-snug">
-            {{ $t(`about.method.${key}.title`) }}
-          </h3>
-          <p class="md:col-span-6 text-ink-muted leading-relaxed">
-            {{ $t(`about.method.${key}.desc`) }}
-          </p>
+          <div class="md:grid md:grid-cols-12 md:gap-6">
+            <h3 class="md:col-span-5 text-lg text-ink leading-snug">
+              {{ $t(`about.method.${key}.title`) }}
+            </h3>
+            <p class="md:col-span-7 text-ink-muted leading-relaxed">
+              {{ $t(`about.method.${key}.desc`) }}
+            </p>
+          </div>
         </li>
       </ol>
     </section>

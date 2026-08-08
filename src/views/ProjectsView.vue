@@ -60,7 +60,7 @@ const filteredAndSortedProjects = computed(() => {
 
     <!-- En-tête -->
     <section class="max-w-6xl mx-auto px-6 pt-16 pb-14 md:pt-24">
-      <h1 class="h-hero text-ink mb-6">
+      <h1 class="h-mega text-ink mb-6">
         {{ $t('projects.title') }}
       </h1>
       <p class="max-w-2xl text-lg text-ink-muted leading-relaxed">
@@ -79,11 +79,11 @@ const filteredAndSortedProjects = computed(() => {
           </p>
         </div>
 
-        <div class="space-y-px bg-line-soft border border-line-soft">
+        <div class="space-y-6">
           <article
             v-for="key in cases"
             :key="key"
-            class="reveal bg-surface p-8 md:p-10"
+            class="reveal card-punch bg-surface p-8 md:p-10"
           >
             <header class="pb-6 mb-6 border-b border-line-soft">
               <h3 class="text-xl md:text-2xl text-ink mb-2 tracking-tight">
@@ -147,11 +147,11 @@ const filteredAndSortedProjects = computed(() => {
           {{ $t('projects.studies_title') }}
         </h2>
 
-        <div class="grid md:grid-cols-2 gap-px bg-line-soft border border-line-soft">
+        <div class="grid md:grid-cols-2 gap-6">
           <article
             v-for="key in studies"
             :key="key"
-            class="reveal bg-surface p-8"
+            class="reveal card-punch bg-surface p-8 md:odd:rotate-[0.4deg] md:even:-rotate-[0.4deg]"
           >
             <h3 class="text-lg text-ink mb-2 leading-snug">
               {{ $t(`projects.studies.${key}.title`) }}

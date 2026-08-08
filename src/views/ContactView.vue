@@ -23,15 +23,20 @@ const copyEmail = async () => {
 <template>
   <section class="relative z-10 max-w-3xl mx-auto px-6 pt-16 pb-24 md:pt-24">
 
-    <h1 class="h-hero text-ink mb-6">
+    <span class="tag-stamp text-ink mb-10">
+      <span class="w-1.5 h-1.5 bg-accent rounded-full shrink-0" aria-hidden="true"></span>
+      {{ $t('home.availability') }}
+    </span>
+
+    <h1 class="h-mega text-ink mb-8">
       {{ $t('contact.title') }}
     </h1>
 
-    <p class="text-lg text-ink-muted leading-relaxed mb-14 max-w-xl">
+    <p class="text-xl text-ink-muted leading-relaxed max-w-xl">
       {{ $t('contact.subtitle') }}
     </p>
 
-    <div class="border-t-2 border-accent pt-8">
+    <div class="mt-16">
       <p class="flex items-center gap-2 text-sm text-ink-muted mb-4">
         <Mail class="w-4 h-4" aria-hidden="true" />
         {{ $t('contact.email_label') }}
@@ -68,13 +73,13 @@ const copyEmail = async () => {
       </p>
     </div>
 
-    <ul class="grid sm:grid-cols-2 gap-px bg-line-soft border border-line-soft mt-14">
+    <ul class="grid sm:grid-cols-2 gap-6 mt-14">
       <li>
         <a
           href="https://www.linkedin.com/in/bastien-roc/"
           target="_blank"
           rel="noopener noreferrer"
-          class="flex items-center gap-4 p-6 bg-surface hover:bg-surface-2 transition-colors h-full"
+          class="card-punch flex items-center gap-4 p-6 bg-surface hover:bg-surface-2 h-full md:rotate-[0.4deg]"
         >
           <Linkedin class="w-5 h-5 text-accent shrink-0" aria-hidden="true" />
           <span>
@@ -89,7 +94,7 @@ const copyEmail = async () => {
           href="https://github.com/bastienR17"
           target="_blank"
           rel="noopener noreferrer"
-          class="flex items-center gap-4 p-6 bg-surface hover:bg-surface-2 transition-colors h-full"
+          class="card-punch flex items-center gap-4 p-6 bg-surface hover:bg-surface-2 h-full md:-rotate-[0.4deg]"
         >
           <Github class="w-5 h-5 text-accent shrink-0" aria-hidden="true" />
           <span>

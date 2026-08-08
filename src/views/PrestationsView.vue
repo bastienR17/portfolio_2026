@@ -23,12 +23,12 @@ const steps = ['step1', 'step2', 'step3']
 
     <!-- En-tête -->
     <section class="max-w-6xl mx-auto px-6 pt-16 pb-14 md:pt-24">
-      <p class="flex items-center gap-2.5 mb-8 text-sm text-ink-muted">
+      <span class="tag-stamp text-ink mb-8">
         <span class="w-1.5 h-1.5 bg-accent rounded-full shrink-0" aria-hidden="true"></span>
         {{ $t('prestations.status_badge') }}
-      </p>
+      </span>
 
-      <h1 class="h-hero text-ink mb-6">
+      <h1 class="h-mega text-ink mb-6">
         {{ $t('prestations.title') }}
       </h1>
 
@@ -40,11 +40,11 @@ const steps = ['step1', 'step2', 'step3']
     <!-- Services -->
     <section class="bg-surface-2 border-y border-line-soft">
       <div class="max-w-6xl mx-auto px-6 py-20">
-        <div class="grid sm:grid-cols-2 gap-px bg-line-soft border border-line-soft">
+        <div class="grid sm:grid-cols-2 gap-6">
           <article
             v-for="service in services"
             :key="service.key"
-            class="reveal bg-surface p-8"
+            class="reveal card-punch bg-surface p-8 md:odd:rotate-[0.4deg] md:even:-rotate-[0.4deg]"
           >
             <component :is="service.icon" class="w-5 h-5 text-accent mb-5" aria-hidden="true" />
 

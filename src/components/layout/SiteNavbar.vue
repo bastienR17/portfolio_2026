@@ -4,11 +4,11 @@
   <nav class="sticky top-0 z-[100] bg-page border-b border-line-soft">
     <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
 
-      <router-link to="/" class="no-active font-display text-2xl text-ink">
+      <router-link to="/" class="no-active font-display text-3xl md:text-4xl text-ink tracking-tight">
         B<span class="text-accent">.</span>R
       </router-link>
 
-      <div class="hidden md:flex items-center gap-7 text-sm">
+      <div class="hidden md:flex items-center gap-7 text-sm uppercase tracking-wide">
         <router-link
           v-for="link in links"
           :key="link.to"
@@ -18,7 +18,7 @@
           {{ $t(link.label) }}
         </router-link>
 
-        <div class="flex items-center gap-2 pl-5 border-l border-line-soft">
+        <div class="flex items-center gap-2 pl-5 border-l border-line-soft normal-case">
           <LanguageSwitcher />
           <ThemeSwitcher />
         </div>
@@ -26,7 +26,7 @@
         <a
           href="/docs/RB_CV_2026.pdf"
           download="CV_Bastien_Roc.pdf"
-          class="px-4 py-2 bg-accent text-accent-ink font-medium hover:opacity-90 transition-opacity"
+          class="px-4 py-2 bg-accent text-accent-ink font-medium normal-case hover:opacity-90 transition-opacity"
         >
           {{ $t('nav.downloadCV') }}
         </a>
@@ -64,7 +64,7 @@
             :key="link.to"
             @click="isMenuOpen = false"
             :to="link.to"
-            class="py-3 text-lg text-ink border-b border-line-soft"
+            class="py-3 font-display text-2xl text-ink border-b border-line-soft"
           >
             {{ $t(link.label) }}
           </router-link>

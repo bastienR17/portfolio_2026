@@ -92,7 +92,10 @@ export const turbineDrift = { factorX: 0.037, periodX: 117, phase: 0.9 }
  * voyait donc jamais la météo changer quoi que ce soit.
  */
 export const particleProfile = {
-  clear:  { opacity: 0.12, speed: 0.03, sway: 0.6,  size: 0.5 },
+  // speed relevée (0.03 → 0.06) : au ralenti d'origine, la dérive ne se
+  // remarquait quasiment pas — au point de lire comme un décor figé plutôt
+  // que comme des particules en mouvement.
+  clear:  { opacity: 0.12, speed: 0.06, sway: 0.6,  size: 0.5 },
   clouds: { opacity: 0.26, speed: 0.05, sway: 0.5,  size: 0.6 },
   rain:   { opacity: 0.32, speed: 0.85, sway: 0.06, size: 0.42 },
   storm:  { opacity: 0.4,  speed: 1.25, sway: 0.05, size: 0.45 },

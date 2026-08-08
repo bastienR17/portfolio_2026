@@ -50,10 +50,16 @@
   src: url('/fonts/opendyslexic-700.woff2') format('woff2');
 }
 
-/* 3. Thème
+/* 3. Thème — direction "Signal Éditorial"
+   Rupture volontaire avec l'ancienne palette ocre/terracotta : encre quasi
+   noire, papier crème plus neutre, et un accent rouille/vermillon qui évoque
+   la signalétique ferroviaire et la sécurité industrielle — un clin d'œil au
+   secteur (transition écologique, transports) plutôt qu'un rose créatif
+   générique.
+
    Les couleurs pointent vers des variables redéfinies sous .dark : une classe
    comme `text-accent` s'adapte donc au thème sans variante `dark:`.
-   Toutes les paires texte/fond sont vérifiées >= 4.5:1 (RGAA 4.1 / WCAG AA),
+   Paires vérifiées >= 4.5:1 (RGAA 4.1 / WCAG AA) pour le texte courant,
    >= 3:1 pour le texte large et les composants d'interface. */
 @theme {
   --color-page: var(--c-page);
@@ -65,15 +71,12 @@
   --color-line-soft: var(--c-line-soft);
   --color-accent: var(--c-accent);
   --color-accent-ink: var(--c-accent-ink);
-  --color-ochre-deep: var(--c-ochre-deep);
+  --color-accent-bright: var(--c-accent-bright);
   --color-positive: var(--c-positive);
 
   /* Un jeton absent de cette liste est un jeton que personne ne peut écrire par
-     erreur. Ont été retirés : accent-wash (aucun usage), ochre (#F4D06F fixe,
-     donc 1,49:1 en clair — `text-ochre` aurait été illisible), et les alias
-     terracotta / cream / dark-soft, hérités d'avant le passage aux variables de
-     thème et plus référencés nulle part. La palette du décor 3D est
-     indépendante : voir components/common/weather/palette.js. */
+     erreur. `accent-bright` est réservé au texte large et au décoratif (voir
+     §6) : à 3,6:1 sur `page`, il n'est pas garanti pour du texte courant. */
 
   --font-sans: "Lexend", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Instrument Serif", ui-serif, Georgia, "Times New Roman", serif;
@@ -81,30 +84,38 @@
 }
 
 :root {
-  --c-page: #FFF9F5;
+  /* Couplé à la classe .dark plus bas, pas à prefers-color-scheme seul : le
+     bouton clair/sombre de la nav est manuel et doit rester la source de
+     vérité, y compris pour les contrôles natifs (scrollbars, formulaires)
+     et pour désactiver l'assombrissement forcé de certains navigateurs. */
+  color-scheme: light;
+
+  --c-page: #F7F2E7;
   --c-surface: #FFFFFF;
-  --c-surface-2: #F8F2EC;
-  --c-ink: #2D2926;
-  --c-ink-muted: #5A534E;   /* 7.55:1 sur surface */
-  --c-line: #A08776;        /* 3.38:1 — bordures porteuses de sens */
-  --c-line-soft: #E7DCD2;   /* séparation purement décorative */
-  --c-accent: #C44127;      /* 5.08:1 sur blanc, porte du texte blanc */
+  --c-surface-2: #EEE6D3;
+  --c-ink: #17130E;
+  --c-ink-muted: #58514A;    /* 8.1:1 sur surface */
+  --c-line: #8C8172;         /* 3.3:1 — bordures porteuses de sens */
+  --c-line-soft: #E2D8C4;    /* séparation purement décorative */
+  --c-accent: #9A3412;       /* 7.3:1 sur blanc, 6.5:1 sur page — porte du texte blanc */
   --c-accent-ink: #FFFFFF;
-  --c-ochre-deep: #8F6D0F;  /* 4.61:1 sur page — réservé au fond de page */
+  --c-accent-bright: #E8590C; /* 3.6:1 sur blanc — réservé au texte large / décoratif */
   --c-positive: #047857;
 }
 
 .dark {
-  --c-page: #10131A;
-  --c-surface: #171B24;
-  --c-surface-2: #1F242F;
-  --c-ink: #F2EEEA;
-  --c-ink-muted: #ADA69F;   /* 7.17:1 sur surface */
-  --c-line: #656E81;        /* 3.36:1 */
-  --c-line-soft: #2C323E;
-  --c-accent: #E2725B;      /* 5.57:1 sur surface sombre */
-  --c-accent-ink: #22160F;  /* texte sombre sur bouton accent : 5.71:1 */
-  --c-ochre-deep: #F4D06F;  /* 11.57:1 sur surface */
+  color-scheme: dark;
+
+  --c-page: #14100B;
+  --c-surface: #1D1811;
+  --c-surface-2: #262016;
+  --c-ink: #F5EFE3;
+  --c-ink-muted: #B8AEA0;    /* 7.4:1 sur surface */
+  --c-line: #6E6255;         /* 3.2:1 */
+  --c-line-soft: #2F2820;
+  --c-accent: #FF7A3D;       /* 6.8:1 sur surface sombre */
+  --c-accent-ink: #1B140D;   /* texte sombre sur bouton accent : 6.7:1 */
+  --c-accent-bright: #FFA361; /* réservé au texte large / décoratif */
   --c-positive: #34D399;
 }
 
@@ -132,8 +143,8 @@
   h1, h2 {
     font-family: var(--font-display);
     font-weight: 400;
-    letter-spacing: -0.01em;
-    line-height: 1.08;
+    letter-spacing: -0.015em;
+    line-height: 1.02;
   }
 
   h3, h4 {
@@ -172,49 +183,76 @@
   }
 }
 
-/* 6. Échelle typographique des titres
-
-   Avant, chaque vue choisissait ses propres tailles : un <h2> pouvait valoir
-   36 px sur une page et 48 px sur la suivante, et la variante sans-serif était
-   recopiée à la main en quatre classes (`font-sans font-semibold text-xl
-   tracking-tight`) sans nom ni définition. Le niveau sémantique ne disait donc
-   plus rien du rendu.
-
-   Deux espèces de titres, quatre classes, plus aucune taille en dur dans les
-   vues. Les tailles restent volontairement dans @layer components : une
-   utilitaire `text-*` posée dans un template l'emportera toujours, pour les cas
-   particuliers qui le justifient vraiment. */
+/* 6. Échelle typographique — poussée à l'affiche
+   La règle reste : aucune taille en dur dans les vues, tout passe par ces
+   classes. Le contraste, lui, ne change jamais avec la taille : `.h-mega`
+   embarque déjà le bon jeton de couleur. */
 @layer components {
+  /* Titre d'ouverture pleine largeur : hero d'accueil uniquement. */
+  .h-mega {
+    font-size: clamp(3.25rem, 9vw, 8rem);
+    line-height: 0.94;
+    letter-spacing: -0.02em;
+  }
+
   /* <h1> d'une page de contenu. */
   .h-hero {
-    font-size: 3rem;      /* 48px */
+    font-size: clamp(2.75rem, 6vw, 4.75rem);
+    line-height: 0.98;
   }
 
-  /* <h1> d'une page utilitaire : mentions légales, 404. Le titre y annonce un
-     document, il n'ouvre pas une page de présentation. */
+  /* <h1> d'une page utilitaire : mentions légales, 404. */
   .h-page {
-    font-size: 2.25rem;   /* 36px */
+    font-size: clamp(2.25rem, 4vw, 3.25rem);
   }
 
-  /* <h2> ouvrant une section — serif d'affichage, hérité de @layer base. */
+  /* <h2> ouvrant une section. */
   .h-section {
-    font-size: 2.25rem;   /* 36px */
+    font-size: clamp(2.1rem, 3.4vw, 3.25rem);
   }
 
-  /* <h2> à l'intérieur d'un texte suivi. Repasse en sans-serif : à cette
-     taille, l'Instrument Serif se lit moins bien qu'il ne décore. */
+  /* <h2> à l'intérieur d'un texte suivi. */
   .h-doc {
     font-family: var(--font-sans);
     font-weight: 600;
-    font-size: 1.25rem;   /* 20px */
+    font-size: 1.25rem;
     line-height: 1.35;
     letter-spacing: -0.01em;
   }
 
-  @media (min-width: 768px) {
-    .h-hero    { font-size: 3.75rem; }  /* 60px */
-    .h-page    { font-size: 3rem; }     /* 48px */
-    .h-section { font-size: 3rem; }     /* 48px */
+  /* Repère numéroté court : nav, eyebrows de section. Toujours décoratif
+     (aria-hidden côté template). */
+  .index-num {
+    font-family: var(--font-display);
+    color: var(--c-accent);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+
+  /* Étiquette tamponnée, légèrement pivotée — badges de statut, tags. */
+  .tag-stamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    border: 1.5px solid var(--c-ink);
+    transform: rotate(-1.5deg);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* Carte à "pression mécanique" : ombre portée dure qui se résorbe au survol,
+     comme si la carte était pressée contre le fond. */
+  .card-punch {
+    border: 2px solid var(--c-line);
+    box-shadow: 6px 6px 0 0 var(--c-accent);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .card-punch:hover,
+  .card-punch:focus-within {
+    transform: translate(3px, 3px);
+    box-shadow: 3px 3px 0 0 var(--c-accent);
   }
 }
 
@@ -241,7 +279,25 @@
   transform: translateY(0);
 }
 
-/* 8. Apparition au scroll — piloté par useReveal().
+/* 8. Grain — texture papier fixe, en overlay sur toute la page.
+   `pointer-events: none` garantit qu'elle n'intercepte jamais un clic quel
+   que soit son z-index. Purement décoratif : aria-hidden posé côté template. */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+.dark .grain-overlay {
+  opacity: 0.08;
+  mix-blend-mode: overlay;
+}
+
+/* 9. Apparition au scroll — piloté par useReveal().
 
    Le contenu n'est masqué que si <html> porte .reveal-ready, classe posée par
    useReveal() uniquement quand l'animation peut se jouer. Sans JS, sans
@@ -250,11 +306,34 @@
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.5s ease, transform 0.5s ease;
+  /* Rang posé par useReveal() sur chaque élément (0 par défaut si absent) :
+     une grille de cartes se révèle en cascade au lieu d'un seul bloc.
+     80ms/étape à garder cohérent avec MAX_STAGGER_INDEX dans useReveal.js. */
+  transition-delay: calc(var(--reveal-index, 0) * 80ms);
 }
 
 .reveal-ready .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Variante "trait qui se dessine" : au lieu du fondu/glissement par défaut,
+   une ligne d'accent grandit depuis le centre à l'arrivée. Réservée aux
+   moments qui doivent marquer un temps d'arrêt (la respiration 3D) plutôt
+   qu'au contenu courant. Plus spécifique que `.reveal-ready .reveal` (trois
+   classes contre deux) : l'emporte sur le fondu par défaut sans dépendre de
+   l'ordre des règles. La largeur de base (posée en Tailwind sur l'élément,
+   ex. w-24) reste la valeur affichée sans JS / IntersectionObserver / en
+   mouvement réduit — seul le passage par 0 est conditionné à .reveal-ready. */
+.reveal-ready .reveal.signal-line {
+  width: 0;
+  opacity: 1;
+  transform: none;
+  transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-ready .reveal.signal-line.visible {
+  width: 6rem; /* = w-24, à garder identique à la classe posée dans le template */
 }
 
 @media (prefers-reduced-motion: reduce) {

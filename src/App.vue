@@ -4,6 +4,7 @@ import { RouterView } from 'vue-router'
 import SiteNavbar from './components/layout/SiteNavbar.vue'
 import SiteFooter from './components/layout/SiteFooter.vue'
 import FontSwitcher from './components/common/FontSwitcher.vue'
+import MagneticCursor from './components/common/MagneticCursor.vue'
 import { useSeo } from './composables/useSeo'
 
 // Le décor 3D embarque three.js (~500 Ko) pour un simple fond d'écran.
@@ -47,10 +48,10 @@ onMounted(() => {
     <Transition name="reveal">
       <div v-if="isLoading" class="fixed inset-0 z-[1000] bg-page flex items-center justify-center">
         <div class="flex flex-col items-center">
-          <span class="font-display text-5xl text-accent">
-            B<span class="text-ink">.</span>R
+          <span class="font-display text-7xl md:text-8xl text-ink tracking-tight">
+            B<span class="text-accent">.</span>R
           </span>
-          <div class="mt-6 w-24 h-px bg-line-soft overflow-hidden">
+          <div class="mt-6 w-32 h-[3px] bg-line-soft overflow-hidden">
             <div class="h-full bg-accent animate-progress"></div>
           </div>
         </div>
@@ -58,6 +59,9 @@ onMounted(() => {
     </Transition>
 
     <Experience3D />
+
+    <!-- Grain décoratif, au-dessus de tout mais jamais interactif. -->
+    <div class="grain-overlay" aria-hidden="true"></div>
 
     <!-- RGAA 12.7 — permet d'atteindre le contenu sans retraverser la
          navigation au clavier. Invisible tant qu'il n'a pas le focus. -->
@@ -67,6 +71,7 @@ onMounted(() => {
 
     <SiteNavbar class="relative z-50" />
     <FontSwitcher />
+    <MagneticCursor />
 
     <main id="contenu" tabindex="-1" class="relative z-10 focus:outline-none">
       <router-view v-slot="{ Component }">

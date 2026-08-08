@@ -32,6 +32,20 @@ export function useReveal(threshold = 0.1) {
 
     const targets = document.querySelectorAll('.reveal')
 
+    // Cascade : chaque élément reçoit son rang parmi les .reveal de son
+    // parent direct (plafonné pour qu'une longue liste ne finisse pas avec
+    // un délai à rallonge). Main.css traduit ce rang en transition-delay
+    // via calc(var(--reveal-index, 0) * 80ms) — une grille de cartes se
+    // révèle donc en cascade sans qu'aucune vue n'ait à s'en soucier.
+    const MAX_STAGGER_INDEX = 6
+    const siblingCounts = new Map()
+    targets.forEach((el) => {
+      const parent = el.parentElement
+      const index = siblingCounts.get(parent) ?? 0
+      el.style.setProperty('--reveal-index', Math.min(index, MAX_STAGGER_INDEX))
+      siblingCounts.set(parent, index + 1)
+    })
+
     observer = new IntersectionObserver((entries) => {
       // L'observer répond : le filet de sécurité n'a plus lieu d'être.
       clearTimeout(failsafe)

@@ -6,6 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!--
+      Signale au navigateur que le site gère lui-même clair/sombre (via la
+      classe .dark, voir Main.css). Sans ça, certains navigateurs appliquent
+      leur propre "assombrissement forcé" aux zones sans couleur de fond
+      explicite (transparentes, héritées du body) : un bleu-gris générique
+      qui n'a rien à voir avec la palette du site vient alors recouvrir ces
+      zones par-dessus nos couleurs.
+    -->
+    <meta name="color-scheme" content="light dark">
+
+    <!--
       Applique le thème et la police avant le premier paint.
       Sans ça, les visiteurs en mode sombre voient un flash clair à chaque
       chargement, le temps que Vue soit monté.
