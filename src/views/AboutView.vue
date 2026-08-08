@@ -185,40 +185,40 @@ const visibleSkillsCount = computed(() => {
           <li
             v-for="entry in visibleEntries"
             :key="entry.key"
-            class="grid md:grid-cols-12 gap-2 md:gap-6 py-8 border-b border-line-soft"
+            class="py-8 border-b border-line-soft"
           >
-            <div class="md:col-span-3">
-              <p class="text-sm text-accent">{{ $t(`about.${entry.key}.date`) }}</p>
-              <p v-if="entry.type !== 'pro'" class="text-xs text-ink-muted mt-1">
+            <div class="flex flex-wrap items-baseline gap-3 mb-4">
+              <p class="font-display text-2xl md:text-3xl text-accent leading-none">
+                {{ $t(`about.${entry.key}.date`) }}
+              </p>
+              <span v-if="entry.type !== 'pro'" class="text-xs text-ink-muted uppercase tracking-wide">
                 {{ $t(`about.timeline_${entry.type}`) }}
-              </p>
+              </span>
             </div>
 
-            <div class="md:col-span-9">
-              <h3 class="text-lg text-ink mb-1">
-                {{ $t(`about.${entry.key}.role`) }}
-              </h3>
-              <p class="text-sm text-ink-muted mb-3">
-                {{ $t(`about.${entry.key}.${entry.type === 'pro' ? 'company' : 'org'}`) }}
-              </p>
+            <h3 class="text-lg text-ink mb-1">
+              {{ $t(`about.${entry.key}.role`) }}
+            </h3>
+            <p class="text-sm text-ink-muted mb-3">
+              {{ $t(`about.${entry.key}.${entry.type === 'pro' ? 'company' : 'org'}`) }}
+            </p>
 
-              <!-- Affiché dès qu'une description existe, et plus seulement pour
-                   les expériences : le mémoire documente aussi la formation. -->
-              <p v-if="te(`about.${entry.key}.desc`)" class="text-ink-muted leading-relaxed mb-4">
-                {{ $t(`about.${entry.key}.desc`) }}
-              </p>
+            <!-- Affiché dès qu'une description existe, et plus seulement pour
+                 les expériences : le mémoire documente aussi la formation. -->
+            <p v-if="te(`about.${entry.key}.desc`)" class="text-ink-muted leading-relaxed mb-4">
+              {{ $t(`about.${entry.key}.desc`) }}
+            </p>
 
-              <ul v-if="entry.type !== 'scolaire'" class="flex flex-wrap gap-x-4 gap-y-1.5">
-                <li
-                  v-for="task in tm(`about.${entry.key}.tasks`)"
-                  :key="task"
-                  class="flex gap-2 text-sm text-ink-muted"
-                >
-                  <span class="text-accent" aria-hidden="true">-</span>
-                  <span>{{ task }}</span>
-                </li>
-              </ul>
-            </div>
+            <ul v-if="entry.type !== 'scolaire'" class="flex flex-wrap gap-x-4 gap-y-1.5">
+              <li
+                v-for="task in tm(`about.${entry.key}.tasks`)"
+                :key="task"
+                class="flex gap-2 text-sm text-ink-muted"
+              >
+                <span class="text-accent" aria-hidden="true">-</span>
+                <span>{{ task }}</span>
+              </li>
+            </ul>
           </li>
         </ol>
       </div>

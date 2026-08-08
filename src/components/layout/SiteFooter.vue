@@ -26,23 +26,25 @@ const links = [
         <span aria-hidden="true" class="inline-block transition-transform group-hover:translate-x-2">→</span>
       </router-link>
 
-      <div class="grid gap-10 sm:grid-cols-2 mt-14 pt-10 border-t border-line-soft">
-        <ul class="flex flex-col gap-2">
-          <li v-for="link in links" :key="link.to">
-            <router-link
-              :to="link.to"
-              class="text-sm text-ink-muted hover:text-accent transition-colors"
-            >
-              {{ $t(link.label) }}
-            </router-link>
-          </li>
-        </ul>
+      <!-- Une ligne qui respire plutôt qu'une grille à deux colonnes : les
+           liens et le contact se lisent l'un après l'autre, pas empilés dans
+           des cases séparées par une règle. -->
+      <div class="mt-14 flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
+        <nav class="flex flex-wrap gap-x-6 gap-y-2 text-sm uppercase tracking-wide">
+          <router-link
+            v-for="link in links"
+            :key="link.to"
+            :to="link.to"
+            class="text-ink-muted hover:text-accent transition-colors"
+          >
+            {{ $t(link.label) }}
+          </router-link>
+        </nav>
 
-        <div>
-          <p class="text-xs uppercase tracking-wide text-ink-muted mb-2">{{ $t('contact.email_label') }}</p>
+        <div class="flex items-center gap-5">
           <a
             :href="`mailto:${SITE.email}`"
-            class="block text-sm text-ink hover:text-accent transition-colors break-all mb-4"
+            class="text-sm text-ink hover:text-accent transition-colors break-all"
           >
             {{ SITE.email }}
           </a>
