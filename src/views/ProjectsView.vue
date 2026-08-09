@@ -24,7 +24,17 @@ onMounted(async () => {
   try {
     const response = await fetch('https://api.github.com/users/Bastienr17/repos?sort=updated&per_page=100')
     const data = await response.json()
-    projects.value = Array.isArray(data) ? data.filter((repo) => !repo.fork) : []
+    // On ne garde que les dépôts avec une vraie description : ça exclut
+    // naturellement les repos de scaffold/test (jamais décrits sur GitHub)
+    // sans maintenir de liste noire de noms qui deviendrait vite obsolète.
+    // Le repo "bastienR17" est le README de profil GitHub, pas un projet.
+    projects.value = Array.isArray(data)
+      ? data.filter((repo) =>
+          !repo.fork &&
+          repo.description?.trim() &&
+          repo.name.toLowerCase() !== 'bastienr17',
+        )
+      : []
     failed.value = !Array.isArray(data)
   } catch {
     projects.value = []

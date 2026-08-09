@@ -94,7 +94,7 @@
   --c-surface: #FFFFFF;
   --c-surface-2: #EEE6D3;
   --c-ink: #17130E;
-  --c-ink-muted: #58514A;    /* 8.1:1 sur surface */
+  --c-ink-muted: #4A443C;    /* 9.6:1 sur surface, 8.6:1 sur page — foncé pour rester lisible sur fond crème */
   --c-line: #8C8172;         /* 3.3:1 — bordures porteuses de sens */
   --c-line-soft: #E2D8C4;    /* séparation purement décorative */
   --c-accent: #9A3412;       /* 7.3:1 sur blanc, 6.5:1 sur page — porte du texte blanc */
