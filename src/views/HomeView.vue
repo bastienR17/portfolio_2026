@@ -113,7 +113,7 @@ const formats = [
               width="800"
               height="533"
               fetchpriority="high"
-              class="card-punch w-full h-auto md:-rotate-1"
+              class="card-punch is-static w-full h-auto md:-rotate-1"
             >
           </picture>
         </div>

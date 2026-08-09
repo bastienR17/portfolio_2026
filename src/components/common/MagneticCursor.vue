@@ -27,7 +27,11 @@ const onPointerMove = (e) => { targetX = e.clientX; targetY = e.clientY }
 // donc à tout instant si le pointeur est sur une cible — pas de mouseout
 // séparé à maintenir en cohérence.
 const onPointerOver = (e) => {
-  isHovering.value = !!e.target.closest?.(TARGET_SELECTOR)
+  const target = e.target.closest?.(TARGET_SELECTOR)
+  // Les liens de nav ont déjà leur propre indice de survol (le cercle tracé
+  // à la main, voir .nav-circle dans Main.css) : le point qui grossit par
+  // dessus s'y superposait et mangeait le texte des libellés courts.
+  isHovering.value = !!target && !target.closest('.nav-circle')
 }
 
 const onWindowLeave = () => { if (dot.value) dot.value.style.opacity = '0' }

@@ -168,6 +168,17 @@
     word-spacing: 0.1em;
   }
 
+  /* La nav est un repère fonctionnel compact, pas du texte de lecture.
+     OpenDyslexic (glyphes plus larges) + l'espacement élargi y faisaient
+     déborder les liens (chevauchement du logo, retours à la ligne, bouton
+     CV cassé en deux lignes) : on la garde en police standard. */
+  .font-dys nav, .font-dys nav * {
+    font-family: var(--font-sans) !important;
+    line-height: inherit !important;
+    letter-spacing: normal;
+    word-spacing: normal;
+  }
+
   .font-dys h1 { font-size: 3rem !important; line-height: 1.15 !important; }
   .font-dys h2 { font-size: 2.1rem !important; }
 
@@ -253,6 +264,94 @@
   .card-punch:focus-within {
     transform: translate(3px, 3px);
     box-shadow: 3px 3px 0 0 var(--c-accent);
+  }
+
+  /* Variante non interactive : même tampon visuel (bordure + ombre portée),
+     mais sans le mouvement au survol. Sur une image sans lien ni action,
+     l'animation de "pression" laissait croire qu'un clic ferait quelque
+     chose. */
+  .card-punch.is-static:hover,
+  .card-punch.is-static:focus-within {
+    transform: none;
+    box-shadow: 6px 6px 0 0 var(--c-accent);
+  }
+
+  /* Cercle tracé à la main autour d'un lien de nav survolé/focus — clin
+     d'œil à l'annotation manuscrite, dans le même esprit que le tampon
+     pivoté et les cartes à pression. Un masque plutôt qu'une bordure : la
+     forme du tracé reste fidèle quel que soit le thème, `background-color`
+     porte la couleur au lieu de coder une teinte en dur dans le SVG.
+
+     Cinq tracés différents (voir .nav-circle-1 à -5 plus bas, appliqués un
+     par lien dans SiteNavbar.vue) : la même forme étirée sur chaque lien se
+     voyait trop, cinq variantes + une légère rotation propre à chacune
+     donnent l'impression d'un cercle vraiment redessiné à chaque fois. */
+  .nav-circle {
+    position: relative;
+  }
+  .nav-circle::after {
+    content: '';
+    position: absolute;
+    /* Marge horizontale en % plutôt qu'en valeur fixe : sur "Prestations",
+       un inset fixe collait le tracé aux dernières lettres. En %, la marge
+       grandit avec le texte et le cercle respire pareil pour tous les liens.
+       Marge verticale généreuse : le tracé mangeait le haut et le bas des
+       lettres (ex. "PRESTATIONS"). */
+    inset: -1.3rem -24%;
+    background-color: var(--c-accent);
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+  }
+  .nav-circle:hover::after,
+  .nav-circle:focus-visible::after {
+    opacity: 1;
+  }
+
+  .nav-circle-1::after {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 50'%3E%3Cpath d='M14,27 C10,10 33,2 61,3 C93,4 115,10 109,27 C105,44 78,48 55,46 C27,45 11,42 14,27 Z' fill='none' stroke='black' stroke-width='4'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 50'%3E%3Cpath d='M14,27 C10,10 33,2 61,3 C93,4 115,10 109,27 C105,44 78,48 55,46 C27,45 11,42 14,27 Z' fill='none' stroke='black' stroke-width='4'/%3E%3C/svg%3E");
+    transform: scale(0.85) rotate(-2deg);
+  }
+  .nav-circle-2::after {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 50'%3E%3Cpath d='M18,23 C15,9 42,2 66,5 C89,8 111,15 105,29 C100,44 70,49 46,44 C23,40 10,36 13,25 C14,24 16,23 18,23 Z' fill='none' stroke='black' stroke-width='4'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 50'%3E%3Cpath d='M18,23 C15,9 42,2 66,5 C89,8 111,15 105,29 C100,44 70,49 46,44 C23,40 10,36 13,25 C14,24 16,23 18,23 Z' fill='none' stroke='black' stroke-width='4'/%3E%3C/svg%3E");
+    transform: scale(0.85) rotate(3deg);
+  }
+  .nav-circle-3::after {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 50'%3E%3Cpath d='M8,20 C7,5 36,-1 60,1 C86,3 119,9 113,24 C120,35 99,48 68,48 C39,48 4,43 4,27 C4,24 6,22 8,20 Z' fill='none' stroke='black' stroke-width='4'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 50'%3E%3Cpath d='M8,20 C7,5 36,-1 60,1 C86,3 119,9 113,24 C120,35 99,48 68,48 C39,48 4,43 4,27 C4,24 6,22 8,20 Z' fill='none' stroke='black' stroke-width='4'/%3E%3C/svg%3E");
+    transform: scale(0.85) rotate(-4deg);
+  }
+  .nav-circle-4::after {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 50'%3E%3Cpath d='M62,1 C93,0 119,12 115,26 C112,41 82,49 55,47 C28,45 5,37 8,23 C11,10 35,2 62,1 Z' fill='none' stroke='black' stroke-width='4'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 50'%3E%3Cpath d='M62,1 C93,0 119,12 115,26 C112,41 82,49 55,47 C28,45 5,37 8,23 C11,10 35,2 62,1 Z' fill='none' stroke='black' stroke-width='4'/%3E%3C/svg%3E");
+    transform: scale(0.85) rotate(2deg);
+  }
+  .nav-circle-5::after {
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 50'%3E%3Cpath d='M22,28 C18,13 40,4 64,4 C91,4 113,12 106,25 C101,39 82,45 57,44 C34,43 13,41 17,30 Z' fill='none' stroke='black' stroke-width='4'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 50'%3E%3Cpath d='M22,28 C18,13 40,4 64,4 C91,4 113,12 106,25 C101,39 82,45 57,44 C34,43 13,41 17,30 Z' fill='none' stroke='black' stroke-width='4'/%3E%3C/svg%3E");
+    transform: scale(0.85) rotate(-1deg);
+  }
+
+  .nav-circle-1:hover::after, .nav-circle-1:focus-visible::after { transform: scale(1) rotate(-2deg); }
+  .nav-circle-2:hover::after, .nav-circle-2:focus-visible::after { transform: scale(1) rotate(3deg); }
+  .nav-circle-3:hover::after, .nav-circle-3:focus-visible::after { transform: scale(1) rotate(-4deg); }
+  .nav-circle-4:hover::after, .nav-circle-4:focus-visible::after { transform: scale(1) rotate(2deg); }
+  .nav-circle-5:hover::after, .nav-circle-5:focus-visible::after { transform: scale(1) rotate(-1deg); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-circle::after {
+      transition: opacity 0.2s ease;
+    }
+    .nav-circle-1::after, .nav-circle-2::after, .nav-circle-3::after,
+    .nav-circle-4::after, .nav-circle-5::after {
+      transform: none;
+    }
   }
 }
 

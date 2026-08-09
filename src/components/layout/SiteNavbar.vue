@@ -10,9 +10,10 @@
 
       <div class="hidden md:flex items-center gap-7 text-sm uppercase tracking-wide">
         <router-link
-          v-for="link in links"
+          v-for="(link, i) in links"
           :key="link.to"
           :to="link.to"
+          :class="['nav-circle', `nav-circle-${(i % 5) + 1}`]"
           class="text-ink-muted hover:text-accent transition-colors"
         >
           {{ $t(link.label) }}
