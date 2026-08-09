@@ -26,6 +26,12 @@ export const SITE = {
  * `seoKey` pointe vers seo.<clé>.title / .description dans les locales, comme
  * le `meta.seoKey` du routeur.
  * À tenir à jour avec src/router/index.js quand une route publique est ajoutée.
+ *
+ * `noindex: true` retire une route de Google (balise robots + absente du
+ * sitemap) sans la retirer du site : la page reste en ligne, atteignable
+ * depuis la nav ou un lien direct, mais Google Search Console/résultats ne
+ * la remontent plus. À tenir en cohérence avec src/router/index.js, qui
+ * porte le même flag pour le passage côté client (useSeo.js).
  */
 export const SITEMAP_ROUTES = [
   { path: '/', seoKey: 'home', view: 'HomeView.vue', priority: '1.0', changefreq: 'monthly' },

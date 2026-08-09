@@ -37,16 +37,20 @@ const lastModified = (view) => {
   }
 }
 
+// Une route noindex n'a rien à faire dans le sitemap : le sitemap est un
+// signal « merci d'indexer ceci », l'inverse exact de robots: noindex.
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${SITEMAP_ROUTES.map(
-  ({ path, view, priority, changefreq }) => `  <url>
+${SITEMAP_ROUTES.filter(({ noindex }) => !noindex)
+  .map(
+    ({ path, view, priority, changefreq }) => `  <url>
     <loc>${SITE_URL}${path}</loc>
     <lastmod>${lastModified(view)}</lastmod>
     <changefreq>${changefreq}</changefreq>
     <priority>${priority}</priority>
   </url>`,
-).join('\n')}
+  )
+  .join('\n')}
 </urlset>
 `
 

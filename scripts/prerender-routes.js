@@ -144,7 +144,7 @@ const write = (target, html) => {
 
 let written = 0
 
-for (const { path, seoKey } of SITEMAP_ROUTES) {
+for (const { path, seoKey, noindex } of SITEMAP_ROUTES) {
   const entry = fr.seo?.[seoKey]
   if (!entry) throw new Error(`prerender: clé seo.${seoKey} absente de fr.json`)
 
@@ -157,6 +157,7 @@ for (const { path, seoKey } of SITEMAP_ROUTES) {
     description: entry.description,
     url,
     route: path,
+    noindex,
     crumb: path === '/' ? null : breadcrumb(name, url),
   })
 
