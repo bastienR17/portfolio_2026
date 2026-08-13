@@ -2,7 +2,15 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8">
+    <!--
+      Trois déclarations, du repli le plus large au format préféré : le .ico
+      couvre les navigateurs qui ignorent le SVG, le SVG reste net à toute
+      taille, et l'apple-touch-icon sert d'icône quand le site est ajouté à
+      l'écran d'accueil iOS (qui ne sait pas lire un favicon SVG).
+    -->
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!--

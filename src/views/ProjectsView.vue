@@ -13,6 +13,9 @@ const cases = ['ministeres', 'sephora', 'sncf']
 const studies = ['memoire', 'startup']
 
 // ── Dépôts GitHub ────────────────────────────────────────────
+// Forks conservés malgré tout : projets de groupe auxquels j'ai contribué.
+const FEATURED_FORKS = ['Tartiflette', 'Symfony_project_Ski_station']
+
 const projects = ref([])
 const loading = ref(true)
 const failed = ref(false)
@@ -28,9 +31,11 @@ onMounted(async () => {
     // naturellement les repos de scaffold/test (jamais décrits sur GitHub)
     // sans maintenir de liste noire de noms qui deviendrait vite obsolète.
     // Le repo "bastienR17" est le README de profil GitHub, pas un projet.
+    // Les forks sont écartés par défaut, sauf ceux de FEATURED_FORKS : des
+    // projets de groupe auxquels j'ai réellement contribué.
     projects.value = Array.isArray(data)
       ? data.filter((repo) =>
-          !repo.fork &&
+          (!repo.fork || FEATURED_FORKS.includes(repo.name)) &&
           repo.description?.trim() &&
           repo.name.toLowerCase() !== 'bastienr17',
         )
