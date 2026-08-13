@@ -6,15 +6,23 @@ import SiteFooter from './components/layout/SiteFooter.vue'
 import FontSwitcher from './components/common/FontSwitcher.vue'
 import MagneticCursor from './components/common/MagneticCursor.vue'
 import { useSeo } from './composables/useSeo'
+import { canRender3D } from './composables/canRender3D'
 
 // Le décor 3D embarque three.js (~500 Ko) pour un simple fond d'écran.
 // En plus d'être dans son propre chunk, son téléchargement attend que le
 // navigateur soit inactif : il ne dispute jamais la bande passante au contenu.
 // Le timeout garantit qu'il finit par se charger même sur une page très active.
+//
+// Le test de capacité est fait ici, dans le même temps mort : sur une machine
+// qui ne peut pas payer le décor, on résout sur un composant vide et le chunk
+// n'est jamais demandé.
 const Experience3D = defineAsyncComponent(
   () =>
     new Promise((resolve) => {
-      const load = () => resolve(import('./components/common/Experience3D.vue'))
+      const load = () => {
+        if (!canRender3D()) resolve({ render: () => null })
+        else resolve(import('./components/common/Experience3D.vue'))
+      }
       if ('requestIdleCallback' in window) requestIdleCallback(load, { timeout: 2500 })
       else setTimeout(load, 400)
     }),

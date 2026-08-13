@@ -2,6 +2,7 @@
 import { onMounted, onBeforeUnmount, ref, nextTick } from 'vue'
 import { Clock, PerspectiveCamera, Scene, WebGLRenderer } from 'three'
 
+import { isSoftwareRenderer } from '../../composables/canRender3D'
 import { useWeatherLogic, WEATHER_STATES } from './weather/useWeatherLogic'
 import { useEnvironment } from './weather/useEnvironment'
 import { useAtmosphere } from './weather/useAtmosphere'
@@ -62,7 +63,7 @@ if (import.meta.env.DEV) {
       return renderer
     },
     get isAnimating() {
-      return animationId !== null
+      return isAnimating()
     },
     get reducedMotion() {
       return prefersReducedMotion()
@@ -116,6 +117,16 @@ const init = async () => {
   // sur un écran Retina (dpr 2-3), ça retire jusqu'à 55 % des pixels à
   // calculer par frame sans perte perceptible sur un fond animé.
   renderer = new WebGLRenderer({ antialias: false, alpha: true })
+
+  // Rendu WebGL assuré par le processeur faute de GPU : chaque image y coûte
+  // des dizaines de millisecondes de thread principal. On s'arrête avant de
+  // construire quoi que ce soit — le décor est décoratif, la page s'en passe.
+  if (isSoftwareRenderer(renderer.getContext())) {
+    renderer.dispose()
+    renderer = null
+    return
+  }
+
   renderer.setSize(w, h)
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
   container.value.appendChild(renderer.domElement)
@@ -179,16 +190,50 @@ const renderFrame = () => {
  * est lent par construction. On plafonne à 30, ce qui divise par deux le temps
  * passé sur le thread principal et sur le GPU. Les déplacements étant exprimés
  * par seconde, l'aspect ne change pas.
+ *
+ * L'attente se fait sur un setTimeout et non sur un requestAnimationFrame
+ * qu'on annulerait trois fois sur quatre : réclamer une image au navigateur
+ * pour n'y rien dessiner l'empêche de laisser le thread principal au repos.
+ * Le requestAnimationFrame final garde malgré tout le rendu aligné sur le
+ * rafraîchissement de l'écran, et reste suspendu onglet masqué.
  */
 const TARGET_FPS = 30
 const FRAME_INTERVAL = 1000 / TARGET_FPS
-let lastRender = 0
 
-const animate = (now = 0) => {
-  animationId = requestAnimationFrame(animate)
-  if (now - lastRender < FRAME_INTERVAL) return
-  lastRender = now
-  renderFrame()
+let frameTimer = null
+let lastRenderAt = 0
+
+const isAnimating = () => animationId !== null || frameTimer !== null
+
+const scheduleNextFrame = () => {
+  // Décompté depuis le début du rendu précédent : le temps passé à dessiner
+  // est déduit de l'attente, sinon la cadence dérive sous les 30 images.
+  const wait = Math.max(0, FRAME_INTERVAL - (performance.now() - lastRenderAt))
+  frameTimer = setTimeout(() => {
+    frameTimer = null
+    animationId = requestAnimationFrame(() => {
+      animationId = null
+      lastRenderAt = performance.now()
+      renderFrame()
+      scheduleNextFrame()
+    })
+  }, wait)
+}
+
+const animate = () => {
+  if (isAnimating()) return
+  // La toute première image compile les shaders — de loin la plus coûteuse.
+  // On la programme au lieu de la rendre ici, sinon elle s'agrège à la tâche
+  // appelante (la fin de init()) et en fait une tâche longue.
+  lastRenderAt = performance.now() - FRAME_INTERVAL
+  scheduleNextFrame()
+}
+
+const stopAnimating = () => {
+  if (animationId !== null) cancelAnimationFrame(animationId)
+  if (frameTimer !== null) clearTimeout(frameTimer)
+  animationId = null
+  frameTimer = null
 }
 
 /**
@@ -197,11 +242,8 @@ const animate = (now = 0) => {
  */
 const onVisibilityChange = () => {
   if (document.hidden) {
-    if (animationId) {
-      cancelAnimationFrame(animationId)
-      animationId = null
-    }
-  } else if (!animationId && renderer && !prefersReducedMotion()) {
+    stopAnimating()
+  } else if (!isAnimating() && renderer && !prefersReducedMotion()) {
     clock.getDelta() // absorbe le temps écoulé pendant la pause
     animate()
   }
@@ -217,8 +259,7 @@ onMounted(async () => {
 })
 
 onBeforeUnmount(() => {
-  if (animationId) cancelAnimationFrame(animationId)
-  animationId = null
+  stopAnimating()
   window.removeEventListener('resize', onWindowResize)
   document.removeEventListener('visibilitychange', onVisibilityChange)
   if (import.meta.env.DEV) {

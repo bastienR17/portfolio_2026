@@ -21,7 +21,11 @@ const canHover = () =>
 // mouvement réduit, le composant ne rend rien et ne pose aucun écouteur.
 const enabled = canHover() && !prefersReducedMotion()
 
-const onPointerMove = (e) => { targetX = e.clientX; targetY = e.clientY }
+const onPointerMove = (e) => {
+  targetX = e.clientX
+  targetY = e.clientY
+  start()
+}
 
 // Écouteur délégué unique : se redéclenche à chaque élément survolé et dit
 // donc à tout instant si le pointeur est sur une cible — pas de mouseout
@@ -37,13 +41,43 @@ const onPointerOver = (e) => {
 const onWindowLeave = () => { if (dot.value) dot.value.style.opacity = '0' }
 const onWindowEnter = () => { if (dot.value) dot.value.style.opacity = '1' }
 
-const tick = () => {
-  // Lissage exponentiel : léger retard sur la souris plutôt qu'une
-  // téléportation à chaque event, pour un rendu magnétique.
-  x += (targetX - x) * 0.2
-  y += (targetY - y) * 0.2
+// En deçà, l'écart restant avec la souris ne se voit plus à l'écran.
+const EPSILON = 0.1
+
+const draw = () => {
   if (dot.value) dot.value.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`
+}
+
+/**
+ * Lissage exponentiel : léger retard sur la souris plutôt qu'une
+ * téléportation à chaque event, pour un rendu magnétique.
+ *
+ * La boucle s'arrête dès que le point a rejoint sa cible et ne repart qu'au
+ * mouvement suivant. Tant qu'elle tournait en continu, elle écrivait un
+ * transform à chaque rafraîchissement d'écran — jusqu'à 120 fois par seconde
+ * sur une souris immobile. Le thread principal n'atteignait alors jamais
+ * l'état de repos, ce que les outils de mesure comptent comme du blocage.
+ */
+const tick = () => {
+  const dx = targetX - x
+  const dy = targetY - y
+
+  if (Math.abs(dx) < EPSILON && Math.abs(dy) < EPSILON) {
+    x = targetX
+    y = targetY
+    draw()
+    raf = null
+    return
+  }
+
+  x += dx * 0.2
+  y += dy * 0.2
+  draw()
   raf = requestAnimationFrame(tick)
+}
+
+const start = () => {
+  if (raf === null) raf = requestAnimationFrame(tick)
 }
 
 onMounted(() => {
@@ -51,11 +85,12 @@ onMounted(() => {
   attached = true
   x = targetX = window.innerWidth / 2
   y = targetY = window.innerHeight / 2
+  // Posé une fois au centre, puis plus rien jusqu'au premier mouvement.
+  draw()
   document.addEventListener('mousemove', onPointerMove, { passive: true })
   document.addEventListener('mouseover', onPointerOver, { passive: true })
   document.documentElement.addEventListener('mouseleave', onWindowLeave)
   document.documentElement.addEventListener('mouseenter', onWindowEnter)
-  raf = requestAnimationFrame(tick)
 })
 
 onBeforeUnmount(() => {
@@ -64,7 +99,8 @@ onBeforeUnmount(() => {
   document.removeEventListener('mouseover', onPointerOver)
   document.documentElement.removeEventListener('mouseleave', onWindowLeave)
   document.documentElement.removeEventListener('mouseenter', onWindowEnter)
-  if (raf) cancelAnimationFrame(raf)
+  if (raf !== null) cancelAnimationFrame(raf)
+  raf = null
 })
 </script>
 
