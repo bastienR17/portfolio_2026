@@ -72,11 +72,17 @@
   --color-accent: var(--c-accent);
   --color-accent-ink: var(--c-accent-ink);
   --color-accent-bright: var(--c-accent-bright);
+  --color-accent-vivid: var(--c-accent-vivid);
+  --color-accent-vivid-ink: var(--c-accent-vivid-ink);
   --color-positive: var(--c-positive);
 
   /* Un jeton absent de cette liste est un jeton que personne ne peut écrire par
      erreur. `accent-bright` est réservé au texte large et au décoratif (voir
-     §6) : à 3,6:1 sur `page`, il n'est pas garanti pour du texte courant. */
+     §6) : à 3,6:1 sur `page`, il n'est pas garanti pour du texte courant.
+     `accent-vivid` est réservé aux FONDS (boutons, formes) : c'est l'orange
+     vif du mode sombre, dont le contraste comme couleur de TEXTE tombe à
+     ~2,3:1 sur `page` en clair — inutilisable pour du texte, très bien en
+     fond plein avec `accent-vivid-ink` (texte encre) par-dessus. */
 
   --font-sans: "Lexend", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Instrument Serif", ui-serif, Georgia, "Times New Roman", serif;
@@ -100,6 +106,8 @@
   --c-accent: #9A3412;       /* 7.3:1 sur blanc, 6.5:1 sur page — porte du texte blanc */
   --c-accent-ink: #FFFFFF;
   --c-accent-bright: #E8590C; /* 3.6:1 sur blanc — réservé au texte large / décoratif */
+  --c-accent-vivid: #FF7A3D;      /* orange vif du mode sombre, réservé aux fonds */
+  --c-accent-vivid-ink: #17130E;  /* = --c-ink : 7.1:1 sur accent-vivid */
   --c-positive: #047857;
 }
 
@@ -116,6 +124,8 @@
   --c-accent: #FF7A3D;       /* 6.8:1 sur surface sombre */
   --c-accent-ink: #1B140D;   /* texte sombre sur bouton accent : 6.7:1 */
   --c-accent-bright: #FFA361; /* réservé au texte large / décoratif */
+  --c-accent-vivid: #FF7A3D;      /* déjà l'accent vif en sombre, pas de variante distincte */
+  --c-accent-vivid-ink: #1B140D;  /* = --c-accent-ink */
   --c-positive: #34D399;
 }
 

@@ -129,7 +129,7 @@ const formats = [
              vers l'offre plus bas, le secondaire ne fait que le doubler. -->
         <router-link
           to="/contact"
-          class="inline-flex items-center gap-2 px-6 py-3 bg-accent text-accent-ink font-medium hover:opacity-90 transition-opacity"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-accent-vivid text-accent-vivid-ink font-medium hover:opacity-90 transition-opacity"
         >
           {{ $t('home.cta') }}
           <ArrowRight class="w-4 h-4" />
@@ -186,9 +186,9 @@ const formats = [
           <article
             v-for="service in services"
             :key="service.key"
-            class="reveal card-punch bg-surface p-8 md:odd:-rotate-[0.4deg] md:even:rotate-[0.4deg]"
+            class="reveal group card-punch is-static bg-surface p-8 transition-colors duration-200 hover:border-accent md:odd:-rotate-[0.4deg] md:even:rotate-[0.4deg]"
           >
-            <component :is="service.icon" class="w-5 h-5 text-accent mb-5" aria-hidden="true" />
+            <component :is="service.icon" class="w-5 h-5 text-accent mb-5 transition-transform duration-200 group-hover:scale-110" aria-hidden="true" />
             <h3 class="text-xl text-ink mb-3">
               {{ $t(`prestations.services.${service.key}.title`) }}
             </h3>
@@ -281,10 +281,10 @@ const formats = [
           <article
             v-for="(format, i) in formats"
             :key="format.key"
-            class="reveal card-punch bg-surface p-8"
+            class="reveal group card-punch is-static bg-surface p-8 transition-colors duration-200 hover:border-accent"
             :class="i % 2 === 0 ? 'md:rotate-[0.4deg]' : 'md:-rotate-[0.4deg]'"
           >
-            <component :is="format.icon" class="w-5 h-5 text-accent mb-5" aria-hidden="true" />
+            <component :is="format.icon" class="w-5 h-5 text-accent mb-5 transition-transform duration-200 group-hover:scale-110" aria-hidden="true" />
             <h3 class="text-lg text-ink mb-3">
               {{ $t(`home.formats.${format.key}.title`) }}
             </h3>
@@ -308,7 +308,7 @@ const formats = [
 
         <router-link
           to="/contact"
-          class="inline-flex items-center gap-2 px-7 py-4 bg-accent text-accent-ink text-lg font-medium hover:opacity-90 transition-opacity"
+          class="inline-flex items-center gap-2 px-7 py-4 bg-accent-vivid text-accent-vivid-ink text-lg font-medium hover:opacity-90 transition-opacity"
         >
           {{ $t('home.final_cta') }}
           <ArrowRight class="w-5 h-5" />

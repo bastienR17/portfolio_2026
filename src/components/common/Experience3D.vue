@@ -111,9 +111,13 @@ const init = async () => {
   camera = new PerspectiveCamera(75, w / h, 0.1, 1000)
   camera.position.set(0, 5, 100)
 
-  renderer = new WebGLRenderer({ antialias: true, alpha: true })
+  // Décor flouté par le brouillard : l'antialiasing MSAA (coûteux sur GPU
+  // intégré) n'apporte rien de visible ici. Ratio de pixels plafonné à 1.5 —
+  // sur un écran Retina (dpr 2-3), ça retire jusqu'à 55 % des pixels à
+  // calculer par frame sans perte perceptible sur un fond animé.
+  renderer = new WebGLRenderer({ antialias: false, alpha: true })
   renderer.setSize(w, h)
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
   container.value.appendChild(renderer.domElement)
 
   updateScreenBounds()
