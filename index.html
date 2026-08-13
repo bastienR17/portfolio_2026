@@ -1,5 +1,13 @@
 <!DOCTYPE html>
-<html lang="fr">
+<!--
+  `no-3d` est posée d'entrée et retirée par Experience3D.vue une fois le décor
+  WebGL réellement en train de rendre. Dans ce sens-là, et pas l'inverse : le
+  décor peut renoncer tard (GPU logiciel détecté après ouverture du contexte),
+  alors qu'un fond de repli affiché puis retiré ne coûte rien. Sans WebGL —
+  mobile, tablette, machine modeste, navigateur durci — la classe reste, et
+  c'est le dégradé de Main.css qui habille la page.
+-->
+<html lang="fr" class="no-3d">
   <head>
     <meta charset="UTF-8">
     <!--

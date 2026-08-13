@@ -148,6 +148,32 @@
     transition: background-color 0.3s, color 0.3s;
   }
 
+  /* Repli du décor WebGL (voir la classe no-3d dans index.html) : sans lui, la
+     moitié des visites — mobile et tablette, écartées par canRender3D() — n'a
+     qu'un aplat. Deux halos fixes reprenant les teintes de la scène : une
+     lueur d'accent en bas, un ciel plus clair en haut.
+
+     Sur ::before plutôt que sur body : le fond d'un body en position statique
+     est peint sur toute la zone défilable et se répète à l'infini vers le bas.
+     Un élément fixe garde le dégradé calé sur le viewport, comme la scène 3D
+     qu'il remplace. En dessous du canvas (-z-50) pour ne rien couvrir. */
+  .no-3d body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -60;
+    pointer-events: none;
+    background:
+      radial-gradient(80% 55% at 50% 108%, color-mix(in oklab, var(--c-accent) 18%, transparent), transparent 70%),
+      radial-gradient(120% 70% at 50% -10%, var(--c-surface), transparent 65%);
+  }
+
+  /* La 3D reprend la main : plus de dégradé, et rien à animer entre les deux —
+     le canvas se dessine par-dessus dans la même image. */
+  html:not(.no-3d) body::before {
+    content: none;
+  }
+
   /* Hiérarchie portée par la taille et la famille, pas par une graisse noire
      sur tous les niveaux. */
   h1, h2 {

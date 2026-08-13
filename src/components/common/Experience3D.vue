@@ -131,6 +131,10 @@ const init = async () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
   container.value.appendChild(renderer.domElement)
 
+  // Le décor prend la main : le dégradé de repli n'a plus lieu d'être. Posé
+  // ici et pas plus tôt, une fois passés tous les cas de renoncement.
+  document.documentElement.classList.remove('no-3d')
+
   updateScreenBounds()
   groundY = -bounds.h * 0.55
 
@@ -260,6 +264,8 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   stopAnimating()
+  // Le canvas s'en va avec le composant : le fond de repli reprend le relais.
+  document.documentElement.classList.add('no-3d')
   window.removeEventListener('resize', onWindowResize)
   document.removeEventListener('visibilitychange', onVisibilityChange)
   if (import.meta.env.DEV) {
