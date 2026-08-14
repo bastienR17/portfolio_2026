@@ -368,12 +368,9 @@
       "stars": "Stars",
       "name": "Nom"
     },
-    "loading": "Synchronisation GitHub…",
     "loadMore": "Voir plus de projets",
     "noProject": "Aucun projet trouvé dans cette stack.",
-    "loadError": "Impossible de récupérer les projets depuis GitHub pour le moment.",
-    "detail": "Détails",
-    "repo_alt": "Aperçu du dépôt {name}"
+    "detail": "Détails"
   },
   "prestations": {
     "title": "Prestations",

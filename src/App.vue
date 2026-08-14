@@ -77,7 +77,13 @@ onMounted(() => {
       {{ $t('accessibility.skip') }}
     </a>
 
-    <SiteNavbar class="relative z-50" />
+    <!-- Le positionnement et le rang d'empilement appartiennent au composant
+         (sticky top-0 z-[100]) : les imposer aussi d'ici mettait deux
+         utilitaires de position et deux z-index sur le même élément, à
+         spécificité égale. Ça tenait uniquement à l'ordre de génération de
+         Tailwind — une montée de version pouvait rendre la barre non
+         collante sans que rien ne le signale. -->
+    <SiteNavbar />
     <FontSwitcher />
     <MagneticCursor />
 

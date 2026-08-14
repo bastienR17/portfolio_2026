@@ -1,0 +1,136 @@
+[
+  {
+    "id": 1158702736,
+    "name": "portfolio_2026",
+    "description": "Nouveaux portfolio 2026",
+    "languages": [
+      "Vue",
+      "JavaScript"
+    ],
+    "updated_at": "2026-08-14T12:40:01Z",
+    "html_url": "https://github.com/bastienR17/portfolio_2026",
+    "stargazers_count": 0
+  },
+  {
+    "id": 620698079,
+    "name": "Symfony_project_Ski_station",
+    "description": "Site de station de ski en Symfony et Tailwind — projet de groupe où j'ai développé le système de badges utilisateurs et l'affichage des webcams.",
+    "languages": [
+      "PHP",
+      "Twig"
+    ],
+    "updated_at": "2026-08-13T19:28:21Z",
+    "html_url": "https://github.com/bastienR17/Symfony_project_Ski_station",
+    "stargazers_count": 0
+  },
+  {
+    "id": 594180680,
+    "name": "Tartiflette",
+    "description": "Site communautaire de films basé sur l'API The Movie DB (PHP, Tailwind), avec albums partagés — projet de groupe où j'ai réalisé l'intégration front.",
+    "languages": [
+      "PHP"
+    ],
+    "updated_at": "2026-08-13T19:28:18Z",
+    "html_url": "https://github.com/bastienR17/Tartiflette",
+    "stargazers_count": 0
+  },
+  {
+    "id": 592041880,
+    "name": "Vuephone",
+    "description": "Interface de téléphone reproduite en Vue 3 : clavier de composition, répertoire de contacts et journal d'appels.",
+    "languages": [
+      "Vue"
+    ],
+    "updated_at": "2026-08-13T19:28:16Z",
+    "html_url": "https://github.com/bastienR17/Vuephone",
+    "stargazers_count": 0
+  },
+  {
+    "id": 719247001,
+    "name": "text_to_voice",
+    "description": "Synthétiseur vocal web : lecture d'un texte via la Web Speech API, avec choix de la voix, du débit et de la tonalité.",
+    "languages": [
+      "JavaScript"
+    ],
+    "updated_at": "2026-08-13T19:28:13Z",
+    "html_url": "https://github.com/bastienR17/text_to_voice",
+    "stargazers_count": 0
+  },
+  {
+    "id": 616084221,
+    "name": "ml5-project",
+    "description": "Analyse de sentiment dans le navigateur : interface React branchée sur le modèle movieReviews de ml5.js.",
+    "languages": [
+      "JavaScript"
+    ],
+    "updated_at": "2026-08-13T19:28:10Z",
+    "html_url": "https://github.com/bastienR17/ml5-project",
+    "stargazers_count": 0
+  },
+  {
+    "id": 778364623,
+    "name": "Clock-Creative-Web",
+    "description": "Bac à sable de creative coding en Canvas 2D : scènes d'arcs animés pilotées par une architecture orientée objet.",
+    "languages": [
+      "JavaScript"
+    ],
+    "updated_at": "2026-08-13T19:28:08Z",
+    "html_url": "https://github.com/bastienR17/Clock-Creative-Web",
+    "stargazers_count": 0
+  },
+  {
+    "id": 740528432,
+    "name": "Rendu_librairie_open_source",
+    "description": "Librairie npm open source pour récupérer l'image du jour de l'API NASA, testée avec Jest et publiée via release-it.",
+    "languages": [
+      "JavaScript"
+    ],
+    "updated_at": "2026-08-13T19:28:06Z",
+    "html_url": "https://github.com/bastienR17/Rendu_librairie_open_source",
+    "stargazers_count": 0
+  },
+  {
+    "id": 748819817,
+    "name": "Project_ReactJS",
+    "description": "Boutique en ligne React : catalogue, fiches produits, panier et commentaires, avec Redux Toolkit Query et styled-components.",
+    "languages": [
+      "JavaScript"
+    ],
+    "updated_at": "2026-08-13T19:28:03Z",
+    "html_url": "https://github.com/bastienR17/Project_ReactJS",
+    "stargazers_count": 0
+  },
+  {
+    "id": 593662291,
+    "name": "Test_Three_Js",
+    "description": "Système solaire interactif en Three.js : planètes texturées, orbites animées et navigation libre dans la scène 3D.",
+    "languages": [
+      "JavaScript"
+    ],
+    "updated_at": "2026-08-13T19:28:01Z",
+    "html_url": "https://github.com/bastienR17/Test_Three_Js",
+    "stargazers_count": 0
+  },
+  {
+    "id": 800024700,
+    "name": "Serveurio",
+    "description": "Morpion multijoueur en temps réel avec Node.js, Express et Socket.IO : salons de jeu et appariement de deux joueurs.",
+    "languages": [
+      "JavaScript"
+    ],
+    "updated_at": "2026-08-13T19:27:58Z",
+    "html_url": "https://github.com/bastienR17/Serveurio",
+    "stargazers_count": 0
+  },
+  {
+    "id": 1248611062,
+    "name": "test_lea",
+    "description": "Site vitrine d'une pâtisserie indépendante du Val-d'Oise : carte des gâteaux, commande sur-mesure et lancement Instagram.",
+    "languages": [
+      "JavaScript"
+    ],
+    "updated_at": "2026-08-13T19:27:56Z",
+    "html_url": "https://github.com/bastienR17/test_lea",
+    "stargazers_count": 0
+  }
+]

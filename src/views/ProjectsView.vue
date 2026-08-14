@@ -1,7 +1,8 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ProjectCard from '../components/projects/ProjectCard.vue'
+import githubRepos from '../data/github-repos.json'
 import { useReveal } from '../composables/useReveal'
 
 const { tm, te } = useI18n()
@@ -13,51 +14,29 @@ const cases = ['ministeres', 'sephora', 'sncf']
 const studies = ['memoire', 'startup']
 
 // ── Dépôts GitHub ────────────────────────────────────────────
-// Forks conservés malgré tout : projets de groupe auxquels j'ai contribué.
-const FEATURED_FORKS = ['Tartiflette', 'Symfony_project_Ski_station']
-
-const projects = ref([])
-const loading = ref(true)
-const failed = ref(false)
+// La liste est figée au build par scripts/fetch-github-repos.js, qui porte
+// aussi le filtrage (forks, dépôts sans description, README de profil). Plus
+// aucun appel à api.github.com depuis le navigateur du visiteur : son adresse
+// IP ne part plus chez un tiers pour afficher une liste qui bouge trois fois
+// par an, et la section s'affiche avec le reste de la page au lieu d'attendre
+// un aller-retour réseau.
+const projects = ref(githubRepos)
 const limit = ref(6)
 const sortBy = ref('updated')
 const selectedStack = ref('All')
 
-onMounted(async () => {
-  try {
-    const response = await fetch('https://api.github.com/users/Bastienr17/repos?sort=updated&per_page=100')
-    const data = await response.json()
-    // On ne garde que les dépôts avec une vraie description : ça exclut
-    // naturellement les repos de scaffold/test (jamais décrits sur GitHub)
-    // sans maintenir de liste noire de noms qui deviendrait vite obsolète.
-    // Le repo "bastienR17" est le README de profil GitHub, pas un projet.
-    // Les forks sont écartés par défaut, sauf ceux de FEATURED_FORKS : des
-    // projets de groupe auxquels j'ai réellement contribué.
-    projects.value = Array.isArray(data)
-      ? data.filter((repo) =>
-          (!repo.fork || FEATURED_FORKS.includes(repo.name)) &&
-          repo.description?.trim() &&
-          repo.name.toLowerCase() !== 'bastienr17',
-        )
-      : []
-    failed.value = !Array.isArray(data)
-  } catch {
-    projects.value = []
-    failed.value = true
-  } finally {
-    loading.value = false
-  }
-})
-
+// Un dépôt compte désormais dans chacune de ses piles : le projet Symfony
+// apparaît sous PHP comme sous Twig, ce qu'un langage unique par dépôt ne
+// permettait pas d'exprimer.
 const availableStacks = computed(() => {
-  const stacks = (projects.value || []).map((p) => p.language).filter(Boolean)
+  const stacks = (projects.value || []).flatMap((p) => p.languages ?? [])
   return ['All', ...new Set(stacks)]
 })
 
 const matchingProjects = computed(() =>
   selectedStack.value === 'All'
     ? projects.value
-    : projects.value.filter((p) => p.language === selectedStack.value),
+    : projects.value.filter((p) => p.languages?.includes(selectedStack.value)),
 )
 
 const filteredAndSortedProjects = computed(() => {
@@ -231,11 +210,7 @@ const filteredAndSortedProjects = computed(() => {
           </div>
         </div>
 
-        <p v-if="loading" class="py-20 text-center text-ink-muted" role="status">
-          {{ $t('projects.loading') }}
-        </p>
-
-        <template v-else-if="filteredAndSortedProjects.length">
+        <template v-if="filteredAndSortedProjects.length">
           <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <ProjectCard
               v-for="repo in filteredAndSortedProjects"
@@ -254,8 +229,11 @@ const filteredAndSortedProjects = computed(() => {
           </p>
         </template>
 
+        <!-- Plus de distinction entre « rien à afficher » et « le chargement a
+             échoué » : la liste est présente au build ou elle ne l'est pas, et
+             le visiteur n'a rien à faire de la différence. -->
         <p v-else class="py-20 text-center text-ink-muted border border-line-soft bg-surface">
-          {{ failed ? $t('projects.loadError') : $t('projects.noProject') }}
+          {{ $t('projects.noProject') }}
         </p>
       </div>
     </section>

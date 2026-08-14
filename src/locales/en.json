@@ -368,12 +368,9 @@
       "stars": "Stars",
       "name": "Name"
     },
-    "loading": "Syncing GitHub…",
     "loadMore": "See more projects",
     "noProject": "No project found in this stack.",
-    "loadError": "Could not fetch projects from GitHub right now.",
-    "detail": "Details",
-    "repo_alt": "Preview of the {name} repository"
+    "detail": "Details"
   },
   "prestations": {
     "title": "Services",

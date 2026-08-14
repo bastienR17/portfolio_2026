@@ -1,6 +1,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
-import { Target, Users, Workflow, Bot, ArrowRight } from 'lucide-vue-next'
+import { Target, Users, Workflow, Bot } from 'lucide-vue-next'
+import CtaLink from '../components/common/CtaLink.vue'
 import { useReveal } from '../composables/useReveal'
 
 const { tm, te } = useI18n()
@@ -129,13 +130,7 @@ const steps = ['step1', 'step2', 'step3']
           </div>
 
           <div class="md:text-right">
-            <router-link
-              to="/contact"
-              class="inline-flex items-center gap-2 px-6 py-3 bg-accent text-accent-ink font-medium hover:opacity-90 transition-opacity"
-            >
-              {{ $t('prestations.cta') }}
-              <ArrowRight class="w-4 h-4" />
-            </router-link>
+            <CtaLink to="/contact">{{ $t('prestations.cta') }}</CtaLink>
           </div>
         </div>
       </div>

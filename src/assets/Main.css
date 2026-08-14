@@ -149,6 +149,20 @@
     font-size: 16px;
   }
 
+  html {
+    /* Le site navigue beaucoup par ancres (« Explorer ↓ », #offre,
+       #modalites) : sans défilement animé, le saut ne dit pas d'où l'on
+       vient. La neutralisation en mouvement réduit existait déjà plus bas —
+       elle ne protégeait de rien tant que rien n'était animé.
+
+       scroll-padding-top décale toute mise en vue de la hauteur de la barre
+       collante : les ancres, mais aussi le défilement que le navigateur
+       déclenche lui-même en tabulant vers un élément hors écran, qui sans ça
+       peut le déposer sous la barre (WCAG 2.2, 2.4.11 Focus Not Obscured). */
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--nav-h);
+  }
+
   body {
     background-color: var(--c-page);
     color: var(--c-ink);
