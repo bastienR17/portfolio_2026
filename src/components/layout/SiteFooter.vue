@@ -14,7 +14,11 @@ const links = [
 </script>
 
 <template>
-  <footer class="relative z-10 mt-24 bg-page border-t border-line-soft">
+  <!-- Ombre prolongeant le fond d'un écran vers le BAS : symétrique de celle
+       de la barre de navigation, pour le rebond en fin de page. -->
+  <footer
+    class="relative z-10 mt-24 bg-page border-t border-line-soft shadow-[0_50vh_0_50vh_var(--c-page)]"
+  >
     <div class="max-w-6xl mx-auto px-6 pt-16 pb-10">
 
       <router-link

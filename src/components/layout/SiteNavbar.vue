@@ -1,7 +1,23 @@
 <template>
   <!-- Fond entièrement opaque : le décor 3D défile derrière, un fond
-       translucide rendrait le contraste des liens non déterministe. -->
-  <nav class="sticky top-0 z-[100] bg-page border-b border-line-soft">
+       translucide rendrait le contraste des liens non déterministe.
+
+       L'ombre portée prolonge ce fond d'un écran vers le HAUT, au-delà du
+       document. Au rebond élastique (on tire vers le haut alors qu'on y est
+       déjà), la page descend mais le décor 3D, lui, est en position fixe :
+       il restait peint dans l'espace ainsi dégagé, et une bande de paysage
+       apparaissait au-dessus de la barre. Une ombre plutôt qu'un
+       pseudo-élément : elle ne participe pas à la mise en page, donc elle ne
+       peut pas rallonger la zone défilable. Elle suit le thème toute seule,
+       --c-page étant redéfinie sous .dark.
+
+       Décalage et étalement valent tous deux 50vh : l'étalement comble
+       l'intervalle que le décalage seul laisserait vide, et l'ombre couvre
+       ainsi d'un écran plus haut jusqu'au bas exact de la barre — pas un
+       pixel en dessous, où elle masquerait le contenu. -->
+  <nav
+    class="sticky top-0 z-[100] bg-page border-b border-line-soft shadow-[0_-50vh_0_50vh_var(--c-page)]"
+  >
     <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
 
       <router-link to="/" class="no-active font-display text-3xl md:text-4xl text-ink tracking-tight">

@@ -7,6 +7,7 @@ import {
   CalendarDays, Package, Repeat,
   ArrowRight, ArrowDown,
 } from 'lucide-vue-next'
+import CtaLink from '../components/common/CtaLink.vue'
 import { useReveal } from '../composables/useReveal'
 
 const { t, locale } = useI18n()
@@ -24,7 +25,9 @@ const stats = [
 ]
 
 const counts = ref(stats.map(() => 0))
+const statsEl = ref(null)
 let intervals = []
+let counterObserver = null
 
 const formatCount = (n) => n.toLocaleString(locale.value === 'fr' ? 'fr-FR' : 'en-US')
 
@@ -48,10 +51,31 @@ onMounted(() => {
     counts.value = stats.map((s) => s.target)
     return
   }
-  setTimeout(animateCounters, 400)
+
+  // Le hero occupe désormais tout l'écran : les compteurs commencent sous la
+  // ligne de flottaison. Lancés au montage, ils auraient fini leur course
+  // avant que quiconque les ait à l'écran — on attend qu'ils entrent dans le
+  // cadre. Sans IntersectionObserver, on retombe sur le comportement d'avant.
+  if (!('IntersectionObserver' in window) || !statsEl.value) {
+    animateCounters()
+    return
+  }
+
+  counterObserver = new IntersectionObserver(
+    (entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return
+      counterObserver.disconnect()
+      counterObserver = null
+      animateCounters()
+    },
+    { threshold: 0.35 },
+  )
+  counterObserver.observe(statsEl.value)
 })
 
 onUnmounted(() => {
+  counterObserver?.disconnect()
+  counterObserver = null
   intervals.forEach(clearInterval)
   intervals = []
 })
@@ -82,96 +106,103 @@ const formats = [
   <div class="relative z-10">
 
     <!-- ─── 1. Hero ─────────────────────────────────────────── -->
-    <section class="max-w-6xl mx-auto px-6 pt-14 pb-20 md:pt-16 md:pb-28">
-      <span class="tag-stamp text-ink mb-8">
-        <span class="w-1.5 h-1.5 bg-accent rounded-full shrink-0" aria-hidden="true"></span>
-        {{ $t('home.availability') }}
-      </span>
+    <!-- Aucun bg-* : la transparence laisse voir le décor 3D (canvas fixe
+         -z-50 d'Experience3D.vue), ou son dégradé de repli sur les machines
+         écartées par canRender3D(). C'est le seul endroit du site où le décor
+         passe au premier plan plutôt que de border le contenu.
+         La hauteur retire --nav-h : la barre de navigation est sticky mais
+         reste dans le flux, un 100svh plein déborderait d'autant. -->
+    <section
+      class="relative flex flex-col overflow-hidden min-h-[calc(100svh-var(--nav-h))]"
+    >
+      <!-- Colonnes de repérage, façon gabarit d'imprimeur laissé apparent :
+           1/3/4/3/1 sur douze en grand écran, ramenées à 2/8/2 en petit où
+           cinq traits sur 375 px ne feraient plus qu'un motif serré. -->
+      <div class="hero-rules absolute inset-0 grid grid-cols-12" aria-hidden="true">
+        <div class="col-span-2 md:col-span-1"></div>
+        <div class="hidden md:block md:col-span-3"></div>
+        <div class="col-span-8 md:col-span-4"></div>
+        <div class="hidden md:block md:col-span-3"></div>
+        <div class="col-span-2 md:col-span-1"></div>
+      </div>
 
-      <div class="md:grid md:grid-cols-12 md:gap-8 md:items-end">
-        <h1 class="h-mega text-ink md:col-span-8">
+      <!-- Voile de lisibilité : voir .hero-veil dans Main.css. -->
+      <div class="hero-veil absolute inset-0" aria-hidden="true"></div>
+
+      <div class="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-14 text-center">
+        <span class="tag-stamp text-ink mb-8">
+          <span class="w-1.5 h-1.5 bg-accent rounded-full shrink-0" aria-hidden="true"></span>
+          {{ $t('home.availability') }}
+        </span>
+
+        <h1 class="h-mega text-ink max-w-5xl text-balance">
           {{ $t('home.title') }}
         </h1>
 
-        <!-- Photo traitée comme un tampon décalé plutôt qu'une illustration
-             centrée : elle vient buter contre le titre au lieu de lui faire
-             vis-à-vis sagement. -->
-        <div class="mt-10 md:mt-0 md:col-span-4">
-          <picture>
-            <source
-              type="image/webp"
-              sizes="(min-width: 1200px) 340px, (min-width: 768px) 28vw, calc(100vw - 3rem)"
-              srcset="
-                /hero-transformation-440.webp 440w,
-                /hero-transformation-640.webp 640w,
-                /hero-transformation-800.webp 800w
-              "
-            >
-            <img
-              src="/hero-transformation.jpg"
-              :alt="$t('home.hero_alt')"
-              width="800"
-              height="533"
-              fetchpriority="high"
-              class="card-punch is-static w-full h-auto md:-rotate-1"
-            >
-          </picture>
+        <p class="mt-8 max-w-2xl text-lg md:text-xl text-ink-muted leading-relaxed">
+          {{ $t('home.subtitle') }}
+        </p>
+
+        <div class="mt-10 flex flex-wrap items-center justify-center gap-3">
+          <!-- Le bouton principal mène au contact : c'est l'action qui
+               déclenche une mission. -->
+          <CtaLink to="/contact">{{ $t('home.cta') }}</CtaLink>
+
+          <!-- Bordure en encre pleine et fond translucide, là où le reste du
+               site se contente de `border-line` sur un aplat : sur le décor,
+               le filet gris tombait à 2,5:1 selon la crête qui passait
+               derrière — sous le seuil des composants d'interface (RGAA
+               4.1 / WCAG 1.4.11). Le voile de fond suffit à ramener le texte
+               et son survol en accent au-dessus de 5,6:1 quelle que soit la
+               scène. -->
+          <router-link
+            to="/prestations"
+            class="px-6 py-3 border border-ink bg-page/50 text-ink font-medium hover:border-accent hover:text-accent transition-colors"
+          >
+            {{ $t('home.cta_secondary') }}
+          </router-link>
         </div>
       </div>
 
-      <p class="mt-10 max-w-xl text-lg text-ink-muted leading-relaxed">
-        {{ $t('home.subtitle') }}
-      </p>
-
-      <div class="mt-9 flex flex-wrap items-center gap-3">
-        <!-- Le bouton principal mène au contact : c'est l'action qui
-             déclenche une mission. « Explorer ↓ » couvre déjà le renvoi
-             vers l'offre plus bas, le secondaire ne fait que le doubler. -->
-        <router-link
-          to="/contact"
-          class="inline-flex items-center gap-2 px-6 py-3 bg-accent-vivid text-accent-vivid-ink font-medium hover:opacity-90 transition-opacity"
-        >
-          {{ $t('home.cta') }}
-          <ArrowRight class="w-4 h-4" />
-        </router-link>
-
-        <router-link
-          to="/prestations"
-          class="px-6 py-3 border border-line text-ink font-medium hover:border-accent hover:text-accent transition-colors"
-        >
-          {{ $t('home.cta_secondary') }}
-        </router-link>
-      </div>
-
-      <!-- Compteurs, traités comme un bandeau de chiffres et non comme des cartes -->
-      <dl class="grid grid-cols-2 md:grid-cols-4 mt-16 border-t-2 border-ink">
-        <div
-          v-for="(stat, i) in stats"
-          :key="stat.key"
-          class="px-1 py-6 md:px-6 md:first:pl-0 border-b md:border-b-0 md:border-r last:border-r-0 border-line-soft"
-        >
-          <dd class="font-display text-5xl md:text-6xl text-accent tabular-nums leading-none mb-2">
-            {{ formatCount(counts[i]) }}{{ stat.suffix }}
-          </dd>
-          <!-- Le détail est affiché en clair et non au survol : un tooltip
-               serait invisible au doigt et demanderait une gestion du focus
-               pour rester conforme (RGAA 1.4.13). -->
-          <dt class="text-sm text-ink leading-snug">
-            {{ t(stat.key) }}
-            <span class="block mt-1 text-xs text-ink-muted">{{ t(stat.detail) }}</span>
-          </dt>
-        </div>
-      </dl>
-
-      <p class="mt-12 flex justify-center">
+      <!-- Dans le flux plutôt qu'en absolute : sur un écran bas, ou en mode
+           dyslexique où les tailles de titre sont forcées, l'indicateur
+           pousse la section au lieu de chevaucher le titre. -->
+      <p class="relative z-10 pb-10 flex justify-center">
         <a
-          href="#offre"
+          href="#chiffres"
           class="inline-flex items-center gap-2 text-sm text-ink-muted hover:text-accent transition-colors"
         >
           {{ $t('home.scroll') }}
           <ArrowDown class="w-4 h-4" />
         </a>
       </p>
+    </section>
+
+    <!-- ─── 1bis. Chiffres ──────────────────────────────────── -->
+    <!-- Fond opaque assumé : il ferme le plein écran et garantit le contraste
+         des chiffres, que le décor 3D ne peut pas garantir seul. -->
+    <section id="chiffres" class="bg-page scroll-mt-20">
+      <div class="max-w-6xl mx-auto px-6 py-16 md:py-20">
+        <!-- Compteurs, traités comme un bandeau de chiffres et non comme des cartes -->
+        <dl ref="statsEl" class="grid grid-cols-2 md:grid-cols-4 border-t-2 border-ink">
+          <div
+            v-for="(stat, i) in stats"
+            :key="stat.key"
+            class="px-1 py-6 md:px-6 md:first:pl-0 border-b md:border-b-0 md:border-r last:border-r-0 border-line-soft"
+          >
+            <dd class="font-display text-5xl md:text-6xl text-accent tabular-nums leading-none mb-2">
+              {{ formatCount(counts[i]) }}{{ stat.suffix }}
+            </dd>
+            <!-- Le détail est affiché en clair et non au survol : un tooltip
+                 serait invisible au doigt et demanderait une gestion du focus
+                 pour rester conforme (RGAA 1.4.13). -->
+            <dt class="text-sm text-ink leading-snug">
+              {{ t(stat.key) }}
+              <span class="block mt-1 text-xs text-ink-muted">{{ t(stat.detail) }}</span>
+            </dt>
+          </div>
+        </dl>
+      </div>
     </section>
 
     <!-- ─── 2. Offre ────────────────────────────────────────── -->
@@ -227,10 +258,10 @@ const formats = [
           <li
             v-for="context in contexts"
             :key="context.key"
-            class="reveal group py-8 md:py-10 border-b border-line-soft"
+            class="reveal py-8 md:py-10 border-b border-line-soft"
           >
             <div class="flex flex-col md:flex-row md:items-baseline md:justify-between gap-2 md:gap-6">
-              <h3 class="font-display text-4xl md:text-6xl text-ink leading-none tracking-tight group-hover:text-accent transition-colors">
+              <h3 class="font-display text-4xl md:text-6xl text-ink leading-none tracking-tight">
                 {{ $t(`home.contexts.${context.key}.org`) }}
               </h3>
               <p class="flex items-center gap-2 text-sm text-ink-muted shrink-0 md:text-right">
@@ -306,13 +337,7 @@ const formats = [
         <h2 class="h-mega text-ink mb-8 max-w-4xl">{{ $t('home.final_title') }}</h2>
         <p class="text-lg text-ink-muted leading-relaxed max-w-lg mb-10">{{ $t('home.final_desc') }}</p>
 
-        <router-link
-          to="/contact"
-          class="inline-flex items-center gap-2 px-7 py-4 bg-accent-vivid text-accent-vivid-ink text-lg font-medium hover:opacity-90 transition-opacity"
-        >
-          {{ $t('home.final_cta') }}
-          <ArrowRight class="w-5 h-5" />
-        </router-link>
+        <CtaLink to="/contact" large>{{ $t('home.final_cta') }}</CtaLink>
       </div>
     </section>
 

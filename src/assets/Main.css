@@ -109,6 +109,14 @@
   --c-accent-vivid: #FF7A3D;      /* orange vif du mode sombre, réservé aux fonds */
   --c-accent-vivid-ink: #17130E;  /* = --c-ink : 7.1:1 sur accent-vivid */
   --c-positive: #047857;
+
+  /* Hauteur réelle de la barre de navigation (mesurée : 77 px, identique en
+     petit et en grand écran — ce sont les cibles tactiles de 44 px des
+     bascules thème/langue qui la fixent, pas la taille du logo). Elle est
+     sticky mais reste dans le flux : un hero en 100svh déborderait d'autant,
+     d'où le calc() dans HomeView.vue. Aucune règle CSS ne peut la déduire
+     seule ; à recaler si la nav change de gabarit. */
+  --nav-h: 4.8125rem;
 }
 
 .dark {
@@ -310,6 +318,33 @@
   .card-punch.is-static:focus-within {
     transform: none;
     box-shadow: 6px 6px 0 0 var(--c-accent);
+  }
+
+  /* Colonnes de repérage du hero : des filets verticaux qui laissent voir le
+     gabarit, comme des repères d'imprimeur oubliés sur la page. Le trait est
+     un color-mix sur l'encre plutôt qu'une teinte figée : il suit le thème
+     sans variante `dark:`, et reste au même niveau de présence sur le crème
+     comme sur le presque-noir. La bordure va sur les enfants suivants, donc
+     jamais sur le bord gauche de l'écran. */
+  .hero-rules > * + * {
+    border-left: 1px solid color-mix(in oklab, var(--c-ink) 14%, transparent);
+  }
+
+  /* Voile de lisibilité du hero.
+     Le décor 3D suit déjà le thème (ciel crème en clair, presque noir en
+     sombre — voir weather/palette.js) : le contraste du titre est bon par
+     défaut. Ce voile n'est donc pas là pour rattraper le fond courant mais
+     pour poser un plancher sur ses écarts — l'éclair d'orage en mode sombre,
+     le halo d'horizon au coucher — qui, eux, ne préviennent pas.
+     Le radial concentre l'opacité derrière le bloc de texte et se dissipe sur
+     les bords, là où le décor doit rester pleinement lisible. */
+  .hero-veil {
+    background:
+      radial-gradient(115% 75% at 50% 45%,
+        color-mix(in oklab, var(--c-page) 66%, transparent), transparent 72%),
+      linear-gradient(to bottom,
+        color-mix(in oklab, var(--c-page) 42%, transparent), transparent 42%,
+        color-mix(in oklab, var(--c-page) 55%, transparent));
   }
 
   /* Cercle tracé à la main autour d'un lien de nav survolé/focus — clin
