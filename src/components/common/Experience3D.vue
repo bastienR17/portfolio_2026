@@ -10,6 +10,7 @@ import { useStorm } from './weather/useStorm'
 import { useWindTurbines } from './weather/useWindTurbines'
 
 const container = ref(null)
+const revealed = ref(false)
 
 let scene = null
 let camera = null
@@ -131,10 +132,6 @@ const init = async () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
   container.value.appendChild(renderer.domElement)
 
-  // Le décor prend la main : le dégradé de repli n'a plus lieu d'être. Posé
-  // ici et pas plus tôt, une fois passés tous les cas de renoncement.
-  document.documentElement.classList.remove('no-3d')
-
   updateScreenBounds()
   groundY = -bounds.h * 0.55
 
@@ -170,6 +167,32 @@ const init = async () => {
   else animate()
 }
 
+/**
+ * Bascule le décor à l'écran, une seule fois.
+ *
+ * Le dégradé de repli s'efface et le canvas monte en opacité sur la même
+ * durée : les deux couches se croisent au lieu de se succéder. C'était le
+ * défaut d'avant — la classe tombait dès l'ajout du canvas au document, donc
+ * avant la construction du monde et avant la moindre image rendue, ce qui
+ * laissait un aplat nu à l'écran puis faisait surgir le paysage d'un bloc.
+ *
+ * Appelé depuis renderFrame() et non depuis init() : ce qui compte n'est pas
+ * que la scène soit construite mais qu'une image existe dans le canvas. Le
+ * requestAnimationFrame laisse le compositeur peindre cette image avant que la
+ * transition ne démarre — sans lui, le fondu commencerait sur un canvas encore
+ * vide et mangerait ses premières centaines de millisecondes.
+ */
+let revealDone = false
+
+const revealScene = () => {
+  if (revealDone) return
+  revealDone = true
+  requestAnimationFrame(() => {
+    revealed.value = true
+    document.documentElement.classList.remove('no-3d')
+  })
+}
+
 const renderFrame = () => {
   if (!renderer || !scene || !atmosphere || !env) return
 
@@ -187,6 +210,8 @@ const renderFrame = () => {
   turbines.update(ctx)
 
   renderer.render(scene, camera)
+
+  revealScene()
 }
 
 /**
@@ -280,6 +305,30 @@ onBeforeUnmount(() => {
   <div
     ref="container"
     aria-hidden="true"
-    class="fixed top-0 left-0 w-full h-full -z-50 pointer-events-none print:hidden"
+    class="scene-layer fixed top-0 left-0 w-full h-full -z-50 pointer-events-none print:hidden"
+    :class="{ 'is-revealed': revealed }"
   />
 </template>
+
+<style scoped>
+/* L'opacité est portée par le conteneur et non par le canvas : celui-ci n'est
+   créé qu'au fil de init(), et le styler impliquerait d'y toucher en impératif
+   depuis le script. Le conteneur, lui, existe dès le montage — il est déjà à
+   zéro quand la première image se dessine dedans.
+
+   Décélération à l'arrivée (courbe sortante) : le décor s'installe vite puis
+   se pose, au lieu de traverser sa course à vitesse constante. */
+.scene-layer {
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scene-layer.is-revealed {
+  opacity: 1;
+}
+
+/* Pas de règle prefers-reduced-motion ici : le reset de fin de Main.css pose
+   transition-duration en !important sur tout le document, styles scoped
+   compris. Une copie locale ne pourrait pas le contredire, et laisserait
+   croire qu'elle sert à quelque chose. */
+</style>

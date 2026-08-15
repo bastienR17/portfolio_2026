@@ -178,8 +178,13 @@
      Sur ::before plutôt que sur body : le fond d'un body en position statique
      est peint sur toute la zone défilable et se répète à l'infini vers le bas.
      Un élément fixe garde le dégradé calé sur le viewport, comme la scène 3D
-     qu'il remplace. En dessous du canvas (-z-50) pour ne rien couvrir. */
-  .no-3d body::before {
+     qu'il remplace. En dessous du canvas (-z-50) pour ne rien couvrir.
+
+     Déclaré sans condition, y compris quand la 3D est prévue : c'est cette
+     couche qui reste peinte pendant que le canvas monte en opacité. Tant que
+     <html> porte no-3d — état initial de tout le monde — le rendu est
+     exactement celui d'avant. */
+  body::before {
     content: '';
     position: fixed;
     inset: 0;
@@ -190,10 +195,33 @@
       radial-gradient(120% 70% at 50% -10%, var(--c-surface), transparent 65%);
   }
 
-  /* La 3D reprend la main : plus de dégradé, et rien à animer entre les deux —
-     le canvas se dessine par-dessus dans la même image. */
+  /* La 3D reprend la main. L'ancienne bascule passait par `content: none`, qui
+     ne s'anime pas : le dégradé était coupé net, et comme la classe tombait
+     avant même la construction de la scène, il restait un aplat nu à l'écran
+     pendant plusieurs images. On fond l'opacité à la place, et le canvas
+     (Experience3D.vue) monte en même temps : les deux couches se croisent.
+
+     Le retard de 0,3 s laisse le canvas atteindre la moitié de sa course avant
+     que le dégradé ne commence à partir — sans lui, la somme des deux creuse
+     en milieu de transition et l'écran s'éclaircit une fraction de seconde.
+
+     visibility passe à hidden une fois le fondu terminé : c'est ce qui sort
+     l'élément du travail de peinture, ce que `content: none` faisait
+     instantanément. La transition n'est portée que par cet état — au retour
+     (démontage du composant, voir onBeforeUnmount), le dégradé doit revenir
+     tout de suite et non se rallumer en une seconde et demie. */
   html:not(.no-3d) body::before {
-    content: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1.2s ease 0.3s, visibility 0s linear 1.5s;
+  }
+
+  /* Le reset global de fin de fichier ne remet à zéro que les durées : sans
+     ça, le délai resterait et le dégradé disparaîtrait 1,5 s trop tard. */
+  @media (prefers-reduced-motion: reduce) {
+    html:not(.no-3d) body::before {
+      transition-delay: 0s;
+    }
   }
 
   /* Hiérarchie portée par la taille et la famille, pas par une graisse noire

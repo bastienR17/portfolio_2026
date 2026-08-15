@@ -5,6 +5,19 @@ const COUNT = 450
 const LERP = 0.05
 
 /**
+ * Densité de brouillard au tout premier rendu, une vingtaine de fois celle d'un
+ * temps clair : les crêtes lointaines et les éoliennes sont noyées, et le LERP
+ * ci-dessous les fait émerger en deux secondes environ. Le décor s'installe au
+ * lieu d'apparaître net d'un coup, pendant que le canvas finit son fondu
+ * (voir revealScene dans Experience3D.vue).
+ *
+ * Aucune animation supplémentaire n'est nécessaire : l'interpolation vers la
+ * densité de la météo courante tourne déjà à chaque image, il suffit de partir
+ * de plus haut.
+ */
+const MIST_START = 0.028
+
+/**
  * Une seule nappe de particules fines, dont le comportement change selon la
  * météo : poussière en suspension par temps clair, chute verticale sous la
  * pluie, dérive lente sous la neige.
@@ -20,9 +33,20 @@ export function useAtmosphere(scene) {
   const colorLight = new Color(palette.light.particle)
   const colorDark = new Color(palette.dark.particle)
 
+  // En mouvement réduit, Experience3D ne rend qu'une seule image : le LERP
+  // n'aurait jamais l'occasion de dissiper la brume, qui resterait à l'écran
+  // pour de bon. On démarre alors directement à la densité de croisière.
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
   // Valeurs courantes, interpolées pour que le changement de météo ou de thème
   // ne se voie pas comme une coupure.
-  const current = { opacity: 0.14, speed: 0.03, sway: 0.6, size: 0.5, density: fogDensity.clear }
+  const current = {
+    opacity: 0.14,
+    speed: 0.03,
+    sway: 0.6,
+    size: 0.5,
+    density: reducedMotion ? fogDensity.clear : MIST_START,
+  }
 
   const create = (bounds) => {
     const geo = new BufferGeometry()
