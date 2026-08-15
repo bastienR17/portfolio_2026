@@ -55,9 +55,14 @@ const router = createRouter({
   ],
   // Petit bonus : revient en haut de page automatiquement lors d'un changement de vue
   scrollBehavior(to) {
-    // Les ancres internes (#offre) gardent leur comportement de défilement.
-    if (to.hash) return { el: to.hash, behavior: 'smooth' }
-    return { top: 0 }
+    if (!to.hash) return { top: 0 }
+
+    // Les ancres internes (#offre) gardent leur défilement animé — sauf pour
+    // qui a demandé moins de mouvement. La règle `scroll-behavior: auto` de
+    // Main.css ne couvre que le défilement piloté par CSS : une option passée
+    // en JavaScript lui échappe, et l'animation se jouait quand même.
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    return { el: to.hash, behavior: reduced ? 'auto' : 'smooth' }
   }
 })
 

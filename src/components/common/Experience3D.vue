@@ -280,6 +280,6 @@ onBeforeUnmount(() => {
   <div
     ref="container"
     aria-hidden="true"
-    class="fixed top-0 left-0 w-full h-full -z-50 pointer-events-none"
+    class="fixed top-0 left-0 w-full h-full -z-50 pointer-events-none print:hidden"
   />
 </template>

@@ -528,3 +528,84 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* 10. Impression
+   Une page de prestations ou de contact finit parfois sur le bureau de
+   quelqu'un, imprimée pour circuler en réunion — le cas est courant dans le
+   secteur public. Sans cette feuille, ce papier-là sortait avec le décor et le
+   grain en aplats, le fond crème sur toute la surface, les ombres portées des
+   cartes et la bascule Dys posée en travers du texte.
+
+   Le décor, le grain, le curseur et la bascule sont écartés côté template
+   (variante `print:hidden`), là où ils sont déclarés. Ne restent ici que les
+   réglages transversaux. */
+@media print {
+  /* Palette d'encre : noir sur blanc, quel que soit le thème choisi à
+     l'écran. `.dark` est inclus dans le sélecteur, sans quoi imprimer depuis
+     le mode sombre couvrait la page d'aplats presque noirs. */
+  :root, .dark {
+    color-scheme: light;
+    --c-page: #FFFFFF;
+    --c-surface: #FFFFFF;
+    --c-surface-2: #FFFFFF;
+    --c-ink: #000000;
+    --c-ink-muted: #333333;
+    --c-line: #767676;
+    --c-line-soft: #C4C4C4;
+    --c-accent: #7A2A0E;      /* rouille assombri : reste lisible en niveaux de gris */
+    --c-accent-bright: #7A2A0E;
+    --c-accent-vivid: #FFFFFF; /* fond de bouton : blanc, l'encre pleine ne sert à rien */
+    --c-accent-vivid-ink: #000000;
+  }
+
+  /* Les ombres de la barre et du pied de page prolongent leur fond d'un écran
+     entier pour couvrir le rebond élastique (voir SiteNavbar.vue). Sur papier,
+     cette réserve n'a aucune raison d'être et couvrirait la feuille. */
+  nav, footer, .card-punch {
+    box-shadow: none !important;
+  }
+
+  /* Le tampon des cartes tenait à son ombre portée ; sans elle, un filet
+     suffit à conserver la délimitation. */
+  .card-punch {
+    border: 1px solid var(--c-line);
+  }
+
+  /* Le hero fait un écran de haut par construction : sur papier, cette
+     hauteur produisait une première page quasi vide. */
+  .hero-screen {
+    min-height: 0 !important;
+  }
+
+  .hero-veil, .hero-rules {
+    display: none !important;
+  }
+
+  /* Un lien souligné ne mène nulle part sur du papier : les adresses externes
+     sont écrites en toutes lettres. Les liens internes sont laissés tels
+     quels — leur chemin seul (« /contact ») n'aiderait personne. */
+  main a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    word-break: break-all;
+  }
+
+  /* Rien ne doit rester masqué par une animation d'apparition qui ne se
+     jouera jamais. */
+  .reveal-ready .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Un titre seul en bas de page annonce une section qui commence sur la
+     suivante. */
+  h1, h2, h3, h4 {
+    break-after: avoid;
+  }
+
+  p, li, blockquote, figure {
+    break-inside: avoid;
+    orphans: 3;
+    widows: 3;
+  }
+}

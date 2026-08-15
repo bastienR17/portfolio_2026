@@ -1,6 +1,6 @@
 <script setup>
-import { ref, onMounted, defineAsyncComponent } from 'vue'
-import { RouterView } from 'vue-router'
+import { ref, onMounted, nextTick, defineAsyncComponent } from 'vue'
+import { RouterView, useRouter, START_LOCATION } from 'vue-router'
 import SiteNavbar from './components/layout/SiteNavbar.vue'
 import SiteFooter from './components/layout/SiteFooter.vue'
 import FontSwitcher from './components/common/FontSwitcher.vue'
@@ -40,6 +40,30 @@ const DebugPanel = import.meta.env.DEV
 useSeo()
 
 const isLoading = ref(true)
+const contenu = ref(null)
+
+/**
+ * Rend le focus au contenu après chaque changement de page.
+ *
+ * Le lien cliqué disparaît avec l'ancienne vue : le focus retombait sur
+ * <body>, si bien qu'un lecteur d'écran n'annonçait rien du tout et que la
+ * tabulation suivante repartait du haut du document.
+ *
+ * Accroché au routeur et non au hook de transition : celui-ci n'est émis qu'à
+ * la fin de l'animation, qui peut ne jamais se terminer — sur un onglet en
+ * arrière-plan, le navigateur suspend les transitions. Une garantie
+ * d'accessibilité n'a pas à dépendre de la bonne fin d'une animation.
+ *
+ * La navigation initiale est écartée explicitement. Le hook est enregistré
+ * pendant le montage, donc il reçoit aussi la toute première résolution de
+ * route : sans ce test, le focus sautait sur le contenu dès l'arrivée sur le
+ * site, et la première tabulation démarrait après le lien d'évitement — qui
+ * devenait inatteignable, exactement l'inverse du but recherché.
+ */
+useRouter().afterEach((_to, from) => {
+  if (from === START_LOCATION) return
+  nextTick(() => contenu.value?.focus())
+})
 
 onMounted(() => {
   // Le rideau se lève dès que l'app est réellement prête. L'ancien délai fixe
@@ -69,7 +93,7 @@ onMounted(() => {
     <Experience3D />
 
     <!-- Grain décoratif, au-dessus de tout mais jamais interactif. -->
-    <div class="grain-overlay" aria-hidden="true"></div>
+    <div class="grain-overlay print:hidden" aria-hidden="true"></div>
 
     <!-- RGAA 12.7 — permet d'atteindre le contenu sans retraverser la
          navigation au clavier. Invisible tant qu'il n'a pas le focus. -->
@@ -87,7 +111,11 @@ onMounted(() => {
     <FontSwitcher />
     <MagneticCursor />
 
-    <main id="contenu" tabindex="-1" class="relative z-10 focus:outline-none">
+    <!-- tabindex="-1" rend ce bloc atteignable par le lien d'évitement et par
+         le focus posé après chaque navigation (voir le script) ; sans
+         focus:outline-none, un anneau entourerait toute la page alors que
+         personne ne l'a désignée. -->
+    <main ref="contenu" id="contenu" tabindex="-1" class="relative z-10 focus:outline-none">
       <router-view v-slot="{ Component }">
         <Transition name="page" mode="out-in">
           <component :is="Component" />

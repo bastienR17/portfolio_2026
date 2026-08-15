@@ -4,10 +4,10 @@
  * Lancé automatiquement par le script `prebuild`, donc le domaine n'a jamais
  * besoin d'être écrit en dur dans ces deux fichiers : changer SITE_URL suffit.
  */
-import { writeFileSync } from 'node:fs'
+import { writeFileSync, statSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { execFileSync } from 'node:child_process'
-import { SITE_URL, SITEMAP_ROUTES } from '../src/config/site.js'
+import { SITE, SITE_URL, SITEMAP_ROUTES } from '../src/config/site.js'
 
 const out = (name) => fileURLToPath(new URL(`../public/${name}`, import.meta.url))
 const root = fileURLToPath(new URL('..', import.meta.url))
@@ -62,5 +62,28 @@ Sitemap: ${SITE_URL}/sitemap.xml
 
 writeFileSync(out('sitemap.xml'), sitemap, 'utf8')
 writeFileSync(out('robots.txt'), robots, 'utf8')
+
+/**
+ * Garde-fou sur le poids annoncé du CV.
+ *
+ * Le lien de téléchargement affiche « PDF, 24 Ko » d'après SITE.cv.sizeKb.
+ * Un CV se remplace plusieurs fois par an, et rien n'oblige à penser à cette
+ * valeur en le remplaçant : au premier oubli, le site annoncerait un poids
+ * faux — pire que ne rien annoncer. Ce script tourne déjà au prebuild et
+ * écrit déjà dans public/ ; il est le mieux placé pour comparer les deux.
+ *
+ * Une tolérance de 1 Ko absorbe les arrondis sans laisser passer une vraie
+ * dérive.
+ */
+const cvPath = fileURLToPath(new URL(`../public${SITE.cv.path}`, import.meta.url))
+const actualKb = Math.round(statSync(cvPath).size / 1024)
+
+if (Math.abs(actualKb - SITE.cv.sizeKb) > 1) {
+  console.error(
+    `Le CV pèse ${actualKb} Ko mais SITE.cv.sizeKb annonce ${SITE.cv.sizeKb} Ko.\n` +
+      `Corriger la valeur dans src/config/site.js.`,
+  )
+  process.exit(1)
+}
 
 console.log(`SEO files generated for ${SITE_URL} (${SITEMAP_ROUTES.length} routes)`)

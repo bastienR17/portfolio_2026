@@ -5,7 +5,8 @@
     "projects": "Projets",
     "prestations": "Prestations",
     "contact": "Contact",
-    "downloadCV": "Télécharger CV"
+    "downloadCV": "Télécharger CV",
+    "downloadCV_meta": "{format}, {size} Ko"
   },
   "seo": {
     "home": {
@@ -150,8 +151,8 @@
     "skills_filterAll": "Toutes",
     "skills_filterLabel": "Filtrer les compétences",
     "skills_results": "Aucune compétence affichée | 1 compétence affichée | {count} compétences affichées",
-    "skills_hard_label": "Hard Skills",
-    "skills_soft_label": "Soft Skills",
+    "skills_hard_label": "Compétences techniques",
+    "skills_soft_label": "Compétences humaines",
     "skills_certifications_label": "Certifications",
     "skills_hard_pm_label": "Gestion de projet & AMOA",
     "skills_hard_ai_label": "IA & Automatisation",
@@ -365,11 +366,11 @@
     "sortBy": "Trier par",
     "sortOptions": {
       "recent": "Récents",
-      "stars": "Stars",
+      "stars": "Étoiles",
       "name": "Nom"
     },
     "loadMore": "Voir plus de projets",
-    "noProject": "Aucun projet trouvé dans cette stack.",
+    "noProject": "Aucun projet trouvé dans cette technologie.",
     "detail": "Détails"
   },
   "prestations": {
@@ -456,7 +457,7 @@
     "ip_title": "Propriété intellectuelle",
     "ip_desc": "L'ensemble des contenus présents sur ce site (textes, visuels, code) sont, sauf mention contraire, la propriété de Bastien Roc. Toute reproduction sans autorisation est interdite.",
     "data_title": "Données personnelles",
-    "data_desc": "Ce site ne dépose aucun cookie et n'utilise aucun traceur publicitaire. La mesure d'audience est assurée par Cloudflare Web Analytics, sans cookie ni identifiant permettant de vous reconnaître d'une visite à l'autre. Les polices de caractères sont hébergées sur ce site : les afficher n'entraîne aucune requête vers un tiers. Deux services extérieurs restent sollicités et reçoivent à ce titre votre adresse IP : Open-Meteo (open-meteo.com), pour la météo qui anime le décor, et GitHub (github.com), sur la page Projets uniquement, pour la liste des dépôts publics et leurs aperçus. Les échanges se font par e-mail, à votre initiative. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données en écrivant à l'adresse de contact."
+    "data_desc": "Ce site ne dépose aucun cookie et n'utilise aucun traceur publicitaire. La mesure d'audience est assurée par Cloudflare Web Analytics, sans cookie ni identifiant permettant de vous reconnaître d'une visite à l'autre. Les polices de caractères sont hébergées sur ce site : les afficher n'entraîne aucune requête vers un tiers. Un seul service extérieur est sollicité et reçoit à ce titre votre adresse IP : Open-Meteo (open-meteo.com), pour la météo qui anime le décor. Vos préférences d'affichage (thème clair ou sombre, police adaptée à la dyslexie) sont conservées par votre navigateur sur votre appareil et ne sont jamais transmises. Les échanges se font par e-mail, à votre initiative. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données en écrivant à l'adresse de contact."
   },
   "footer": {
     "rights": "Tous droits réservés.",

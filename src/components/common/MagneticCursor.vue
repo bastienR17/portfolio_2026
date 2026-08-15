@@ -109,7 +109,7 @@ onBeforeUnmount(() => {
     v-if="enabled"
     ref="dot"
     aria-hidden="true"
-    class="fixed top-0 left-0 rounded-full bg-accent pointer-events-none z-[999] transition-[width,height] duration-200 ease-out"
+    class="fixed top-0 left-0 rounded-full bg-accent pointer-events-none z-[999] print:hidden transition-[width,height] duration-200 ease-out"
     :class="isHovering ? 'w-7 h-7' : 'w-2.5 h-2.5'"
   />
 </template>

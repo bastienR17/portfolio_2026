@@ -30,7 +30,7 @@ onMounted(() => {
 <template>
   <button
     @click="toggleFont"
-    class="fixed bottom-6 right-6 z-[90] inline-flex items-center justify-center gap-2 h-12 px-4 border-2 border-accent shadow-lg transition-colors"
+    class="fixed bottom-6 right-6 z-[90] print:hidden inline-flex items-center justify-center gap-2 h-12 px-4 border-2 border-accent shadow-lg transition-colors"
     :class="isDyslexic ? 'bg-accent text-accent-ink' : 'bg-surface text-accent hover:bg-accent hover:text-accent-ink'"
     :aria-label="isDyslexic ? $t('accessibility.dys_disable') : $t('accessibility.dys_enable')"
     :aria-pressed="isDyslexic"

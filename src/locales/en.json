@@ -5,7 +5,8 @@
     "projects": "Projects",
     "prestations": "Services",
     "contact": "Contact",
-    "downloadCV": "Download CV"
+    "downloadCV": "Download CV",
+    "downloadCV_meta": "{format}, {size} KB"
   },
   "seo": {
     "home": {
@@ -456,7 +457,7 @@
     "ip_title": "Intellectual property",
     "ip_desc": "All content on this site (text, visuals, code) is, unless otherwise stated, the property of Bastien Roc. Any reproduction without authorization is prohibited.",
     "data_title": "Personal data",
-    "data_desc": "This site sets no cookies and uses no advertising trackers. Audience measurement is handled by Cloudflare Web Analytics, without cookies or any identifier that would recognise you from one visit to the next. Fonts are hosted on this site: displaying them triggers no third-party request. Two external services are still called and therefore receive your IP address: Open-Meteo (open-meteo.com), for the weather that drives the animated backdrop, and GitHub (github.com), on the Projects page only, for the list of public repositories and their preview images. Exchanges happen by email, at your initiative. Under the GDPR, you have the right to access, rectify and delete your data by writing to the contact address."
+    "data_desc": "This site sets no cookies and uses no advertising trackers. Audience measurement is handled by Cloudflare Web Analytics, without cookies or any identifier that would recognise you from one visit to the next. Fonts are hosted on this site: displaying them triggers no third-party request. A single external service is called and therefore receives your IP address: Open-Meteo (open-meteo.com), for the weather that drives the animated backdrop. Your display preferences (light or dark theme, dyslexia-friendly typeface) are kept by your browser on your device and are never transmitted. Exchanges happen by email, at your initiative. Under the GDPR, you have the right to access, rectify and delete your data by writing to the contact address."
   },
   "footer": {
     "rights": "All rights reserved.",

@@ -17,6 +17,20 @@ export const SITE = {
     linkedin: 'https://www.linkedin.com/in/bastien-roc/',
     github: 'https://github.com/bastienR17',
   },
+  /**
+   * Le format et le poids sont annoncés à côté du lien : un fichier en
+   * téléchargement doit dire ce qu'il est avant d'être ouvert (règle Opquast
+   * n° 135). Le poids est déclaré ici plutôt que dans les traductions pour
+   * n'exister qu'une fois, et generate-seo-files.js casse le build s'il ne
+   * correspond plus au fichier réel — un CV se remplace souvent, et une
+   * indication fausse est pire que pas d'indication.
+   */
+  cv: {
+    path: '/docs/RB_CV_2026.pdf',
+    filename: 'CV_Bastien_Roc.pdf',
+    format: 'PDF',
+    sizeKb: 24,
+  },
 }
 
 /**

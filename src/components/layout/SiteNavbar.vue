@@ -24,7 +24,13 @@
         B<span class="text-accent">.</span>R
       </router-link>
 
-      <div class="hidden md:flex items-center gap-7 text-sm uppercase tracking-wide">
+      <!-- Bascule à lg et non à md : à 768 px pile — un iPad en portrait — la
+           navigation complète réclamait 882 px et débordait donc de plus de
+           cent pixels. Le débordement ne se voyait pas pour autant, l'overflow-x
+           masqué du body coupant simplement la fin de la barre. En passant à
+           1024 px, les tailles intermédiaires reçoivent le menu déroulant, qui
+           a toute la place qu'il faut. -->
+      <div class="hidden lg:flex items-center gap-7 text-sm uppercase tracking-wide">
         <router-link
           v-for="(link, i) in links"
           :key="link.to"
@@ -40,19 +46,26 @@
           <ThemeSwitcher />
         </div>
 
+        <!-- Format et poids annoncés à côté du libellé : on ne fait pas
+             télécharger un fichier sans dire ce qu'il est (règle Opquast
+             n° 135). En petites capitales plutôt qu'entre parenthèses dans la
+             phrase, pour rester lisible sans allonger le bouton. -->
         <a
-          href="/docs/RB_CV_2026.pdf"
-          download="CV_Bastien_Roc.pdf"
-          class="px-4 py-2 bg-accent text-accent-ink font-medium normal-case hover:opacity-90 transition-opacity"
+          :href="SITE.cv.path"
+          :download="SITE.cv.filename"
+          class="inline-flex items-baseline gap-2 px-4 py-2 bg-accent text-accent-ink font-medium normal-case hover:opacity-90 transition-opacity"
         >
           {{ $t('nav.downloadCV') }}
+          <span class="text-xs opacity-80">
+            {{ $t('nav.downloadCV_meta', { format: SITE.cv.format, size: SITE.cv.sizeKb }) }}
+          </span>
         </a>
       </div>
 
       <button
         ref="burger"
         @click="isMenuOpen = !isMenuOpen"
-        class="md:hidden inline-flex items-center justify-center w-11 h-11 -mr-2 text-ink"
+        class="lg:hidden inline-flex items-center justify-center w-11 h-11 -mr-2 text-ink"
         :aria-expanded="isMenuOpen"
         aria-controls="mobile-menu"
         :aria-label="isMenuOpen ? $t('accessibility.menu_close') : $t('accessibility.menu_open')"
@@ -73,7 +86,7 @@
       <div
         v-if="isMenuOpen"
         id="mobile-menu"
-        class="absolute top-full left-0 w-full bg-page border-b border-line-soft md:hidden"
+        class="absolute top-full left-0 w-full bg-page border-b border-line-soft lg:hidden"
       >
         <div class="flex flex-col p-6 gap-1">
           <router-link
@@ -92,12 +105,15 @@
           </div>
 
           <a
-            href="/docs/RB_CV_2026.pdf"
+            :href="SITE.cv.path"
             @click="isMenuOpen = false"
-            download="CV_Bastien_Roc.pdf"
+            :download="SITE.cv.filename"
             class="w-full py-3 text-center bg-accent text-accent-ink font-medium"
           >
             {{ $t('nav.downloadCV') }}
+            <span class="text-xs opacity-80">
+              {{ $t('nav.downloadCV_meta', { format: SITE.cv.format, size: SITE.cv.sizeKb }) }}
+            </span>
           </a>
         </div>
       </div>
@@ -110,6 +126,7 @@ import { ref, watch, onBeforeUnmount } from 'vue'
 import { Menu, X } from 'lucide-vue-next'
 import ThemeSwitcher from '../common/ThemeSwitcher.vue'
 import LanguageSwitcher from '../common/LanguageSwitcher.vue'
+import { SITE } from '../../config/site.js'
 
 const isMenuOpen = ref(false)
 const burger = ref(null)

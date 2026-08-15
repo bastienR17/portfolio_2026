@@ -113,7 +113,7 @@ const formats = [
          La hauteur retire --nav-h : la barre de navigation est sticky mais
          reste dans le flux, un 100svh plein déborderait d'autant. -->
     <section
-      class="relative flex flex-col overflow-hidden min-h-[calc(100svh-var(--nav-h))]"
+      class="hero-screen relative flex flex-col overflow-hidden min-h-[calc(100svh-var(--nav-h))]"
     >
       <!-- Colonnes de repérage, façon gabarit d'imprimeur laissé apparent :
            1/3/4/3/1 sur douze en grand écran, ramenées à 2/8/2 en petit où
