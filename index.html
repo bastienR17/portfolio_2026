@@ -67,6 +67,20 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="%SITE_URL%/">
 
+    <!--
+      Le CV n'existait que dans le bundle JavaScript : un agent ou un robot qui
+      lit le HTML sans exécuter le script — c'est le cas de la quasi-totalité
+      des crawlers IA — ne pouvait pas le découvrir, alors que c'est la
+      ressource la plus utile du site pour qui cherche un profil. Déclaré ici,
+      il est atteignable dès la réponse HTTP, et sur les six routes : le
+      prérendu recopie cette tête telle quelle.
+
+      Le chemin vient de SITE.cv.path (src/config/site.js), comme le lien de la
+      barre de navigation — un CV se remplace souvent, et il ne doit exister
+      qu'un seul endroit à corriger.
+    -->
+    <link rel="alternate" type="application/pdf" href="%CV_PATH%" title="CV de Bastien Roc (PDF)">
+
     <!-- Open Graph (LinkedIn, Facebook, WhatsApp) -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="%SITE_URL%/">

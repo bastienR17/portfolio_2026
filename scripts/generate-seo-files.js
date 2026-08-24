@@ -1,10 +1,11 @@
 /**
- * Génère public/robots.txt et public/sitemap.xml à partir de src/config/site.js.
+ * Génère public/robots.txt, public/sitemap.xml et public/llms.txt à partir de
+ * src/config/site.js et des traductions françaises.
  *
  * Lancé automatiquement par le script `prebuild`, donc le domaine n'a jamais
  * besoin d'être écrit en dur dans ces deux fichiers : changer SITE_URL suffit.
  */
-import { writeFileSync, statSync } from 'node:fs'
+import { readFileSync, writeFileSync, statSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { execFileSync } from 'node:child_process'
 import { SITE, SITE_URL, SITEMAP_ROUTES } from '../src/config/site.js'
@@ -60,8 +61,57 @@ Allow: /
 Sitemap: ${SITE_URL}/sitemap.xml
 `
 
+/**
+ * llms.txt — la même information que le sitemap, mais lisible par un modèle.
+ *
+ * Le site est une application Vue : le HTML servi ne contient qu'un <div>
+ * vide, et tout le contenu n'apparaît qu'une fois le JavaScript exécuté. Les
+ * agents qui se contentent de lire la réponse HTTP — c'est le cas de la
+ * plupart — ne voient donc que les balises de tête. Ce fichier leur donne en
+ * texte brut ce que le visiteur voit à l'écran : les pages, ce qu'elles
+ * contiennent, comment me joindre et où trouver le CV.
+ *
+ * Convention llmstxt.org : non normalisée, mais lue par plusieurs agents, et
+ * sans coût ni risque puisqu'il s'agit d'un fichier statique de plus.
+ *
+ * Tout vient d'ici ou des traductions : rien à tenir à jour à la main quand
+ * une page est ajoutée ou qu'une description change.
+ */
+const fr = JSON.parse(
+  readFileSync(fileURLToPath(new URL('../src/locales/fr.json', import.meta.url)), 'utf8'),
+)
+
+const pages = SITEMAP_ROUTES.filter(({ noindex }) => !noindex)
+  .map(({ path, seoKey }) => {
+    const { title, description } = fr.seo[seoKey]
+    return `- [${title}](${SITE_URL}${path}) : ${description}`
+  })
+  .join('\n')
+
+const llms = `# ${SITE.name}
+
+> ${fr.seo.home.description}
+
+${fr.home.subtitle}
+
+## Pages
+
+${pages}
+
+## Ressources
+
+- [CV de ${SITE.name} (${SITE.cv.format}, ${SITE.cv.sizeKb} Ko)](${SITE_URL}${SITE.cv.path})
+
+## Contact
+
+- Email : ${SITE.email}
+- LinkedIn : ${SITE.social.linkedin}
+- GitHub : ${SITE.social.github}
+`
+
 writeFileSync(out('sitemap.xml'), sitemap, 'utf8')
 writeFileSync(out('robots.txt'), robots, 'utf8')
+writeFileSync(out('llms.txt'), llms, 'utf8')
 
 /**
  * Garde-fou sur le poids annoncé du CV.
@@ -86,4 +136,4 @@ if (Math.abs(actualKb - SITE.cv.sizeKb) > 1) {
   process.exit(1)
 }
 
-console.log(`SEO files generated for ${SITE_URL} (${SITEMAP_ROUTES.length} routes)`)
+console.log(`SEO files generated for ${SITE_URL} (${SITEMAP_ROUTES.length} routes) — sitemap.xml, robots.txt, llms.txt`)
