@@ -11,6 +11,7 @@
     "postbuild": "node scripts/prerender-routes.js",
     "seo:files": "node scripts/generate-seo-files.js",
     "fonts": "python scripts/subset-fonts.py",
+    "cv": "python scripts/cv/build-cv.py",
     "preview": "vite preview",
     "lint": "run-s lint:*",
     "lint:oxlint": "oxlint . --fix",

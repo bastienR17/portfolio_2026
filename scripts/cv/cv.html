@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Bastien Roc - CV</title>
+<style>
+/* Polices auto-hébergées du site : le CV et bastienroc.fr composent avec la
+   même paire. Chemins relatifs, résolus par Chrome au moment de l'impression. */
+@font-face{font-family:'Lexend';src:url('../../public/fonts/lexend.woff2') format('woff2');font-weight:400 700;font-style:normal}
+@font-face{font-family:'Instrument Serif';src:url('../../public/fonts/instrument-serif.woff2') format('woff2');font-weight:400;font-style:normal}
+
+/* Palette reprise de Main.css (thème clair). Le fond crème est réservé à la
+   colonne latérale : en pleine page il ferait un aplat d'encre à l'impression. */
+:root{
+  --page:#FFFFFF;
+  --band:#F7F2E7;
+  --ink:#17130E;
+  --muted:#4A443C;
+  --line:#8C8172;
+  --line-soft:#E2D8C4;
+  --accent:#9A3412;
+}
+
+@page{size:A4;margin:0}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:'Lexend',system-ui,sans-serif;
+  font-size:8.4pt;line-height:1.5;
+  color:var(--ink);background:var(--page);
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.sheet{width:210mm;min-height:297mm;display:flex;flex-direction:column}
+
+/* Bandeau de tête */
+.masthead{padding:9mm 13mm 4mm}
+.name{
+  font-family:'Instrument Serif',Georgia,serif;font-weight:400;
+  font-size:30pt;line-height:1;letter-spacing:-.01em;margin:0;
+}
+.role{margin:3.5mm 0 0;font-size:9.4pt;font-weight:500;color:var(--muted)}
+.masthead hr{border:0;border-top:1px solid var(--line-soft);margin:4mm 0 2.5mm}
+.avail{margin:0;font-size:8.6pt;font-weight:600;color:var(--accent)}
+.avail span{color:var(--muted);font-weight:400}
+
+/* Corps en deux colonnes */
+.body{display:flex;flex:1}
+.aside{width:58mm;flex:none;background:var(--band);padding:7mm 8mm 8mm 13mm}
+.main{flex:1;padding:7mm 13mm 8mm 9mm}
+
+h2{
+  font-size:7.2pt;font-weight:700;text-transform:uppercase;letter-spacing:.14em;
+  color:var(--accent);margin:0 0 2.5mm;padding-bottom:1.2mm;
+  border-bottom:1px solid var(--line-soft);
+}
+.main h2{margin-top:5.4mm}
+.main h2:first-of-type{margin-top:3.5mm}
+.aside h2{margin-top:4.5mm}
+.aside h2:first-of-type{margin-top:0}
+
+p{margin:0 0 2mm}
+.lede{font-size:8.7pt;line-height:1.5;color:var(--muted);margin:0}
+.lede strong{color:var(--ink);font-weight:600}
+
+/* Blocs datés : expérience, formation, travaux */
+.item{margin-bottom:3.4mm;break-inside:avoid}
+.item:last-child{margin-bottom:0}
+.item-head{display:flex;justify-content:space-between;align-items:baseline;gap:4mm}
+.item-title{font-size:8.9pt;font-weight:600;margin:0}
+.item-date{font-size:7.4pt;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums;margin:0}
+.item-org{font-size:7.8pt;color:var(--muted);margin:.4mm 0 1.4mm}
+ul{margin:0;padding:0;list-style:none}
+.item li{position:relative;padding-left:3.2mm;margin-bottom:.7mm;color:var(--muted);line-height:1.42}
+.item li::before{content:'';position:absolute;left:0;top:1.55mm;width:1.4mm;height:1px;background:var(--line)}
+.item li strong{color:var(--ink);font-weight:600}
+
+/* Offre */
+.offer{display:grid;grid-template-columns:1fr 1fr;gap:1.4mm 6mm;margin:0}
+.offer div{border-top:1px solid var(--line-soft);padding-top:1.4mm}
+.offer dt{font-size:8.2pt;font-weight:600;margin-bottom:.3mm}
+.offer dd{margin:0;font-size:7.6pt;color:var(--muted);line-height:1.4}
+
+/* Colonne latérale */
+.aside p,.aside li{font-size:7.4pt;line-height:1.4}
+.contact{margin:0;padding:0;list-style:none}
+.contact li{margin-bottom:1mm;color:var(--muted);word-break:break-word}
+.contact li strong{display:block;color:var(--ink);font-weight:600;font-size:7.6pt}
+.skill{margin-bottom:2.2mm}
+.skill-label{font-size:7.2pt;font-weight:600;color:var(--ink);margin:0 0 .8mm}
+.skill-list{color:var(--muted);line-height:1.4;margin:0}
+.lang b{color:var(--ink);font-weight:600}
+.cert{margin-bottom:1.8mm}
+.cert strong{display:block;font-weight:600;font-size:8pt}
+.cert span{color:var(--muted);font-size:7.4pt}
+.edu{margin-bottom:2mm}
+.edu strong{display:block;font-weight:600;font-size:8pt;line-height:1.3}
+.edu span{display:block;color:var(--muted);font-size:7.4pt;line-height:1.35}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header class="masthead">
+    <h1 class="name">Bastien Roc</h1>
+    <p class="role">AMOA &middot; Conduite du changement &middot; Pilotage agile &middot; IA &amp; automatisation</p>
+    <hr>
+    <p class="avail">Disponible pour des missions à partir de janvier 2027
+      <span>&mdash; Paris / Île-de-France et distanciel</span></p>
+  </header>
+
+  <div class="body">
+
+    <aside class="aside">
+      <h2>Contact</h2>
+      <ul class="contact">
+        <li><strong>contact@bastienroc.fr</strong></li>
+        <li><strong>06 51 59 37 37</strong></li>
+        <li>bastienroc.fr</li>
+        <li>linkedin.com/in/bastien-roc</li>
+        <li>github.com/bastienR17</li>
+        <li>Paris / Région parisienne (95)</li>
+      </ul>
+
+      <h2>Formation</h2>
+      <div class="edu">
+        <strong>Diplôme d&rsquo;Ingénieur</strong>
+        <span>Management de la Transformation Digitale</span>
+        <span>IIM / ESILV, Nanterre (92) &mdash; 2024&ndash;2026</span>
+      </div>
+      <div class="edu">
+        <strong>Bachelor &mdash; Chef de Projet Digital</strong>
+        <span>IIM Digital School, Nanterre (92) &mdash; 2020&ndash;2024</span>
+      </div>
+
+      <h2>Compétences</h2>
+      <div class="skill">
+        <p class="skill-label">Gestion de projet &amp; AMOA</p>
+        <p class="skill-list">Recueil du besoin &middot; Cahier des charges &middot; Agile Scrum &middot; Pilotage &middot; Suivi de KPI &middot; Conduite du changement &middot; Gestion d&rsquo;équipe</p>
+      </div>
+      <div class="skill">
+        <p class="skill-label">IA &amp; automatisation</p>
+        <p class="skill-list">RAG &middot; Chunking sémantique &middot; Architecture MCP &middot; CI/CD &middot; Prompting</p>
+      </div>
+      <div class="skill">
+        <p class="skill-label">Technique &amp; outils</p>
+        <p class="skill-list">HTML / CSS &middot; JavaScript &middot; PHP / MySQL &middot; Symfony &middot; WordPress &middot; Jira &middot; GitHub &middot; Google Analytics &middot; Suite Adobe &middot; Excel &middot; UX / UI</p>
+      </div>
+
+      <h2>Certifications</h2>
+      <div class="cert">
+        <strong>Opquast</strong>
+        <span>Qualité &amp; bonnes pratiques web &mdash; 800+/1000</span>
+      </div>
+      <div class="cert">
+        <strong>PSM I</strong>
+        <span>Professional Scrum Master &mdash; Scrum.org</span>
+      </div>
+
+      <h2>Langues</h2>
+      <p class="skill-list lang"><b>Français</b> langue maternelle &middot; <b>Anglais</b> B2 (CECRL)</p>
+    </aside>
+
+    <main class="main">
+      <p class="lede">J&rsquo;accompagne les projets de transformation digitale du cadrage jusqu&rsquo;à
+      l&rsquo;adoption réelle par les équipes. J&rsquo;ai piloté le déploiement d&rsquo;une solution de
+      recherche documentaire <strong>adoptée par 100 % de 2 500 agents</strong> d&rsquo;un ministère,
+      mis en place l&rsquo;assistant IA qui s&rsquo;appuie dessus, et <strong>formé 100
+      collaborateurs</strong> aux nouveaux outils. Avec un socle technique (PHP/Symfony, JavaScript),
+      je fais le lien entre les équipes métier et les équipes techniques.</p>
+
+      <h2>Ce sur quoi j&rsquo;interviens</h2>
+      <dl class="offer">
+        <div><dt>AMOA &amp; cadrage</dt><dd>Traduire un besoin métier en projet pilotable, coordonner métier et technique.</dd></div>
+        <div><dt>Conduite du changement</dt><dd>Plan de communication, formation, mesure de l&rsquo;adoption.</dd></div>
+        <div><dt>Pilotage de projet agile</dt><dd>Structuration, animation des rituels, priorisation du backlog.</dd></div>
+        <div><dt>IA &amp; automatisation</dt><dd>Assistants documentaires (RAG), automatisation de processus métier.</dd></div>
+      </dl>
+
+      <h2>Expérience</h2>
+      <div class="item">
+        <div class="item-head">
+          <p class="item-title">Chef de projet &mdash; alternance puis CDD</p>
+          <p class="item-date">Oct. 2024 &ndash; Déc. 2026</p>
+        </div>
+        <p class="item-org">Ministères de la Transition écologique &mdash; La Défense</p>
+        <ul>
+          <li>Déploiement d&rsquo;une solution de recherche d&rsquo;information <strong>adoptée par 100 % des 2 500 collaborateurs</strong> concernés, piloté en AMOA auprès des équipes métier et techniques.</li>
+          <li>Mise en place d&rsquo;<strong>Aidy</strong>, assistant IA (RAG) adossé aux données de cette solution : pipelines CI/CD, chunking sémantique des corpus, architecture MCP.</li>
+          <li>Montée en compétences de <strong>100 collaborateurs</strong> sur les nouveaux logiciels et outils d&rsquo;IA.</li>
+          <li>Conception d&rsquo;une vingtaine de supports pédagogiques pour réduire les résistances au changement.</li>
+          <li>Définition et suivi de KPI ; automatisation de plusieurs processus internes.</li>
+        </ul>
+      </div>
+      <div class="item">
+        <div class="item-head">
+          <p class="item-title">Assistant chef de projet digital front-end &mdash; alternance</p>
+          <p class="item-date">Sept. 2023 &ndash; Fév. 2024</p>
+        </div>
+        <p class="item-org">Sephora &mdash; Neuilly-sur-Seine</p>
+        <ul>
+          <li>Traitement d&rsquo;une cinquantaine de demandes d&rsquo;intégration front-end par mois, dans des délais courts.</li>
+          <li>Planification et coordination des missions confiées aux intégrateurs ; contribution à l&rsquo;évolution des outils IT.</li>
+        </ul>
+      </div>
+      <div class="item">
+        <div class="item-head">
+          <p class="item-title">Chefferie de projet &amp; développement web &mdash; stage</p>
+          <p class="item-date">Mai &ndash; Juin 2023</p>
+        </div>
+        <p class="item-org">SNCF D2D &mdash; Saint-Denis</p>
+        <ul>
+          <li>Livraison d&rsquo;un projet web en méthode Agile : gestion d&rsquo;équipe et développement orienté objet.</li>
+        </ul>
+      </div>
+
+      <h2>Travaux</h2>
+      <div class="item">
+        <div class="item-head">
+          <p class="item-title">Mémoire &mdash; «&nbsp;Former à l&rsquo;IA sans effrayer&nbsp;»</p>
+          <p class="item-date">2025 &ndash; 2026</p>
+        </div>
+        <ul>
+          <li>Concevoir et évaluer des méthodes de formation accessibles pour favoriser l&rsquo;adoption de l&rsquo;IA par des collaborateurs réticents aux nouvelles technologies.</li>
+        </ul>
+      </div>
+      <h2>Engagement associatif</h2>
+      <div class="item">
+        <div class="item-head">
+          <p class="item-title">Consultant, puis trésorier &mdash; association Leon&rsquo;Art (35 membres)</p>
+          <p class="item-date">2023 &ndash; 2026</p>
+        </div>
+        <ul>
+          <li>Refonte de l&rsquo;organisation interne, de l&rsquo;identité et du modèle de recrutement ; gestion d&rsquo;un budget annuel de 2 000 € et reporting.</li>
+        </ul>
+      </div>
+    </main>
+
+  </div>
+</div>
+</body>
+</html>
