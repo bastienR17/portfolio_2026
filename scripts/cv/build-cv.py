@@ -16,6 +16,7 @@ Usage :
 Dépendances : Chrome ou Edge installé, et pdfplumber pour le contrôle.
 """
 
+import re
 import shutil
 import subprocess
 import sys
@@ -25,6 +26,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent.parent
 SOURCE = ROOT / "scripts" / "cv" / "cv.html"
 TARGET = ROOT / "public" / "docs" / "RB_CV_2026.pdf"
+FONTS = ROOT / "public" / "fonts"
+
+# Graisses de Lexend réellement utilisées par la feuille de style.
+WEIGHTS = (400, 500, 600, 700)
 
 CANDIDATES = [
     r"C:\Program Files\Google\Chrome\Application\chrome.exe",
@@ -45,6 +50,48 @@ def find_browser():
     sys.exit("Aucun navigateur Chromium trouvé. Installer Chrome ou Edge.")
 
 
+def prepare_fonts(workdir):
+    """
+    Décline Lexend en instances statiques, une par graisse utilisée.
+
+    Chrome n'embarque une vraie police que s'il peut la prendre telle quelle.
+    Devant une police variable qu'il doit instancier, il bascule en Type3 :
+    chaque lettre devient un dessin vectoriel. Le PDF passait alors de 8 Ko à
+    295 Ko, et les analyseurs qui ne gèrent pas le Type3 n'y lisaient plus rien.
+    Le site, lui, garde le fichier variable : une seule requête pour toutes les
+    graisses, ce qui est le bon arbitrage sur le web mais pas à l'impression.
+
+    Les fichiers produits sont temporaires : rien n'est ajouté au dépôt.
+    """
+    try:
+        from fontTools.ttLib import TTFont
+        from fontTools.varLib.instancer import instantiateVariableFont
+    except ImportError:
+        sys.exit("fontTools manquant. Lancer : pip install fonttools brotli")
+
+    faces = []
+    for weight in WEIGHTS:
+        font = TTFont(FONTS / "lexend.woff2")
+        instantiateVariableFont(font, {"wght": weight}, inplace=True, updateFontNames=True)
+        font.flavor = None
+        out = workdir / f"lexend-{weight}.ttf"
+        font.save(out)
+        faces.append(
+            f"@font-face{{font-family:'Lexend';src:url('{out.as_uri()}') "
+            f"format('truetype');font-weight:{weight};font-style:normal}}"
+        )
+
+    serif = TTFont(FONTS / "instrument-serif.woff2")
+    serif.flavor = None
+    out = workdir / "instrument-serif.ttf"
+    serif.save(out)
+    faces.append(
+        f"@font-face{{font-family:'Instrument Serif';src:url('{out.as_uri()}') "
+        f"format('truetype');font-weight:400;font-style:normal}}"
+    )
+    return "\n".join(faces)
+
+
 def main():
     if not SOURCE.is_file():
         sys.exit(f"Source introuvable : {SOURCE}")
@@ -54,17 +101,34 @@ def main():
 
     # Profil jetable : sans ça, une instance déjà ouverte capte la commande et
     # le PDF n'est jamais écrit.
-    with tempfile.TemporaryDirectory() as profile:
+    with tempfile.TemporaryDirectory() as tmp:
+        workdir = Path(tmp)
+        html = SOURCE.read_text(encoding="utf-8")
+
+        # La source garde les @font-face du site pour rester lisible dans un
+        # navigateur ; on ne les échange qu'à l'impression.
+        html, count = re.subn(
+            r"@font-face\{font-family:'(?:Lexend|Instrument Serif)'.*?\}\n?",
+            "",
+            html,
+        )
+        if count != 2:
+            sys.exit(f"prepare: {count} règle(s) @font-face trouvée(s) au lieu de 2 dans cv.html")
+        html = html.replace("<style>", "<style>\n" + prepare_fonts(workdir), 1)
+
+        page = workdir / "cv.html"
+        page.write_text(html, encoding="utf-8")
+
         result = subprocess.run(
             [
                 browser,
                 "--headless",
                 "--disable-gpu",
                 "--no-sandbox",
-                f"--user-data-dir={profile}",
+                f"--user-data-dir={workdir / 'profile'}",
                 "--no-pdf-header-footer",
                 f"--print-to-pdf={TARGET}",
-                SOURCE.as_uri(),
+                page.as_uri(),
             ],
             capture_output=True,
             text=True,
@@ -91,8 +155,11 @@ def verify():
 
     # Mots anormalement longs = espaces manquants dans le flux de texte.
     glued = [w for w in text.split() if len(w) > 28]
+    raw = TARGET.read_bytes()
+    type3 = raw.count(b"/Type3")
+    size_kb = TARGET.stat().st_size / 1024
 
-    print(f"  {TARGET.name} — {TARGET.stat().st_size / 1024:.0f} Ko, {pages} page(s)")
+    print(f"  {TARGET.name} - {size_kb:.0f} Ko, {pages} page(s)")
     print(f"  format   : {page.width:.0f}x{page.height:.0f} pt")
     print(f"  polices  : {', '.join(fonts)}")
 
@@ -101,6 +168,12 @@ def verify():
         problems.append(f"{pages} pages au lieu d'une seule")
     if glued:
         problems.append(f"{len(glued)} mots collés (espaces manquants) : {glued[0][:50]}")
+    if type3:
+        problems.append(f"{type3} police(s) en Type3 — les polices sont vectorisées, PDF inutilement lourd")
+    # Les tirets longs ont été bannis du site ; ils ne doivent pas revenir ici.
+    for dash, name in (("—", "cadratin"), ("–", "demi-cadratin")):
+        if dash in text:
+            problems.append(f"{text.count(dash)} tiret(s) {name} — n'utiliser que le trait d'union")
     for expected in ("contact@bastienroc.fr", "PSM I", "janvier 2027"):
         if expected not in text:
             problems.append(f"« {expected} » absent du PDF")
@@ -111,7 +184,7 @@ def verify():
             print(f"    - {p}")
         sys.exit(1)
 
-    print("  contrôle : une page, aucun mot collé, mentions clés présentes")
+    print("  contrôle : une page, vraies polices embarquées, aucun mot collé, aucun tiret long")
 
 
 if __name__ == "__main__":

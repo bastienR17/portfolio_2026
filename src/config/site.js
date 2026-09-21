@@ -29,7 +29,7 @@ export const SITE = {
     path: '/docs/RB_CV_2026.pdf',
     filename: 'CV_Bastien_Roc.pdf',
     format: 'PDF',
-    sizeKb: 24,
+    sizeKb: 52,
   },
 }
 
