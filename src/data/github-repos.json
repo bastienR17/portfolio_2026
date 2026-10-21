@@ -15,10 +15,7 @@
     "id": 620698079,
     "name": "Symfony_project_Ski_station",
     "description": "Site de station de ski en Symfony et Tailwind — projet de groupe où j'ai développé le système de badges utilisateurs et l'affichage des webcams.",
-    "languages": [
-      "PHP",
-      "Twig"
-    ],
+    "languages": [],
     "updated_at": "2026-08-13T19:28:21Z",
     "html_url": "https://github.com/bastienR17/Symfony_project_Ski_station",
     "stargazers_count": 0
@@ -27,9 +24,7 @@
     "id": 594180680,
     "name": "Tartiflette",
     "description": "Site communautaire de films basé sur l'API The Movie DB (PHP, Tailwind), avec albums partagés — projet de groupe où j'ai réalisé l'intégration front.",
-    "languages": [
-      "PHP"
-    ],
+    "languages": [],
     "updated_at": "2026-08-13T19:28:18Z",
     "html_url": "https://github.com/bastienR17/Tartiflette",
     "stargazers_count": 0

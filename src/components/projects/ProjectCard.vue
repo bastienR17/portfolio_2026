@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { ArrowUpRight } from 'lucide-vue-next'
 
 const props = defineProps({
@@ -21,6 +22,21 @@ const nameScale = computed(() => {
   if (length > 14) return 'text-3xl'
   return 'text-4xl'
 })
+
+/**
+ * Date de dernière mise à jour du dépôt, dans la langue affichée.
+ *
+ * `toLocaleDateString()` sans argument suit la langue de l'environnement :
+ * celle de Node au prérendu, celle du visiteur ensuite. Le HTML servi
+ * annonçait donc « 9/21/2026 » là où le navigateur écrivait « 21/09/2026 »,
+ * et chaque carte était reconstruite à la reprise du HTML. La langue de l'app
+ * est la seule qui ait du sens ici, et elle donne le même résultat des deux
+ * côtés.
+ */
+const { locale } = useI18n()
+const updatedAt = computed(() =>
+  new Date(props.project.updated_at).toLocaleDateString(locale.value === 'en' ? 'en-GB' : 'fr-FR'),
+)
 </script>
 
 <template>
@@ -66,7 +82,7 @@ const nameScale = computed(() => {
 
       <div class="flex items-center justify-between pt-4 mt-auto border-t border-line-soft">
         <time :datetime="project.updated_at" class="text-xs text-ink-muted">
-          {{ new Date(project.updated_at).toLocaleDateString() }}
+          {{ updatedAt }}
         </time>
 
         <a
