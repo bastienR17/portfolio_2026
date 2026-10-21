@@ -1,5 +1,18 @@
 [
   {
+    "id": 1158702736,
+    "name": "portfolio_2026",
+    "description": "Nouveaux portfolio 2026",
+    "languages": [
+      "Vue",
+      "JavaScript"
+    ],
+    "updated_at": "2026-10-21T21:30:04Z",
+    "html_url": "https://github.com/bastienR17/portfolio_2026",
+    "stargazers_count": 0,
+    "pushed_at": "2026-10-21T21:30:00Z"
+  },
+  {
     "id": 1420648002,
     "name": "DSFR-VScode",
     "description": "Extension VS Code qui affiche le vrai rendu DSFR des pages MkDocs DSFR (Doc SIRH) dans l'aperçu Markdown : alertes, accordéons, tuiles, onglets… Signale les erreurs ligne par ligne, propose l'autocomplétion des composants et des snippets dsfr-.",
@@ -10,19 +23,6 @@
     "html_url": "https://github.com/bastienR17/DSFR-VScode",
     "stargazers_count": 0,
     "pushed_at": "2026-10-21T20:38:53Z"
-  },
-  {
-    "id": 1158702736,
-    "name": "portfolio_2026",
-    "description": "Nouveaux portfolio 2026",
-    "languages": [
-      "Vue",
-      "JavaScript"
-    ],
-    "updated_at": "2026-10-21T21:00:29Z",
-    "html_url": "https://github.com/bastienR17/portfolio_2026",
-    "stargazers_count": 0,
-    "pushed_at": "2026-10-21T21:00:25Z"
   },
   {
     "id": 620698079,

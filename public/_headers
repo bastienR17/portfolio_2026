@@ -17,3 +17,42 @@
 
 /llms.txt
   Cache-Control: public, max-age=3600
+
+# ── En-têtes de sécurité ───────────────────────────────────────────────────
+#
+# Cloudflare applique TOUTES les règles qui correspondent à une URL, pas
+# seulement la première : les blocs de cache ci-dessus restent valables, ce
+# bloc-ci ne fait que s'ajouter.
+#
+# Pensé pour un site 100 % statique : pas de backend, pas de formulaire, pas
+# de tiers en dehors de l'API météo. Toute source non listée est donc une
+# source qui n'a aucune raison d'exister — c'est ce qui permet une CSP aussi
+# fermée, là où un site avec régie publicitaire ou analytics devrait l'ouvrir.
+#
+# script-src porte le sha256 du script anti-flash de index.html (thème et
+# police avant le premier paint). ATTENTION : toute modification de ce script,
+# même d'un espace, invalide le hash et le navigateur refusera de l'exécuter
+# — le flash clair revient en mode sombre. Recalculer avec :
+#   node -e "const{readFileSync}=require('node:fs');const{createHash}=require('node:crypto');const m=readFileSync('dist/index.html','utf8').match(/<script>([\s\S]*?)<\/script>/);console.log('sha256-'+createHash('sha256').update(m[1],'utf8').digest('base64'))"
+#
+# style-src garde 'unsafe-inline' et ne peut pas faire autrement : Vue écrit
+# des attributs style="" pour chaque liaison :style, et three.js dimensionne
+# le canvas de la même façon. Les hash ne couvrent pas les attributs, seuls
+# les blocs <style>. Le risque est faible — injecter du style ne permet pas
+# d'exécuter du code — et c'est le compromis habituel de toute application Vue.
+#
+# img-src autorise data: pour les SVG encodés de Main.css : masques des cadres
+# dessinés à la main et texture de grain. Ils ne font pas de requête réseau,
+# ils sont dans la feuille de style.
+#
+# connect-src n'ouvre qu'api.open-meteo.com, le seul appel réseau du site
+# (ambiance de la scène 3D). Si cet appel disparaît un jour, retirer l'entrée :
+# une CSP qui autorise plus que nécessaire ne protège que sur le papier.
+/*
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; script-src 'self' 'sha256-LqGNVpaGPch5Vk6xoi1FFFTkPcOmXXIxCfb56WcpuKs='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.open-meteo.com; manifest-src 'self'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), camera=(), display-capture=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=()
+  Cross-Origin-Opener-Policy: same-origin
+  X-Frame-Options: DENY
