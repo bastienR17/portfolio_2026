@@ -91,24 +91,43 @@
     -->
     <link rel="alternate" type="application/pdf" href="%CV_PATH%" title="CV de Bastien Roc (PDF)">
 
-    <!-- Open Graph (LinkedIn, Facebook, WhatsApp) -->
+    <!-- Open Graph (LinkedIn, Facebook, WhatsApp)
+
+         Les dimensions viennent de SITE.ogImage : sans elles, LinkedIn et
+         Slack ne savent pas quelle place réserver et dessinent d'abord une
+         carte sans vignette, qui se réorganise à l'arrivée de l'image. Le
+         texte de remplacement vient des traductions — c'est une phrase lue
+         par un humain quand l'image ne s'affiche pas. -->
     <meta property="og:type" content="website">
+    <meta property="og:site_name" content="%SITE_NAME%">
     <meta property="og:url" content="%SITE_URL%/">
     <meta property="og:title" content="Bastien Roc - Freelance AMOA, conduite du changement & IA">
     <meta property="og:description" content="Prestations indépendantes en transformation digitale : AMOA & cadrage, conduite du changement, pilotage agile et IA & automatisation.">
-    <meta property="og:image" content="%SITE_URL%/og-image.jpg">
+    <meta property="og:image" content="%OG_IMAGE%">
+    <meta property="og:image:width" content="%OG_IMAGE_WIDTH%">
+    <meta property="og:image:height" content="%OG_IMAGE_HEIGHT%">
+    <meta property="og:image:alt" content="%OG_IMAGE_ALT%">
     <meta property="og:locale" content="fr_FR">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Bastien Roc - Freelance AMOA, conduite du changement & IA">
     <meta name="twitter:description" content="Prestations indépendantes en transformation digitale : AMOA, conduite du changement, pilotage agile et IA & automatisation.">
-    <meta name="twitter:image" content="%SITE_URL%/og-image.jpg">
+    <meta name="twitter:image" content="%OG_IMAGE%">
+    <meta name="twitter:image:alt" content="%OG_IMAGE_ALT%">
 
     <!--
       Données structurées : type Person et non ProfessionalService /
       LocalBusiness, qui impliqueraient une entité commerciale immatriculée.
       À faire évoluer une fois le SIRET obtenu.
+
+      L'adresse se limite à la ville et au pays : les titres et descriptions
+      se positionnent sur « Paris » sans que rien, dans les données
+      structurées, ne le confirme. Pas de rue ni de code postal — Person
+      décrit ici une personne, pas un établissement recevant du public, et
+      déclarer une adresse complète serait à la fois faux et inutile.
+      `areaServed` sur chaque Service dit la zone réellement couverte, qui
+      déborde Paris puisque les missions se font aussi à distance.
     -->
     <script type="application/ld+json">
     {
@@ -118,7 +137,16 @@
       "url": "%SITE_URL%/",
       "jobTitle": "Manager de la Transformation Digitale",
       "email": "mailto:contact@bastienroc.fr",
-      "image": "%SITE_URL%/og-image.jpg",
+      "image": "%OG_IMAGE%",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Paris",
+        "addressCountry": "FR"
+      },
+      "workLocation": {
+        "@type": "Place",
+        "name": "Paris, Île-de-France"
+      },
       "sameAs": [
         "https://www.linkedin.com/in/bastien-roc/",
         "https://github.com/bastienR17"
@@ -137,6 +165,7 @@
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
+            "areaServed": { "@type": "Country", "name": "France" },
             "name": "AMOA & Cadrage",
             "description": "Traduction d'un besoin métier en projet pilotable et coordination entre équipes métier et techniques."
           }
@@ -145,6 +174,7 @@
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
+            "areaServed": { "@type": "Country", "name": "France" },
             "name": "Conduite du changement",
             "description": "Accompagnement de l'adoption d'un nouvel outil ou d'une nouvelle organisation, du plan de communication à la mesure de l'adoption."
           }
@@ -153,6 +183,7 @@
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
+            "areaServed": { "@type": "Country", "name": "France" },
             "name": "Pilotage de projet agile",
             "description": "Structuration et facilitation de projets en méthode agile, animation des rituels et priorisation du backlog."
           }
@@ -161,6 +192,7 @@
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
+            "areaServed": { "@type": "Country", "name": "France" },
             "name": "IA & Automatisation",
             "description": "Déploiement d'assistants IA documentaires et automatisation de processus métier."
           }

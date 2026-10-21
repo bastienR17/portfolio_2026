@@ -12,7 +12,22 @@ export const SITE = {
   name: 'Bastien Roc',
   email: 'contact@bastienroc.fr',
   locale: 'fr_FR',
-  ogImage: `${SITE_URL}/og-image.jpg`,
+  /**
+   * Les dimensions sont déclarées parce que LinkedIn, Slack et WhatsApp
+   * réservent la place de la vignette avant de l'avoir téléchargée : sans
+   * elles, la carte s'affiche d'abord sans image, puis se réorganise — quand
+   * l'aperçu n'est pas simplement rendu en petit format. Elles doivent
+   * correspondre au fichier réel ; generate-seo-files.js casse le build
+   * sinon, comme pour le poids du CV.
+   *
+   * Le texte de remplacement vit dans les traductions (`seo.ogImageAlt`) :
+   * c'est une phrase lue par un humain, et elle suit donc la langue affichée.
+   */
+  ogImage: {
+    url: `${SITE_URL}/og-image.jpg`,
+    width: 1200,
+    height: 630,
+  },
   social: {
     linkedin: 'https://www.linkedin.com/in/bastien-roc/',
     github: 'https://github.com/bastienR17',

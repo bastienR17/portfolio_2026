@@ -30,6 +30,37 @@ import { fileURLToPath } from 'node:url'
 const USER = 'Bastienr17'
 const API = `https://api.github.com/users/${USER}/repos?sort=updated&per_page=100`
 
+/**
+ * Jeton d'API, facultatif.
+ *
+ * Sans jeton, GitHub plafonne à 60 requêtes par heure et par ADRESSE IP. Deux
+ * conséquences : trois ou quatre builds d'affilée épuisent le quota depuis un
+ * poste de travail, et en CI l'adresse est partagée, donc le quota peut être
+ * déjà vide à cause de quelqu'un d'autre. Avec jeton : 5 000 par heure et par
+ * jeton, compté sur le jeton et non sur l'adresse.
+ *
+ * Un jeton « fine-grained » en lecture seule suffit, sans aucune permission
+ * supplémentaire : tout ce qui est lu ici est public, le jeton ne sert qu'à
+ * identifier l'appelant. Son absence n'est pas une erreur — le script repasse
+ * simplement sur le quota anonyme, qui suffit à un build isolé.
+ *
+ * Lu dans l'environnement (variable de build côté hébergeur) ou, en local,
+ * dans un .env.local que .gitignore exclut déjà via `*.local`.
+ */
+const envFile = fileURLToPath(new URL('../.env.local', import.meta.url))
+if (!process.env.GITHUB_TOKEN && existsSync(envFile)) {
+  // Node 20.12+. Un .env.local illisible ne doit pas empêcher le build : le
+  // jeton n'est qu'une optimisation de quota.
+  try {
+    process.loadEnvFile(envFile)
+  } catch {
+    console.warn('GitHub repos: .env.local illisible, appels anonymes')
+  }
+}
+
+const headers = { Accept: 'application/vnd.github+json' }
+if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`
+
 /** Projets de groupe auxquels Bastien a réellement contribué : gardés bien que forkés. */
 const FEATURED_FORKS = ['Tartiflette', 'Symfony_project_Ski_station']
 
@@ -52,6 +83,10 @@ const keep = (repo) => ({
   updated_at: repo.updated_at,
   html_url: repo.html_url,
   stargazers_count: repo.stargazers_count ?? 0,
+  // Seul champ gardé sans être affiché : il sert de clé de fraîcheur au
+  // prochain build (voir resolveLanguages). Une date ISO par dépôt, c'est le
+  // prix d'une quinzaine de requêtes économisées.
+  pushed_at: repo.pushed_at,
 })
 
 /** Part d'octets en dessous de laquelle un langage relève de l'accessoire. */
@@ -91,10 +126,31 @@ const previous = () => {
   }
 }
 
+/**
+ * Lue une seule fois : elle sert deux fois, comme repli en cas d'incident et
+ * comme cache des langages (voir resolveLanguages).
+ */
+const kept = previous()
+const keptByName = new Map((kept ?? []).map((repo) => [repo.name, repo]))
+
+/**
+ * Un repli silencieux est un repli qu'on découvre des jours plus tard, en se
+ * demandant pourquoi un dépôt n'apparaît pas. Le message est donc encadré :
+ * la sortie d'un build défile, un `console.warn` d'une ligne s'y noie.
+ */
 const fallback = (reason) => {
-  const kept = previous()
   if (kept) {
-    console.warn(`GitHub repos: ${reason} — liste précédente conservée (${kept.length} dépôts)`)
+    console.warn(
+      [
+        '',
+        '  ┌─ GitHub repos ─────────────────────────────────────────',
+        `  │ ${reason}`,
+        `  │ LISTE PRÉCÉDENTE CONSERVÉE (${kept.length} dépôts) — un dépôt`,
+        '  │ ajouté ou renommé depuis n\'apparaîtra pas sur le site.',
+        '  └────────────────────────────────────────────────────────',
+        '',
+      ].join('\n'),
+    )
     process.exit(0)
   }
   console.warn(`GitHub repos: ${reason} — aucune liste locale, la section sera vide`)
@@ -106,7 +162,7 @@ const fallback = (reason) => {
 let response
 try {
   response = await fetch(API, {
-    headers: { Accept: 'application/vnd.github+json' },
+    headers,
     signal: AbortSignal.timeout(10_000),
   })
 } catch (error) {
@@ -137,16 +193,33 @@ if (!showable.length) fallback('aucun dépôt affichable dans la réponse')
  * Une requête par dépôt, payée une fois au build. C'est précisément ce que le
  * passage au build rend possible : côté navigateur, il aurait fallu les refaire
  * à chaque visite, pour des badges.
+ *
+ * Mais payée seulement quand le dépôt a bougé. La pile d'un dépôt ne change
+ * que si du code y est poussé : `pushed_at` identique à celui du dernier build
+ * veut dire pile identique, et la valeur est déjà dans le fichier. Sans ce
+ * cache, chaque build coûtait une quinzaine de requêtes — soit le quota
+ * anonyme de 60/heure épuisé en quatre builds, pour des données inchangées.
+ * Avec, un build qui ne suit aucun `git push` n'en coûte qu'une, celle de la
+ * liste.
  */
+let reused = 0
+
 const resolveLanguages = async (repo) => {
   // Repli sur le langage unique de la liste, qui vaut mieux que rien si
   // l'appel échoue ou si le dépôt est vide.
   repo.languages = repo.language ? [repo.language] : []
 
+  const known = keptByName.get(repo.name)
+  if (repo.pushed_at && known?.pushed_at === repo.pushed_at && known.languages?.length) {
+    repo.languages = known.languages
+    reused += 1
+    return
+  }
+
   if (!repo.languages_url) return
   try {
     const res = await fetch(repo.languages_url, {
-      headers: { Accept: 'application/vnd.github+json' },
+      headers,
       signal: AbortSignal.timeout(10_000),
     })
     if (!res.ok) return
@@ -177,4 +250,8 @@ const repos = showable.map(keep)
 mkdirSync(outDir, { recursive: true })
 writeFileSync(outFile, `${JSON.stringify(repos, null, 2)}\n`, 'utf8')
 
-console.log(`GitHub repos: ${repos.length} dépôts figés dans src/data/github-repos.json`)
+const fetched = repos.length - reused
+console.log(
+  `GitHub repos: ${repos.length} dépôts figés dans src/data/github-repos.json ` +
+    `(${1 + fetched} requête${1 + fetched > 1 ? 's' : ''}, ${reused} pile${reused > 1 ? 's' : ''} réutilisée${reused > 1 ? 's' : ''})`,
+)

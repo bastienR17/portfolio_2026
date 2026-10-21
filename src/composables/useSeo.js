@@ -75,14 +75,25 @@ export function useSeo() {
     setMetaProperty('og:title', title)
     setMetaProperty('og:description', description)
     setMetaProperty('og:url', url)
-    setMetaProperty('og:image', SITE.ogImage)
+    setMetaProperty('og:image', SITE.ogImage.url)
     setMetaProperty('og:type', 'website')
     setMetaProperty('og:locale', locale.value === 'fr' ? 'fr_FR' : 'en_US')
+
+    // Les dimensions ne changent jamais d'une route à l'autre, mais une
+    // balise posée une fois par index.html disparaîtrait si un aperçu était
+    // reconstruit à partir du DOM courant. Les réaffirmer ne coûte rien.
+    setMetaProperty('og:site_name', SITE.name)
+    setMetaProperty('og:image:width', SITE.ogImage.width)
+    setMetaProperty('og:image:height', SITE.ogImage.height)
+    // Seule valeur de l'image qui suive la langue : c'est une phrase, pas une
+    // dimension.
+    setMetaProperty('og:image:alt', t('seo.ogImageAlt'))
 
     setMetaName('twitter:card', 'summary_large_image')
     setMetaName('twitter:title', title)
     setMetaName('twitter:description', description)
-    setMetaName('twitter:image', SITE.ogImage)
+    setMetaName('twitter:image', SITE.ogImage.url)
+    setMetaName('twitter:image:alt', t('seo.ogImageAlt'))
   }
 
   watch([() => route.path, locale], apply, { immediate: true })

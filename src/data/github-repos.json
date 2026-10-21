@@ -1,5 +1,17 @@
 [
   {
+    "id": 1420648002,
+    "name": "DSFR-VScode",
+    "description": "Extension VS Code qui affiche le vrai rendu DSFR des pages MkDocs DSFR (Doc SIRH) dans l'aperçu Markdown : alertes, accordéons, tuiles, onglets… Signale les erreurs ligne par ligne, propose l'autocomplétion des composants et des snippets dsfr-.",
+    "languages": [
+      "JavaScript"
+    ],
+    "updated_at": "2026-10-21T21:02:59Z",
+    "html_url": "https://github.com/bastienR17/DSFR-VScode",
+    "stargazers_count": 0,
+    "pushed_at": "2026-10-21T20:38:53Z"
+  },
+  {
     "id": 1158702736,
     "name": "portfolio_2026",
     "description": "Nouveaux portfolio 2026",
@@ -7,27 +19,35 @@
       "Vue",
       "JavaScript"
     ],
-    "updated_at": "2026-09-21T17:42:25Z",
+    "updated_at": "2026-10-21T21:00:29Z",
     "html_url": "https://github.com/bastienR17/portfolio_2026",
-    "stargazers_count": 0
+    "stargazers_count": 0,
+    "pushed_at": "2026-10-21T21:00:25Z"
   },
   {
     "id": 620698079,
     "name": "Symfony_project_Ski_station",
     "description": "Site de station de ski en Symfony et Tailwind — projet de groupe où j'ai développé le système de badges utilisateurs et l'affichage des webcams.",
-    "languages": [],
+    "languages": [
+      "PHP",
+      "Twig"
+    ],
     "updated_at": "2026-08-13T19:28:21Z",
     "html_url": "https://github.com/bastienR17/Symfony_project_Ski_station",
-    "stargazers_count": 0
+    "stargazers_count": 0,
+    "pushed_at": "2023-03-27T07:31:25Z"
   },
   {
     "id": 594180680,
     "name": "Tartiflette",
     "description": "Site communautaire de films basé sur l'API The Movie DB (PHP, Tailwind), avec albums partagés — projet de groupe où j'ai réalisé l'intégration front.",
-    "languages": [],
+    "languages": [
+      "PHP"
+    ],
     "updated_at": "2026-08-13T19:28:18Z",
     "html_url": "https://github.com/bastienR17/Tartiflette",
-    "stargazers_count": 0
+    "stargazers_count": 0,
+    "pushed_at": "2023-01-10T08:17:37Z"
   },
   {
     "id": 592041880,
@@ -38,7 +58,8 @@
     ],
     "updated_at": "2026-08-13T19:28:16Z",
     "html_url": "https://github.com/bastienR17/Vuephone",
-    "stargazers_count": 0
+    "stargazers_count": 0,
+    "pushed_at": "2023-01-22T18:41:54Z"
   },
   {
     "id": 719247001,
@@ -49,7 +70,8 @@
     ],
     "updated_at": "2026-08-13T19:28:13Z",
     "html_url": "https://github.com/bastienR17/text_to_voice",
-    "stargazers_count": 0
+    "stargazers_count": 0,
+    "pushed_at": "2023-11-15T19:17:25Z"
   },
   {
     "id": 616084221,
@@ -60,7 +82,8 @@
     ],
     "updated_at": "2026-08-13T19:28:10Z",
     "html_url": "https://github.com/bastienR17/ml5-project",
-    "stargazers_count": 0
+    "stargazers_count": 0,
+    "pushed_at": "2023-03-21T22:43:04Z"
   },
   {
     "id": 778364623,
@@ -71,7 +94,8 @@
     ],
     "updated_at": "2026-08-13T19:28:08Z",
     "html_url": "https://github.com/bastienR17/Clock-Creative-Web",
-    "stargazers_count": 0
+    "stargazers_count": 0,
+    "pushed_at": "2024-03-27T15:31:49Z"
   },
   {
     "id": 740528432,
@@ -82,7 +106,8 @@
     ],
     "updated_at": "2026-08-13T19:28:06Z",
     "html_url": "https://github.com/bastienR17/Rendu_librairie_open_source",
-    "stargazers_count": 0
+    "stargazers_count": 0,
+    "pushed_at": "2024-01-12T13:11:10Z"
   },
   {
     "id": 748819817,
@@ -93,7 +118,8 @@
     ],
     "updated_at": "2026-08-13T19:28:03Z",
     "html_url": "https://github.com/bastienR17/Project_ReactJS",
-    "stargazers_count": 0
+    "stargazers_count": 0,
+    "pushed_at": "2024-01-26T20:56:44Z"
   },
   {
     "id": 593662291,
@@ -104,7 +130,8 @@
     ],
     "updated_at": "2026-08-13T19:28:01Z",
     "html_url": "https://github.com/bastienR17/Test_Three_Js",
-    "stargazers_count": 0
+    "stargazers_count": 0,
+    "pushed_at": "2025-05-23T14:49:44Z"
   },
   {
     "id": 800024700,
@@ -115,7 +142,8 @@
     ],
     "updated_at": "2026-08-13T19:27:58Z",
     "html_url": "https://github.com/bastienR17/Serveurio",
-    "stargazers_count": 0
+    "stargazers_count": 0,
+    "pushed_at": "2024-05-19T17:45:27Z"
   },
   {
     "id": 1248611062,
@@ -126,6 +154,7 @@
     ],
     "updated_at": "2026-08-13T19:27:56Z",
     "html_url": "https://github.com/bastienR17/test_lea",
-    "stargazers_count": 0
+    "stargazers_count": 0,
+    "pushed_at": "2026-05-24T22:11:29Z"
   }
 ]

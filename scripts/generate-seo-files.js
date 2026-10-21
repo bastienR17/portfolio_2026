@@ -136,4 +136,55 @@ if (Math.abs(actualKb - SITE.cv.sizeKb) > 1) {
   process.exit(1)
 }
 
+/**
+ * Même garde-fou pour l'image de partage.
+ *
+ * `og:image:width` et `og:image:height` servent à LinkedIn et Slack à
+ * réserver la bonne place avant d'avoir téléchargé le fichier. Des valeurs
+ * qui ne correspondent plus à l'image sont pires que pas de valeurs du tout :
+ * la carte est dessinée à une forme, puis remplie par une autre. Et comme
+ * une image de partage se refait au premier changement de slogan, personne
+ * ne pensera à revenir corriger deux nombres dans la config.
+ *
+ * Les dimensions sont lues dans l'en-tête JPEG, sans dépendance : le marqueur
+ * SOF (0xFFC0 à 0xFFC3) porte la hauteur puis la largeur sur deux octets
+ * chacune.
+ */
+const jpegSize = (buffer) => {
+  let i = 2
+  while (i < buffer.length) {
+    if (buffer[i] !== 0xff) {
+      i++
+      continue
+    }
+    const marker = buffer[i + 1]
+    if (marker >= 0xc0 && marker <= 0xc3) {
+      return { height: buffer.readUInt16BE(i + 5), width: buffer.readUInt16BE(i + 7) }
+    }
+    if (marker === 0xd8 || marker === 0xd9 || (marker >= 0xd0 && marker <= 0xd7)) {
+      i += 2
+      continue
+    }
+    i += 2 + buffer.readUInt16BE(i + 2)
+  }
+  return null
+}
+
+const ogPath = fileURLToPath(new URL('../public/og-image.jpg', import.meta.url))
+const ogSize = jpegSize(readFileSync(ogPath))
+
+if (!ogSize) {
+  console.error(`Dimensions illisibles dans public/og-image.jpg — le fichier est-il bien un JPEG ?`)
+  process.exit(1)
+}
+
+if (ogSize.width !== SITE.ogImage.width || ogSize.height !== SITE.ogImage.height) {
+  console.error(
+    `og-image.jpg fait ${ogSize.width}×${ogSize.height} mais SITE.ogImage annonce ` +
+      `${SITE.ogImage.width}×${SITE.ogImage.height}.\n` +
+      `Corriger les valeurs dans src/config/site.js.`,
+  )
+  process.exit(1)
+}
+
 console.log(`SEO files generated for ${SITE_URL} (${SITEMAP_ROUTES.length} routes) — sitemap.xml, robots.txt, llms.txt`)
