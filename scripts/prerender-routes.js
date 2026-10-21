@@ -1,6 +1,6 @@
 /**
- * Écrit un fichier HTML par route publique, avec ses vraies balises de tête,
- * plus une vraie page 404.
+ * Écrit un fichier HTML par route publique, avec ses vraies balises de tête et
+ * son contenu déjà rendu, plus une vraie page 404.
  *
  * Le build ne produisait qu'un seul dist/index.html, servi tel quel pour les
  * six routes, avec les balises de la page d'accueil figées dedans. useSeo() les
@@ -9,14 +9,25 @@
  * /prestations affichait la carte de l'accueil. C'est le canal principal d'une
  * activité freelance, donc ça compte plus que n'importe quel réglage de balise.
  *
- * Chaque fichier écrit reste l'application complète : seule la tête change.
+ * Le corps suit la même logique, pour la même raison poussée plus loin : le
+ * HTML servi ne contenait qu'un <div> vide, et les 2 300 mots du site
+ * n'existaient que dans le bundle. Google exécute le JavaScript, mais dans une
+ * seconde passe ; Bing, Qwant et la quasi-totalité des agents ne l'exécutent
+ * pas. src/entry-server.js rend chaque route dans Node et son résultat est
+ * posé dans `#app` — le contenu est alors lisible dès la réponse HTTP, et le
+ * navigateur reprend cet arbre au lieu de le reconstruire (voir src/main.js).
  *
- * Lancé par le script `postbuild`, après vite build.
+ * Chaque fichier écrit reste l'application complète.
+ *
+ * Lancé par le script `postbuild`, après les deux builds vite (client et
+ * serveur) : il lit dist/index.html comme gabarit et dist-ssr/entry-server.js
+ * comme moteur de rendu.
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { SITE, SITE_URL, SITEMAP_ROUTES } from '../src/config/site.js'
+import { render } from '../dist-ssr/entry-server.js'
 
 const root = fileURLToPath(new URL('..', import.meta.url))
 const dist = join(root, 'dist')
@@ -79,7 +90,7 @@ const breadcrumb = (name, url) =>
     ],
   })
 
-const buildPage = ({ title, description, url, route, noindex = false, crumb = null }) => {
+const buildPage = async ({ title, description, url, route, noindex = false, crumb = null }) => {
   let html = template
   const swap = (pattern, replacement, label) =>
     (html = replaceOnce(html, pattern, replacement, label, route))
@@ -134,6 +145,19 @@ const buildPage = ({ title, description, url, route, noindex = false, crumb = nu
       `  <script type="application/ld+json">${crumb}</script>\n  </head>`,
     )
   }
+
+  // Le corps. `route` est aussi le chemin donné au routeur : la 404 passe
+  // '/404', qui ne correspond à aucune route déclarée et tombe donc sur
+  // l'attrape-tout, exactement comme une URL morte en ligne.
+  const body = await render(route === '404' ? '/404' : route)
+  html = replaceOnce(
+    html,
+    /<div id="app"><\/div>/,
+    `<div id="app">${body}</div>`,
+    'conteneur #app',
+    route,
+  )
+
   return html
 }
 
@@ -152,7 +176,7 @@ for (const { path, seoKey, noindex } of SITEMAP_ROUTES) {
   // Le libellé de navigation quand il existe, sinon la partie utile du titre.
   const name = fr.nav?.[seoKey] ?? entry.title.split(' - ')[0]
 
-  const html = buildPage({
+  const html = await buildPage({
     title: entry.title,
     description: entry.description,
     url,
@@ -179,7 +203,7 @@ for (const { path, seoKey, noindex } of SITEMAP_ROUTES) {
 const nf = fr.seo.notfound
 write(
   join(dist, '404.html'),
-  buildPage({
+  await buildPage({
     title: nf.title,
     description: nf.description,
     url: `${SITE_URL}/404`,
@@ -188,4 +212,4 @@ write(
   }),
 )
 
-console.log(`Prerender: ${written} routes + 404.html (${SITE.url})`)
+console.log(`Prerender: ${written} routes + 404.html, tête et corps (${SITE.url})`)

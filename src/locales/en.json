@@ -346,6 +346,12 @@
     },
     "studies_title": "Projects",
     "studies": {
+      "dsfr": {
+        "title": "DSFR preview for Markdown - VS Code extension",
+        "org": "Personal project - documentation authoring tool",
+        "period": "Since Oct. 2026",
+        "desc": "An extension that renders, inside VS Code's Markdown preview, the exact output of a MkDocs DSFR page: dsfr_structure blocks, page header, and the fonts and icons of the French State Design System. Syntax errors are underlined as you type, and the output is checked automatically against the site's real engine on the 41 examples from the official documentation."
+      },
       "memoire": {
         "title": "Training teams on AI without scaring them",
         "org": "Professional thesis - Engineering degree, IIM / ESILV",
@@ -371,7 +377,8 @@
     },
     "loadMore": "See more projects",
     "noProject": "No project found in this stack.",
-    "detail": "Details"
+    "detail": "Details",
+    "repo_link": "View the repository on GitHub"
   },
   "prestations": {
     "title": "Services",

@@ -16,6 +16,13 @@ import { canRender3D } from './composables/canRender3D'
 // Le test de capacité est fait ici, dans le même temps mort : sur une machine
 // qui ne peut pas payer le décor, on résout sur un composant vide et le chunk
 // n'est jamais demandé.
+//
+// Le composant n'est instancié qu'après le montage (`isMounted`), et donc
+// jamais au prérendu : `window` n'existe pas dans Node, et un décor
+// d'arrière-plan n'a rien à faire dans le HTML servi. C'est aussi ce qui
+// garde la reprise du HTML cohérente — sans ce délai, requestIdleCallback
+// pouvait résoudre le décor avant le montage, et le navigateur attendait
+// alors un <div> là où le prérendu n'avait rien mis.
 const Experience3D = defineAsyncComponent(
   () =>
     new Promise((resolve) => {
@@ -40,6 +47,7 @@ const DebugPanel = import.meta.env.DEV
 useSeo()
 
 const isLoading = ref(true)
+const isMounted = ref(false)
 const contenu = ref(null)
 
 /**
@@ -66,6 +74,10 @@ useRouter().afterEach((_to, from) => {
 })
 
 onMounted(() => {
+  // Tout ce qui n'existe que dans le navigateur attend ici : le décor 3D n'est
+  // demandé qu'une fois le HTML prérendu repris, jamais pendant.
+  isMounted.value = true
+
   // Le rideau se lève dès que l'app est réellement prête. L'ancien délai fixe
   // de 1,5 s retardait le LCP pour tout le monde sans rien attendre de réel.
   requestAnimationFrame(() => {
@@ -78,7 +90,7 @@ onMounted(() => {
   <div class="min-h-screen text-ink transition-colors duration-300">
 
     <Transition name="reveal">
-      <div v-if="isLoading" class="fixed inset-0 z-[1000] bg-page flex items-center justify-center">
+      <div v-if="isLoading" class="curtain fixed inset-0 z-[1000] bg-page flex items-center justify-center">
         <div class="flex flex-col items-center">
           <span class="font-display text-7xl md:text-8xl text-ink tracking-tight">
             B<span class="text-accent">.</span>R
@@ -90,7 +102,7 @@ onMounted(() => {
       </div>
     </Transition>
 
-    <Experience3D />
+    <Experience3D v-if="isMounted" />
 
     <!-- Grain décoratif, au-dessus de tout mais jamais interactif. -->
     <div class="grain-overlay print:hidden" aria-hidden="true"></div>
@@ -130,6 +142,17 @@ onMounted(() => {
 </template>
 
 <style>
+/* Le rideau est rendu dans le HTML prérendu comme dans le navigateur : les
+   deux côtés doivent produire le même arbre, sans quoi l'hydratation jette le
+   bloc et le recrée. Mais il n'est levé que par onMounted, donc sans
+   JavaScript il recouvrirait la page pour toujours — y compris le contenu
+   qu'on vient justement de faire figurer dans le HTML. La classe `no-js`
+   d'index.html, retirée par le script inline avant le premier paint, le
+   masque dans ce seul cas. Même mécanique que `no-3d`. */
+.no-js .curtain {
+  display: none;
+}
+
 /* Animation de sortie du rideau.
    `all` embarquait toutes les propriétés animables, y compris celles qui
    déclenchent une mise en page. Seule l'opacité change réellement ici. */

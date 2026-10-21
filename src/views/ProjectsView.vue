@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { ArrowUpRight } from 'lucide-vue-next'
 import ProjectCard from '../components/projects/ProjectCard.vue'
 import githubRepos from '../data/github-repos.json'
 import { useReveal } from '../composables/useReveal'
@@ -11,7 +12,16 @@ useReveal()
 
 // Études de cas et projets : contenu éditorial, piloté depuis l'i18n.
 const cases = ['ministeres', 'sephora', 'sncf']
-const studies = ['memoire', 'startup']
+const studies = ['dsfr', 'memoire', 'startup']
+
+/**
+ * Dépôt public d'un projet, quand il en a un. L'adresse vit ici plutôt que
+ * dans les traductions : elle est la même dans les deux langues, et une URL
+ * recopiée par fichier de langue est une URL qui finit par diverger.
+ */
+const studyRepos = {
+  dsfr: 'https://github.com/bastienR17/DSFR-VScode',
+}
 
 // ── Dépôts GitHub ────────────────────────────────────────────
 // La liste est figée au build par scripts/fetch-github-repos.js, qui porte
@@ -167,6 +177,23 @@ const filteredAndSortedProjects = computed(() => {
             >
               {{ $t(`projects.studies.${key}.question`) }}
             </blockquote>
+
+            <!-- Le lien n'apparaît que pour les projets dont le code est
+                 public : les autres n'ont rien à montrer de plus que la fiche. -->
+            <p v-if="studyRepos[key]" class="mt-6">
+              <a
+                :href="studyRepos[key]"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1 text-sm font-medium text-accent hover:underline underline-offset-4"
+              >
+                {{ $t('projects.repo_link') }}
+                <span class="sr-only">
+                  - {{ $t(`projects.studies.${key}.title`) }} ({{ $t('accessibility.new_window') }})
+                </span>
+                <ArrowUpRight class="w-4 h-4" aria-hidden="true" />
+              </a>
+            </p>
           </article>
         </div>
       </div>

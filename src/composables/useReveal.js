@@ -13,6 +13,12 @@ const FAILSAFE_MS = 2000
  * animation décorative.
  */
 export function useReveal(threshold = 0.1) {
+  // Une animation d'apparition n'a pas de sens dans Node, et
+  // IntersectionObserver n'y existe pas. Le contenu est visible par défaut :
+  // ne rien faire ici produit exactement le HTML qu'on veut voir indexé, tous
+  // les blocs .reveal affichés.
+  if (import.meta.env.SSR) return
+
   let observer = null
   let failsafe = null
 

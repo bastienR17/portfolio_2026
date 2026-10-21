@@ -1,10 +1,15 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, createMemoryHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
 // `seoKey` pointe vers seo.<clé>.title / .description dans les locales.
 // useSeo() s'en sert pour mettre à jour le <head> à chaque navigation.
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  // Le prérendu (scripts/prerender-routes.js) fait tourner ce même routeur
+  // dans Node, où il n'y a ni `window` ni barre d'adresse : createWebHistory y
+  // échoue dès l'import. L'historique en mémoire lui donne l'équivalent, et
+  // `import.meta.env.SSR` vaut littéralement false dans le bundle du
+  // navigateur — la branche Node n'y est pas embarquée.
+  history: import.meta.env.SSR ? createMemoryHistory() : createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',

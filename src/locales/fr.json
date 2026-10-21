@@ -346,6 +346,12 @@
     },
     "studies_title": "Projets",
     "studies": {
+      "dsfr": {
+        "title": "Aperçu DSFR pour Markdown - extension VS Code",
+        "org": "Projet personnel - outillage de rédaction documentaire",
+        "period": "Depuis oct. 2026",
+        "desc": "Extension qui affiche dans l'aperçu Markdown de VS Code le rendu exact des pages d'un site MkDocs DSFR : blocs dsfr_structure, en-tête de page, polices et icônes du Système de Design de l'État. Les erreurs de syntaxe sont soulignées pendant la frappe, et le rendu est comparé automatiquement au moteur réel du site sur les 41 exemples de la documentation officielle."
+      },
       "memoire": {
         "title": "Former à l'IA sans effrayer",
         "org": "Mémoire professionnel - Diplôme d'Ingénieur, IIM / ESILV",
@@ -371,7 +377,8 @@
     },
     "loadMore": "Voir plus de projets",
     "noProject": "Aucun projet trouvé dans cette technologie.",
-    "detail": "Détails"
+    "detail": "Détails",
+    "repo_link": "Voir le dépôt sur GitHub"
   },
   "prestations": {
     "title": "Prestations",

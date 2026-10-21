@@ -253,8 +253,8 @@ const visibleSkillsCount = computed(() => {
           :aria-pressed="activeHardSub === sub"
           class="px-2.5 py-1 border text-xs transition-colors"
           :class="activeHardSub === sub
-            ? 'border-accent text-accent'
-            : 'border-line-soft text-ink-muted hover:border-accent'"
+            ? 'bg-surface border-accent text-accent'
+            : 'bg-surface border-line text-ink-muted hover:border-accent'"
         >
           {{ sub === 'all' ? $t('about.skills_filterAll') : $t(`about.skills_hard_${sub}_label`) }}
         </button>
@@ -275,7 +275,7 @@ const visibleSkillsCount = computed(() => {
               <li
                 v-for="skill in getAllHardSkills()"
                 :key="skill"
-                class="px-3 py-1.5 border border-line-soft text-sm text-ink"
+                class="px-3 py-1.5 bg-surface border border-line text-sm text-ink"
               >{{ skill }}</li>
             </ul>
 
@@ -288,7 +288,7 @@ const visibleSkillsCount = computed(() => {
                   <li
                     v-for="skill in getHardSkills(sub)"
                     :key="skill"
-                    class="px-3 py-1.5 border border-line-soft text-sm text-ink"
+                    class="px-3 py-1.5 bg-surface border border-line text-sm text-ink"
                   >{{ skill }}</li>
                 </ul>
               </div>
@@ -299,7 +299,7 @@ const visibleSkillsCount = computed(() => {
             <li
               v-for="skill in getSkills(cat)"
               :key="skill"
-              class="px-3 py-1.5 border border-line-soft text-sm text-ink"
+              class="px-3 py-1.5 bg-surface border border-line text-sm text-ink"
             >{{ skill }}</li>
           </ul>
         </div>

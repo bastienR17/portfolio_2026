@@ -46,6 +46,12 @@ const setCanonical = (href) =>
  * un title et une description dans la langue précédente.
  */
 export function useSeo() {
+  // Au prérendu, la tête est écrite par scripts/prerender-routes.js à partir
+  // des mêmes clés de traduction : il n'y a pas de <head> à manipuler ici, et
+  // `document` n'existe pas dans Node. Côté navigateur, `import.meta.env.SSR`
+  // vaut false et cette garde disparaît du bundle.
+  if (import.meta.env.SSR) return
+
   const route = useRoute()
   const { t, locale } = useI18n()
 

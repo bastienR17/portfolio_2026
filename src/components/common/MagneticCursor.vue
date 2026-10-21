@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onBeforeUnmount, ref } from 'vue'
+import { onMounted, onBeforeUnmount, nextTick, ref } from 'vue'
 
 // Mêmes cibles que celles qui prennent le focus clavier : un point qui
 // grossirait sur du texte non cliquable serait trompeur.
@@ -17,9 +17,15 @@ const prefersReducedMotion = () =>
 const canHover = () =>
   window.matchMedia('(hover: hover) and (pointer: fine)').matches
 
-// Décidé une fois, avant le montage : au doigt, au clavier seul ou en
-// mouvement réduit, le composant ne rend rien et ne pose aucun écouteur.
-const enabled = canHover() && !prefersReducedMotion()
+// Décidé au montage et non à l'initialisation : le composant est désormais
+// rendu une première fois dans Node par le prérendu, où `matchMedia` n'existe
+// pas. Décider plus tard sert aussi l'hydratation — le HTML prérendu ne
+// contient pas le point, le premier rendu du navigateur non plus, et il
+// n'apparaît qu'ensuite, sur les machines qui y ont droit.
+//
+// Au doigt, au clavier seul ou en mouvement réduit, le composant ne rend rien
+// et ne pose aucun écouteur.
+const enabled = ref(false)
 
 const onPointerMove = (e) => {
   targetX = e.clientX
@@ -80,8 +86,13 @@ const start = () => {
   if (raf === null) raf = requestAnimationFrame(tick)
 }
 
-onMounted(() => {
-  if (!enabled) return
+onMounted(async () => {
+  if (!canHover() || prefersReducedMotion()) return
+  enabled.value = true
+  // Le point n'entre dans le DOM qu'au rendu suivant : `draw()` écrirait
+  // sinon sur une référence encore nulle, et le premier placement serait perdu.
+  await nextTick()
+
   attached = true
   x = targetX = window.innerWidth / 2
   y = targetY = window.innerHeight / 2

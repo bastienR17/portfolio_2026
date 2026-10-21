@@ -7,7 +7,16 @@
   mobile, tablette, machine modeste, navigateur durci — la classe reste, et
   c'est le dégradé de Main.css qui habille la page.
 -->
-<html lang="fr" class="no-3d">
+<!--
+  `no-js` suit la même logique que `no-3d`, dans l'autre sens : elle est posée
+  d'entrée et retirée par le script inline ci-dessous, qui ne s'exécute que si
+  JavaScript est actif. Ce qui dépend du script pour disparaître — le rideau de
+  chargement d'App.vue, levé au montage de Vue — peut ainsi être masqué tant
+  qu'on ne sait pas si Vue démarrera. Le HTML prérendu reste lisible dans un
+  navigateur sans JavaScript, et dans tout ce qui lit la réponse sans
+  l'exécuter.
+-->
+<html lang="fr" class="no-3d no-js">
   <head>
     <meta charset="UTF-8">
     <!--
@@ -40,6 +49,7 @@
       (function () {
         try {
           var root = document.documentElement
+          root.classList.remove('no-js')
           var saved = localStorage.getItem('theme')
           if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             root.classList.add('dark')
