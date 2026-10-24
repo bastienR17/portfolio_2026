@@ -27,6 +27,8 @@
 import { writeFileSync, existsSync, readFileSync, mkdirSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
+import { STUDY_REPO_NAMES } from '../src/config/study-repos.js'
+
 const USER = 'Bastienr17'
 const API = `https://api.github.com/users/${USER}/repos?sort=updated&per_page=100`
 
@@ -106,10 +108,22 @@ const PRESENTATION = new Set(['HTML', 'CSS', 'SCSS', 'Sass', 'Less', 'Stylus'])
  * décrivent jamais. Le critère évite d'entretenir une liste noire de noms qui
  * serait périmée au prochain projet.
  */
+/**
+ * Un dépôt qui a déjà sa fiche éditoriale dans « Études de cas » n'a rien à
+ * faire en plus dans « Projets techniques » : la même page le présenterait
+ * deux fois, une fois en détail et une fois en carte générique.
+ *
+ * Le critère est dérivé de src/config/study-repos.js, que la vue lit déjà
+ * pour afficher le lien « voir le code ». Rien à tenir à jour ici : écrire
+ * une fiche retire le dépôt de cette liste, la retirer l'y ramène.
+ */
+const hasEditorialCard = (repo) => STUDY_REPO_NAMES.has(repo.name.toLowerCase())
+
 const isShowable = (repo) =>
   (!repo.fork || FEATURED_FORKS.includes(repo.name)) &&
   repo.description?.trim() &&
-  repo.name.toLowerCase() !== PROFILE_REPO
+  repo.name.toLowerCase() !== PROFILE_REPO &&
+  !hasEditorialCard(repo)
 
 /**
  * Un incident chez GitHub ne doit pas empêcher de déployer une correction de

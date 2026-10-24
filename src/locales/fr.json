@@ -20,7 +20,7 @@
     },
     "about": {
       "title": "Parcours & compétences - Bastien Roc",
-      "description": "Le parcours de Bastien Roc : alternance aux Ministères de la Transition Écologique, Sephora, stage SNCF, et formation d'ingénieur en transformation digitale."
+      "description": "Le parcours de Bastien Roc : chef de projet MOA SIRH & IA aux Ministères de la Transition Écologique, alternance Sephora, stage SNCF, formation d'ingénieur."
     },
     "projects": {
       "title": "Réalisations & études de cas - Bastien Roc",
@@ -58,16 +58,16 @@
     "stat_sectors": "Secteurs d'activité",
     "stat_sectors_detail": "Public, retail, transport",
     "stat_certs": "Certifications",
-    "stat_certs_detail": "Opquast 800+, PSM I",
+    "stat_certs_detail": "Opquast 883, PSM I, UNESCO",
     "offer_title": "Ce sur quoi j'interviens",
     "offer_intro": "Quatre domaines complémentaires, du cadrage initial jusqu'à l'appropriation par les équipes.",
     "offer_cta": "Voir le détail des prestations",
     "contexts_title": "Contextes d'intervention",
-    "contexts_intro": "Les organisations au sein desquelles j'ai construit cette expertise, en alternance, en stage et en bénévolat.",
+    "contexts_intro": "Les organisations au sein desquelles j'ai construit cette expertise, en CDD, en alternance, en stage et en bénévolat.",
     "contexts": {
       "state": {
         "org": "Ministères Transition Écologique & Transports",
-        "role": "Alternance - Chef de projet digital",
+        "role": "CDD - Chef de projet MOA SIRH & IA",
         "detail": "Solution adoptée par 100 % de 2 500 collaborateurs"
       },
       "retail": {
@@ -163,11 +163,15 @@
     "skills_hard_ai": [
       "IA générative",
       "RAG",
+      "LLM",
+      "Mistral",
+      "Ollama",
+      "Prompt engineering",
+      "Éthique de l'IA",
       "Chunking sémantique",
       "Architecture MCP",
-      "CI/CD",
-      "Automatisation (n8n)",
-      "AI Prompting"
+      "GitLab CI/CD",
+      "Automatisation (n8n)"
     ],
     "skills_hard_pm": [
       "AMOA",
@@ -182,6 +186,7 @@
     "skills_hard_dev": [
       "HTML / CSS",
       "JavaScript",
+      "Python",
       "PHP / MySQL",
       "Symfony",
       "WordPress",
@@ -195,6 +200,7 @@
     "skills_hard_data": [
       "Google Analytics",
       "Excel",
+      "Grist",
       "Jira"
     ],
     "skills_soft": [
@@ -204,8 +210,9 @@
       "Apprentissage continu"
     ],
     "skills_certifications": [
-      "Opquast 800+/1000",
-      "PSM I - Professional Scrum Master"
+      "Opquast 883/1000",
+      "PSM I - Professional Scrum Master",
+      "UNESCO - Éthique de l'IA"
     ],
     "edu1": {
       "role": "Bachelor - Chef de Projet Digital",
@@ -219,9 +226,9 @@
       "desc": "Mémoire professionnel - « Former à l'IA sans effrayer » : concevoir une approche pédagogique adaptée aux collaborateurs réticents aux technologies."
     },
     "exp1": {
-      "role": "Alternance - Chef de projet digital",
+      "role": "CDD - Chef de projet MOA SIRH & IA",
       "company": "Ministères Transition Écologique, Transports & Logement - La Défense",
-      "date": "Oct. 2024 – Août 2026",
+      "date": "Oct. 2024 – Déc. 2026",
       "desc": "Je pilote en AMOA le déploiement d'une solution de recherche d'information, adoptée par 100 % des 2 500 collaborateurs concernés, en assurant la relation entre les équipes métier et les équipes techniques.",
       "tasks": [
         "Solution de recherche adoptée par 100 % de 2 500 collaborateurs",
@@ -285,7 +292,7 @@
     "title": "Mes Réalisations",
     "intro": "Les missions sur lesquelles j'ai travaillé, ce que j'y ai fait concrètement et ce qu'elles ont produit.",
     "cases_title": "Études de cas",
-    "cases_disclaimer": "Missions menées en alternance, en stage ou dans un cadre pédagogique, et non en prestation indépendante.",
+    "cases_disclaimer": "Missions menées en CDD, en alternance, en stage ou dans un cadre pédagogique, et non en prestation indépendante.",
     "label_context": "Contexte",
     "label_mission": "Mission",
     "label_actions": "Ce que j'ai fait",
@@ -293,14 +300,16 @@
     "cases": {
       "ministeres": {
         "org": "Ministères de la Transition Écologique, des Transports & du Logement",
-        "role": "Alternance - Chef de projet digital",
-        "period": "Oct. 2024 – Août 2026",
+        "role": "CDD - Chef de projet MOA SIRH & IA",
+        "period": "Oct. 2024 – Déc. 2026",
         "context": "Une administration de 2 500 agents où retrouver la bonne information RH prenait un temps considérable, avec des habitudes de travail bien ancrées.",
-        "mission": "Piloter Aidy, un assistant IA basé sur le RAG donnant accès à la documentation RH, de la conception technique jusqu'à l'adoption réelle sur le terrain. Mission en cours.",
+        "mission": "Piloter Aidy, un assistant IA fondé sur le RAG et un modèle Mistral, donnant accès à la documentation RH, de la conception technique jusqu'à l'adoption réelle sur le terrain. Mission en cours.",
         "actions": [
           "Recueil et formalisation du besoin auprès des équipes métier",
           "Conception des pipelines CI/CD et chunking sémantique des corpus",
           "Architecture MCP pour connecter les API aux assistants IA",
+          "Déploiement de Doc SIRH, base des modes opératoires RH, et préparation de sa migration HR4You",
+          "Outils internes pour l'équipe : extension VS Code d'aperçu DSFR, newsletter automatisée sous Grist",
           "Conception d'une vingtaine de supports pédagogiques et animation des formations",
           "Définition et suivi des indicateurs d'adoption"
         ],
@@ -349,9 +358,9 @@
     "studies": {
       "dsfr": {
         "title": "Aperçu DSFR pour Markdown - extension VS Code",
-        "org": "Projet personnel - outillage de rédaction documentaire",
+        "org": "Outil créé pour l'équipe - Ministères de la Transition Écologique",
         "period": "Depuis oct. 2026",
-        "desc": "Extension qui affiche dans l'aperçu Markdown de VS Code le rendu exact des pages d'un site MkDocs DSFR : blocs dsfr_structure, en-tête de page, polices et icônes du Système de Design de l'État. Les erreurs de syntaxe sont soulignées pendant la frappe, et le rendu est comparé automatiquement au moteur réel du site sur les 41 exemples de la documentation officielle."
+        "desc": "Extension qui affiche dans l'aperçu Markdown de VS Code le rendu exact des pages d'un site MkDocs DSFR : blocs dsfr_structure, en-tête de page, polices et icônes du Système de Design de l'État. Les erreurs de syntaxe sont soulignées pendant la frappe, et le rendu est comparé automatiquement au moteur réel du site sur les 41 exemples de la documentation officielle."
       },
       "memoire": {
         "title": "Former à l'IA sans effrayer",

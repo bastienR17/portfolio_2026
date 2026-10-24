@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { ArrowUpRight } from 'lucide-vue-next'
 import ProjectCard from '../components/projects/ProjectCard.vue'
 import githubRepos from '../data/github-repos.json'
+import { STUDY_REPOS } from '../config/study-repos'
 import { useReveal } from '../composables/useReveal'
 
 const { tm, te } = useI18n()
@@ -15,13 +16,13 @@ const cases = ['ministeres', 'sephora', 'sncf']
 const studies = ['dsfr', 'memoire', 'startup']
 
 /**
- * Dépôt public d'un projet, quand il en a un. L'adresse vit ici plutôt que
- * dans les traductions : elle est la même dans les deux langues, et une URL
- * recopiée par fichier de langue est une URL qui finit par diverger.
+ * Dépôt public d'un projet, quand il en a un.
+ *
+ * La table vit dans src/config/study-repos.js : fetch-github-repos.js en a
+ * besoin aussi, pour écarter de la liste synchronisée ci-dessous les dépôts
+ * qui ont déjà leur fiche ici. Deux lectures, une seule déclaration.
  */
-const studyRepos = {
-  dsfr: 'https://github.com/bastienR17/DSFR-VScode',
-}
+const studyRepos = STUDY_REPOS
 
 // ── Dépôts GitHub ────────────────────────────────────────────
 // La liste est figée au build par scripts/fetch-github-repos.js, qui porte

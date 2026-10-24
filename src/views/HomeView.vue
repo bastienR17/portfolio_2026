@@ -21,7 +21,7 @@ const stats = [
   { target: 3, suffix: '', key: 'home.stat_experience', detail: 'home.stat_experience_detail' },
   { target: 4, suffix: '', key: 'home.stat_domains', detail: 'home.stat_domains_detail' },
   { target: 3, suffix: '', key: 'home.stat_sectors', detail: 'home.stat_sectors_detail' },
-  { target: 2, suffix: '', key: 'home.stat_certs', detail: 'home.stat_certs_detail' },
+  { target: 3, suffix: '', key: 'home.stat_certs', detail: 'home.stat_certs_detail' },
 ]
 
 const counts = ref(stats.map(() => 0))

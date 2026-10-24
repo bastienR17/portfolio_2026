@@ -20,7 +20,7 @@
     },
     "about": {
       "title": "Background & skills - Bastien Roc",
-      "description": "Bastien Roc's background: apprenticeships at the French Ministries of Ecological Transition and Sephora, an SNCF internship, and an engineering degree in digital transformation."
+      "description": "Bastien Roc's background: HRIS & AI project manager at the French Ministries for Ecological Transition, a Sephora apprenticeship, an SNCF internship."
     },
     "projects": {
       "title": "Work & case studies - Bastien Roc",
@@ -58,16 +58,16 @@
     "stat_sectors": "Industries",
     "stat_sectors_detail": "Public sector, retail, transport",
     "stat_certs": "Certifications",
-    "stat_certs_detail": "Opquast 800+, PSM I",
+    "stat_certs_detail": "Opquast 883, PSM I, UNESCO",
     "offer_title": "What I work on",
     "offer_intro": "Four complementary areas, from initial framing through to team ownership.",
     "offer_cta": "See the services in detail",
     "contexts_title": "Where I built this",
-    "contexts_intro": "The organizations where I built this expertise - through apprenticeships, an internship and volunteering.",
+    "contexts_intro": "The organizations where I built this expertise - on a fixed-term contract, an apprenticeship, an internship and volunteering.",
     "contexts": {
       "state": {
         "org": "Ministries of Ecological Transition & Transport",
-        "role": "Apprenticeship - Digital Project Manager",
+        "role": "Fixed-term contract - HRIS & AI Project Manager",
         "detail": "Solution adopted by 100% of 2,500 staff"
       },
       "retail": {
@@ -163,11 +163,15 @@
     "skills_hard_ai": [
       "Generative AI",
       "RAG",
+      "LLM",
+      "Mistral",
+      "Ollama",
+      "Prompt engineering",
+      "AI ethics",
       "Semantic chunking",
       "MCP architecture",
-      "CI/CD",
-      "Workflow automation (n8n)",
-      "AI prompting"
+      "GitLab CI/CD",
+      "Workflow automation (n8n)"
     ],
     "skills_hard_pm": [
       "Business analysis",
@@ -182,6 +186,7 @@
     "skills_hard_dev": [
       "HTML / CSS",
       "JavaScript",
+      "Python",
       "PHP / MySQL",
       "Symfony",
       "WordPress",
@@ -195,6 +200,7 @@
     "skills_hard_data": [
       "Google Analytics",
       "Excel",
+      "Grist",
       "Jira"
     ],
     "skills_soft": [
@@ -204,8 +210,9 @@
       "Continuous Learning"
     ],
     "skills_certifications": [
-      "Opquast 800+/1000",
-      "PSM I - Professional Scrum Master"
+      "Opquast 883/1000",
+      "PSM I - Professional Scrum Master",
+      "UNESCO - Ethics of AI"
     ],
     "edu1": {
       "role": "Bachelor - Digital Project Manager",
@@ -219,9 +226,9 @@
       "desc": "Professional thesis - \"Training teams on AI without scaring them\": designing a teaching approach suited to staff who are wary of technology."
     },
     "exp1": {
-      "role": "Apprenticeship - Digital Project Manager",
+      "role": "Fixed-term contract - HRIS & AI Project Manager",
       "company": "Ministries of Ecological Transition, Transport & Housing - La Défense",
-      "date": "Oct. 2024 – Aug. 2026",
+      "date": "Oct. 2024 – Dec. 2026",
       "desc": "I lead the rollout of an information-search solution as business analyst, adopted by 100% of the 2,500 staff concerned, steering the relationship between business and technical teams.",
       "tasks": [
         "Search solution adopted by 100% of 2,500 staff",
@@ -285,7 +292,7 @@
     "title": "My Achievements",
     "intro": "The missions I've worked on, what I actually did on each, and what came out of them.",
     "cases_title": "Case studies",
-    "cases_disclaimer": "Missions carried out during apprenticeships, an internship or as academic work, not as independent client engagements.",
+    "cases_disclaimer": "Missions carried out on a fixed-term contract, during an apprenticeship, an internship or as academic work, not as independent client engagements.",
     "label_context": "Context",
     "label_mission": "Mission",
     "label_actions": "What I did",
@@ -293,14 +300,16 @@
     "cases": {
       "ministeres": {
         "org": "French Ministries of Ecological Transition, Transport & Housing",
-        "role": "Apprenticeship - Digital Project Manager",
-        "period": "Oct. 2024 – Aug. 2026",
+        "role": "Fixed-term contract - HRIS & AI Project Manager",
+        "period": "Oct. 2024 – Dec. 2026",
         "context": "A 2,500-strong administration where finding the right HR information took considerable time, with deeply established working habits.",
-        "mission": "Lead Aidy, a RAG-based AI assistant giving access to HR documentation, from the technical design through to real adoption on the ground. Ongoing.",
+        "mission": "Lead Aidy, an AI assistant built on RAG and a Mistral model, giving access to HR documentation, from the technical design through to real adoption on the ground. Ongoing.",
         "actions": [
           "Gathered and formalised requirements with business teams",
           "Designed the CI/CD pipelines and semantic chunking of the corpora",
           "MCP architecture connecting APIs to the AI assistants",
+          "Rolled out Doc SIRH, the HR procedures knowledge base, and prepared its migration to HR4You",
+          "Internal tooling for the team: a DSFR preview extension for VS Code, an automated newsletter in Grist",
           "Produced around 20 training materials and ran the sessions",
           "Defined and tracked adoption indicators"
         ],
@@ -349,7 +358,7 @@
     "studies": {
       "dsfr": {
         "title": "DSFR preview for Markdown - VS Code extension",
-        "org": "Personal project - documentation authoring tool",
+        "org": "Tool built for the team - French Ministries for Ecological Transition",
         "period": "Since Oct. 2026",
         "desc": "An extension that renders, inside VS Code's Markdown preview, the exact output of a MkDocs DSFR page: dsfr_structure blocks, page header, and the fonts and icons of the French State Design System. Syntax errors are underlined as you type, and the output is checked automatically against the site's real engine on the 41 examples from the official documentation."
       },
