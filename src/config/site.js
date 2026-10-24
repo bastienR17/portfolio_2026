@@ -41,10 +41,10 @@ export const SITE = {
    * indication fausse est pire que pas d'indication.
    */
   cv: {
-    path: '/docs/RB_CV_2026.pdf',
-    filename: 'CV_Bastien_Roc.pdf',
+    path: '/docs/CV-Bastien-Roc.pdf',
+    filename: 'CV-Bastien-Roc.pdf',
     format: 'PDF',
-    sizeKb: 52,
+    sizeKb: 56,
   },
 }
 

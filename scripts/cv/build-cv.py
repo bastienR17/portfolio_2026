@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Imprime scripts/cv/cv.html en PDF, vers public/docs/RB_CV_2026.pdf.
+Imprime scripts/cv/cv.html en PDF, vers public/docs/CV-Bastien-Roc.pdf.
 
 Pourquoi passer par du HTML plutôt que par un éditeur : le CV reprend alors
 exactement les polices et la palette du site, et le texte reste du vrai texte.
@@ -25,17 +25,23 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
 SOURCE = ROOT / "scripts" / "cv" / "cv.html"
-TARGET = ROOT / "public" / "docs" / "RB_CV_2026.pdf"
+TARGET = ROOT / "public" / "docs" / "CV-Bastien-Roc.pdf"
 FONTS = ROOT / "public" / "fonts"
 
 # Graisses de Lexend réellement utilisées par la feuille de style.
 WEIGHTS = (400, 500, 600, 700)
 
+# Sur macOS, aucun de ces binaires n'est dans le PATH : une application y est
+# un dossier .app, et Chrome n'installe pas de lien dans /usr/local/bin. Le
+# chemin complet est donc la seule façon de le trouver.
 CANDIDATES = [
     r"C:\Program Files\Google\Chrome\Application\chrome.exe",
     r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
     r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
     r"C:\Program Files\Microsoft\Edge\Application\msedge.exe",
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
+    "/Applications/Chromium.app/Contents/MacOS/Chromium",
 ]
 
 
