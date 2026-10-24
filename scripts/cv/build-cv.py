@@ -13,7 +13,8 @@ que ce défaut n'est pas réintroduit.
 Usage :
     python scripts/cv/build-cv.py        (ou : npm run cv)
 
-Dépendances : Chrome ou Edge installé, et pdfplumber pour le contrôle.
+Dépendances : Chrome ou Edge installé, plus les paquets de
+requirements-dev.txt (pip install -r requirements-dev.txt).
 """
 
 import re
@@ -147,11 +148,29 @@ def main():
 
 
 def verify():
+    """
+    Les contrôles de fin de course, sans lesquels le PDF n'est pas publiable.
+
+    Ils échouaient en silence : pdfplumber absent, la fonction affichait
+    « contrôle ignoré », sortait en code 0, et on repartait avec un PDF que
+    rien n'avait vérifié — en croyant le contraire. Un garde-fou qui se
+    désactive tout seul est pire que pas de garde-fou : il donne une confiance
+    que rien ne justifie. Le chargement des polices, deux fonctions plus haut,
+    s'arrête net quand fontTools manque ; il n'y avait pas de raison que celui-ci
+    soit plus conciliant.
+
+    Le plus utile des contrôles est le nombre de pages. Deux lignes ajoutées à
+    cv.html peuvent faire déborder sur une seconde page, et ça ne se voit qu'en
+    ouvrant le PDF — ce qu'on ne fait pas à chaque génération, alors qu'un
+    recruteur, lui, le verra.
+    """
     try:
         import pdfplumber
     except ImportError:
-        print(f"  {TARGET.name} écrit ({TARGET.stat().st_size / 1024:.0f} Ko) — contrôle ignoré")
-        return
+        sys.exit(
+            "pdfplumber manquant, le PDF n'a donc pas été vérifié.\n"
+            "Lancer : pip install -r requirements-dev.txt"
+        )
 
     with pdfplumber.open(TARGET) as pdf:
         pages = len(pdf.pages)

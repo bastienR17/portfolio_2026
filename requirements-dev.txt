@@ -1,0 +1,8 @@
+# Outils de build locaux, hors chaîne npm.
+#   pip install -r requirements-dev.txt
+#
+# scripts/cv/build-cv.py les exige tous les trois et s'arrête si l'un manque :
+# un CV généré sans ses contrôles n'est pas un CV vérifié.
+fonttools>=4.50
+brotli>=1.1
+pdfplumber>=0.11
