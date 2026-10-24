@@ -40,8 +40,24 @@ export function useWeatherLogic() {
     weatherInfo.value = { ...weatherInfo.value, status: 'loading', error: null }
 
     try {
+      /**
+       * L'attente est bornée, comme l'est déjà celle de
+       * scripts/fetch-github-repos.js vers GitHub.
+       *
+       * Le catch ci-dessous n'attrape qu'un échec : une réponse d'erreur, un
+       * DNS qui ne résout pas, une connexion refusée. Il n'attrape pas une
+       * connexion qui pend — réseau capricieux, portail captif d'hôtel, tiers
+       * qui ne répond plus — où la promesse ne se résout jamais et où rien,
+       * par construction, ne vient la réveiller. AbortSignal transforme ce
+       * silence en erreur, que le catch sait déjà traiter.
+       *
+       * Cinq secondes plutôt que les dix du build : ici quelqu'un attend
+       * devant. Passé ce délai, le temps clair fait parfaitement l'affaire
+       * pour un décor d'arrière-plan.
+       */
       const weatherRes = await fetch(
         `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`,
+        { signal: AbortSignal.timeout(5_000) },
       )
       const weatherData = await weatherRes.json()
       const { weathercode, temperature } = weatherData.current_weather

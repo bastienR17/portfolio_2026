@@ -280,9 +280,32 @@ const onVisibilityChange = () => {
 
 onMounted(async () => {
   await nextTick()
-  await fetchWeatherData()
+
+  /**
+   * La météo est demandée sans être attendue : la scène n'en a pas besoin
+   * pour exister. init() ne lit jamais weatherState — seul renderFrame() le
+   * lit, à chaque image — et useAtmosphere interpole d'une ambiance à l'autre,
+   * si bien qu'une météo qui arrive en retard se fond au lieu de trancher.
+   *
+   * Avant, init() était appelé derrière un `await fetchWeatherData()` : le
+   * décor n'apparaissait pas tant que le tiers n'avait pas répondu. Un
+   * aller-retour normal le retardait déjà de quelques centaines de
+   * millisecondes, pour rien ; un tiers injoignable le supprimait purement et
+   * simplement, sans que rien ne le signale — le fond uni reste à l'écran et
+   * personne ne sait qu'il manque quelque chose.
+   */
+  const weatherReady = fetchWeatherData()
+
   await nextTick()
-  init()
+  await init()
+
+  /**
+   * En mouvement réduit, init() ne rend qu'UNE image et n'en programme aucune
+   * autre : sans ce rappel, une météo arrivée après coup ne serait jamais
+   * dessinée, et le décor resterait au temps clair pour de bon.
+   */
+  if (prefersReducedMotion()) weatherReady.then(renderFrame)
+
   window.addEventListener('resize', onWindowResize)
   document.addEventListener('visibilitychange', onVisibilityChange)
 })
@@ -297,7 +320,13 @@ onBeforeUnmount(() => {
     delete window.setWeather
     delete window.__scene3d
   }
-  if (renderer) renderer.dispose()
+  // Remis à null et pas seulement libéré : c'est sur lui que renderFrame()
+  // et onVisibilityChange s'arrêtent. Sans ça, le rappel de météo ci-dessus
+  // pourrait dessiner dans un renderer déjà détruit.
+  if (renderer) {
+    renderer.dispose()
+    renderer = null
+  }
 })
 </script>
 

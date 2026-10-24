@@ -24,7 +24,7 @@
     },
     "projects": {
       "title": "Réalisations & études de cas - Bastien Roc",
-      "description": "Études de cas détaillées : déploiement d'une solution adoptée par 2 500 collaborateurs, pilotage d'intégrations front-end, projet agile à la SNCF. Contexte, mission, résultats."
+      "description": "Études de cas détaillées : solution déployée auprès de 2 500 collaborateurs, pilotage d'intégrations front-end, projet agile à la SNCF. Contexte, mission, résultats."
     },
     "contact": {
       "title": "Contact - Bastien Roc, transformation digitale",
@@ -68,7 +68,7 @@
       "state": {
         "org": "Ministères Transition Écologique & Transports",
         "role": "CDD - Chef de projet MOA SIRH & IA",
-        "detail": "Solution adoptée par 100 % de 2 500 collaborateurs"
+        "detail": "Solution déployée auprès de 2 500 collaborateurs"
       },
       "retail": {
         "org": "Sephora",
@@ -229,9 +229,9 @@
       "role": "CDD - Chef de projet MOA SIRH & IA",
       "company": "Ministères Transition Écologique, Transports & Logement - La Défense",
       "date": "Oct. 2024 – Déc. 2026",
-      "desc": "Je pilote en AMOA le déploiement d'une solution de recherche d'information, adoptée par 100 % des 2 500 collaborateurs concernés, en assurant la relation entre les équipes métier et les équipes techniques.",
+      "desc": "Je pilote en AMOA le déploiement d'une solution de recherche d'information à l'échelle des 2 500 collaborateurs concernés, en assurant la relation entre les équipes métier et les équipes techniques.",
       "tasks": [
-        "Solution de recherche adoptée par 100 % de 2 500 collaborateurs",
+        "Solution de recherche déployée auprès de 2 500 collaborateurs",
         "Montée en compétences de 100 collaborateurs (logiciels et IA)",
         "Une vingtaine de supports pédagogiques d'accompagnement",
         "Définition et pilotage des KPI de performance",
@@ -314,7 +314,7 @@
           "Définition et suivi des indicateurs d'adoption"
         ],
         "results": [
-          "Solution adoptée par 100 % des 2 500 collaborateurs concernés",
+          "Déploiement à l'échelle des 2 500 collaborateurs concernés",
           "100 collaborateurs montés en compétences sur les nouveaux outils et l'IA",
           "Plusieurs processus internes automatisés",
           "Résistances au changement réduites par un accompagnement structuré"

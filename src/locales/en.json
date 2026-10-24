@@ -24,7 +24,7 @@
     },
     "projects": {
       "title": "Work & case studies - Bastien Roc",
-      "description": "Detailed case studies: a solution adopted by 2,500 staff, front-end integration delivery, an agile project at SNCF. Context, mission, results."
+      "description": "Detailed case studies: a solution deployed to 2,500 staff, front-end integration delivery, an agile project at SNCF. Context, mission, results."
     },
     "contact": {
       "title": "Contact - Bastien Roc, digital transformation",
@@ -68,7 +68,7 @@
       "state": {
         "org": "Ministries of Ecological Transition & Transport",
         "role": "Fixed-term contract - HRIS & AI Project Manager",
-        "detail": "Solution adopted by 100% of 2,500 staff"
+        "detail": "Solution deployed to 2,500 staff"
       },
       "retail": {
         "org": "Sephora",
@@ -229,9 +229,9 @@
       "role": "Fixed-term contract - HRIS & AI Project Manager",
       "company": "Ministries of Ecological Transition, Transport & Housing - La Défense",
       "date": "Oct. 2024 – Dec. 2026",
-      "desc": "I lead the rollout of an information-search solution as business analyst, adopted by 100% of the 2,500 staff concerned, steering the relationship between business and technical teams.",
+      "desc": "I lead the rollout of an information-search solution as business analyst, across the 2,500 staff concerned, steering the relationship between business and technical teams.",
       "tasks": [
-        "Search solution adopted by 100% of 2,500 staff",
+        "Search solution deployed to 2,500 staff",
         "100 people upskilled on new software and AI tools",
         "Around 20 training and support materials produced",
         "Performance KPIs defined and tracked",
@@ -314,7 +314,7 @@
           "Defined and tracked adoption indicators"
         ],
         "results": [
-          "Solution adopted by 100% of the 2,500 staff concerned",
+          "Rolled out across all 2,500 staff concerned",
           "100 people upskilled on the new tools and on AI",
           "Several internal processes automated",
           "Resistance to change reduced through structured support"
